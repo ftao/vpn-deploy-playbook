@@ -1,0 +1,46 @@
+---
+#install common packages
+
+- name: install editor
+  action: apt pkg=$item state=installed
+  with_items:
+    - vim
+  tags:
+    - common
+    - editor
+
+- name: install version control tools
+  action: apt pkg=$item state=installed
+  with_items:
+    - git
+    - mercurial
+  tags:
+    - common
+    - vcs
+
+- name: install common python packages
+  action: apt pkg=$item state=installed
+  with_items:
+    - python-setuptools
+    - python-pip
+  tags:
+    - common
+    - python
+
+
+- name: install supervisor
+  action: apt pkg=$item state=installed
+  with_items:
+    - supervisor
+  tags:
+    - common
+    - python
+    - supervisor
+
+- name: install virtualenv 
+  action: pip name=$item state=present
+  with_items:
+    - virtualenv
+  tags:
+    - common
+    - python

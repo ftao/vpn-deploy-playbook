@@ -1,0 +1,7 @@
+---
+- name: restart xl2tpd
+  #action: service name=xl2tpd state=restarted
+  action: command /etc/init.d/xl2tpd restart
+
+- name: restart ipsec
+  action: service name=ipsec state=restarted

@@ -1,0 +1,8 @@
+[l2tp]
+testl2tp.example.com
+
+[pptp]
+testl2tp.example.com
+
+[auth]
+testl2tp.example.com

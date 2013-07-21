@@ -1,0 +1,27 @@
+---
+#pptp
+
+#install & config pptpd
+- name:  Enforce pptpd is installed
+  action: apt pkg=pptpd state=installed
+  tags: pptp
+
+- name:  Upload pptpd config file
+  action: template src=etc/$item
+                   dest=/etc/$item
+                   owner=root group=root mode=0644
+  with_items:
+    - pptpd.conf
+  notify: restart pptpd
+  tags: pptp
+
+#no need to restart pptpd if this file is changed 
+#every new connection will use the new config
+- name:  Upload ppp/pptpd-options
+  action: template src=etc/$item
+                   dest=/etc/$item
+                   owner=root group=root mode=0644
+  with_items:
+    - ppp/pptpd-options
+  tags: pptp
+

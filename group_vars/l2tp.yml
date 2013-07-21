@@ -1,0 +1,15 @@
+---
+ipsec:
+  psk: l2tpworks
+l2tp:
+  local_ip: 10.9.0.1
+  remote_ip: 10.9.0.30-250
+  ms_dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  mtu: 1340
+  subnet: 10.9.0.0/24
+  use_radius: true
+  radius:
+    host: 127.0.0.1
+    secrect: b5059852om47i8u2Vplq

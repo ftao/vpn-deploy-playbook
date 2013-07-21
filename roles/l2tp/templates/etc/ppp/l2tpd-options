@@ -1,0 +1,23 @@
+require-mschap-v2
+{% for host in l2tp.ms_dns %}
+ms-dns {{ host }}
+{% endfor %}
+asyncmap 0
+auth
+crtscts
+lock
+hide-password
+modem
+name l2tpd
+proxyarp
+lcp-echo-interval 30
+lcp-echo-failure 4
+
+{% if l2tp.use_radius %}
+plugin radius.so
+plugin radattr.so
+radius-config-file /etc/radiusclient/l2tp-radiusclient.conf
+{% endif %}
+
+logfile /var/log/xl2tpd.log
+

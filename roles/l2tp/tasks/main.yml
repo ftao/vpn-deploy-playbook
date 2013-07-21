@@ -1,0 +1,50 @@
+---
+#install & config xl2tpd/ipsec
+#config options:
+#
+# public_ip : xxx.xxx.xx.xxx ; the ip address used to provide ipsec service, used by /etc/ipsec.d/l2tp-psk.conf
+# ipsec:
+#   psk: some-shared-secrect ;  ipsec pre shared key
+# l2tp:
+#   ms_dns:
+#     - 8.8.8.8
+#     - 8.8.4.4
+#   use_radius: true/false   ; weather using radius to do auth & acct
+#   local_ip: 10.9.0.1       ; ip address for server (when ppp connection is made)
+#   remote_ip: 10.9.0.30-250 ; ip address that will be assigned to client
+#
+#
+
+- name:  Enforce xl2tpd is installed
+  action: apt pkg=xl2tpd state=installed
+
+- name:  Upload xl2tpd config files
+  action: template src=etc/$item
+                   dest=/etc/$item
+                   owner=root group=root mode=0644
+  with_items:
+    - xl2tpd/xl2tpd.conf
+  notify: restart xl2tpd
+
+#change this file, no need to restart xl2tpd
+- name:  Upload ppp l2tpd options file
+  action: template src=etc/$item
+                   dest=/etc/$item
+                   owner=root group=root mode=0644
+  with_items:
+    - ppp/l2tpd-options
+
+
+- name: install openswan
+  action: apt pkg=openswan state=installed
+
+- name:  Upload ipsec config files
+  action: template src=etc/$item
+                   dest=/etc/$item
+                   owner=root group=root mode=0644
+  with_items:
+    - ipsec.conf
+    - ipsec.secrets
+    - ipsec.d/l2tp-psk.conf
+  notify: restart ipsec
+

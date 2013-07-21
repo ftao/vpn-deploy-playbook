@@ -1,0 +1,4 @@
+- name: test radius server 
+  action: command /usr/bin/radtest testing password 127.0.0.1 0 testing123
+  register: test_result
+

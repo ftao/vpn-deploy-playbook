@@ -1,0 +1,24 @@
+#mysql stuff
+
+- name: install mysql-server
+  action: apt pkg=mysql-server state=installed
+  tags: mysql 
+
+- name: install python-mysqldb
+  action: apt pkg=python-mysqldb state=installed
+  tags: mysql 
+
+- name: start mysql
+  action: service name=mysql state=started
+  tags: mysql 
+
+- name: ensure mysql root password 
+  action: command /usr/bin/mysqladmin -u root password "${mysql_root_password}"
+  when_set: $mysql_root_password
+  tags: mysql
+
+- name: install .my.cnf
+  action: template src=HOME/.my.cnf  dest=~/.my.cnf
+  when_set: $mysql_root_password
+  tags: mysql
+

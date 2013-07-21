@@ -1,0 +1,46 @@
+---
+#NAS 
+
+- name: Ensure iptables is installed
+  action: apt pkg=iptables state=installed
+  tags: nat
+
+- name: Enforce ipv4.ip_forward
+  action: sysctl name=net.ipv4.ip_forward value=1 state=present
+  tags: nat
+
+- name: Install if-pre-up script 
+  action: template src=etc/network/if-pre-up.d/setup_nat
+          dest=/etc/network/if-pre-up.d/${device_type}_setup_nat
+          mode=755
+  tags: nat
+
+- name: Install if-post-down script 
+  action: template src=etc/network/if-post-down.d/teardown_nat
+          dest=/etc/network/if-post-down.d/${device_type}_teardown_nat
+          mode=755
+  tags: nat
+
+#run if-down/if-up scripts
+- name: remove previous iptable rule
+  action: shell IFACE=${if_name} /etc/network/if-post-down.d/${device_type}_teardown_nat
+  tags: nat
+
+- name: setup iptable rule
+  action: shell IFACE=${if_name} /etc/network/if-pre-up.d/${device_type}_setup_nat
+  tags: nat
+
+
+- name:  Enforce radiusclient is installed
+  action: apt pkg=radiusclient1 state=installed
+  tags: radius
+
+- name:   upload radiusclient config
+  action: template src=etc/radiusclient/$item
+                    dest=/etc/radiusclient/${device_type}-$item
+                    owner=root group=root mode=0644
+  with_items:
+    - radiusclient.conf
+    - servers
+    - dictionary
+  tags: radius

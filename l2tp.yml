@@ -1,0 +1,17 @@
+---
+-
+  hosts: l2tp
+
+  vars:
+    if_name: eth0
+    public_ip:  ${ansible_eth0.ipv4.address}
+
+  roles:
+    - common
+    #nas role will setup firewall
+    - role: nas
+      device_type: l2tp
+      subnet: ${l2tp.subnet}
+      mtu: ${l2tp.mtu}
+      radius: ${l2tp.radius}
+    - l2tp

@@ -1,0 +1,5 @@
+---
+
+- name: restart freeradius
+  action: service name=freeradius state=restarted
+

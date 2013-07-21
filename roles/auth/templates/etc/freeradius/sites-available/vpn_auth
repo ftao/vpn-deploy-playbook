@@ -1,0 +1,171 @@
+authorize {
+	preprocess
+#	auth_log
+	chap
+	mschap
+	digest
+
+	suffix
+#	ntdomain
+
+	eap {
+		ok = return
+	}
+
+	#
+	#  Pull crypt'd passwords from /etc/passwd or /etc/shadow,
+	#  using the system API's to get the password.  If you want
+	#  to read /etc/passwd or /etc/shadow directly, see the
+	#  passwd module in radiusd.conf.
+	#
+#	unix
+
+	sql
+
+	expiration
+	logintime
+
+	pap
+
+}
+
+
+authenticate {
+	Auth-Type PAP {
+		pap
+	}
+
+	Auth-Type CHAP {
+		chap
+	}
+
+	Auth-Type MS-CHAP {
+		mschap
+	}
+
+	digest
+
+	#
+	#  Pluggable Authentication Modules.
+#	pam
+
+	unix
+
+#	Auth-Type LDAP {
+#		ldap
+#	}
+
+}
+
+preacct {
+	preprocess
+
+	#
+	#  Ensure that we have a semi-unique identifier for every
+	#  request, and many NAS boxes are broken.
+	acct_unique
+
+	suffix
+
+	#  Read the 'acct_users' file
+	files
+}
+
+#
+#  Accounting.  Log the accounting data.
+#
+accounting {
+	detail
+#	daily
+
+	#  Update the wtmp file
+	#
+	#  If you don't use "radlast", you can delete this line.
+	# unix
+
+	#
+	#  For Simultaneous-Use tracking.
+	#
+	#  Due to packet losses in the network, the data here
+	#  may be incorrect.  There is little we can do about it.
+	#radutmp
+#	sradutmp
+
+	#  Return an address to the IP Pool when we see a stop record.
+#	main_pool
+
+	#
+	#  Log traffic to an SQL database.
+	#
+	#  See "Accounting queries" in sql.conf
+	sql
+
+	# For Exec-Program and Exec-Program-Wait
+	exec
+
+	#  Filter attributes from the accounting response.
+	attr_filter.accounting_response
+
+	#
+	#  See "Autz-Type Status-Server" for how this works.
+	#
+#	Acct-Type Status-Server {
+#
+#	}
+}
+
+
+#  Session database, used for checking Simultaneous-Use. Either the radutmp 
+#  or rlm_sql module can handle this.
+#  The rlm_sql module is *much* faster
+session {
+	#radutmp
+
+	#
+	#  See "Simultaneous Use Checking Queries" in sql.conf
+	sql
+}
+
+
+#  Post-Authentication
+#  Once we KNOW that the user has been authenticated, there are
+#  additional steps we can take.
+post-auth {
+	#  Get an address from the IP Pool.
+#	main_pool
+
+	#
+	#  If you want to have a log of authentication replies,
+	#  un-comment the following line, and the 'detail reply_log'
+	#  section, above.
+#	reply_log
+
+	#
+	#  After authenticating the user, do another SQL query.
+	#
+	#  See "Authentication Logging Queries" in sql.conf
+	sql
+
+	#
+	#  Instead of sending the query to the SQL server,
+	#  write it into a log file.
+	#
+#	sql_log
+
+	#
+	#  Un-comment the following if you have set
+	#  'edir_account_policy_check = yes' in the ldap module sub-section of
+	#  the 'modules' section.
+	#
+#	ldap
+
+	# For Exec-Program and Exec-Program-Wait
+	exec
+
+	Post-Auth-Type REJECT {
+		# log failed authentications in SQL, too.
+#		sql
+		attr_filter.access_reject
+	}
+}
+

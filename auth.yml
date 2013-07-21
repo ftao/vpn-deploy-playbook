@@ -1,0 +1,10 @@
+---
+
+- hosts: auth
+  gather_facts: false
+
+  roles:
+    - common
+    - db
+    - auth
+

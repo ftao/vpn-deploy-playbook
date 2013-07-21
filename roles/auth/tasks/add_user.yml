@@ -1,0 +1,4 @@
+---
+
+- name: add user to radius db
+  action: shell echo "INSERT INTO radcheck (UserName, Attribute, Value) VALUES ('test', 'Password', 'test2012');" | mysql  ${freeradius.db_name} 
