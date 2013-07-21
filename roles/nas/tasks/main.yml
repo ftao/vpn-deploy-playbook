@@ -34,6 +34,7 @@
 - name:  Enforce radiusclient is installed
   action: apt pkg=radiusclient1 state=installed
   tags: radius
+  when: use_radius
 
 - name:   upload radiusclient config
   action: template src=etc/radiusclient/$item
@@ -44,3 +45,4 @@
     - servers
     - dictionary
   tags: radius
+  when: use_radius

@@ -1,4 +1,6 @@
 ---
+#This playbook setup VPN authentication and accounting service for VPN servers . 
+#It will install freeradius server with a mysql backend.
 
 - hosts: auth
   gather_facts: false
@@ -7,4 +9,3 @@
     - common
     - db
     - auth
-

@@ -54,7 +54,7 @@ require-mppe-128
 # specifies the secondary DNS address.
 # Attention! This information may not be taken into account by a Windows
 # client. See KB311218 in Microsoft's knowledge base for more information.
-{% for host in pptp.ms_dns %}
+{% for host in pptp_network.ms_dns %}
 ms-dns {{ host }}
 {% endfor %}
 
@@ -104,7 +104,7 @@ nologfd
 # Disable BSD-Compress compression
 nobsdcomp
 
-{% if pptp.use_radius %}
+{% if pptp_use_radius %}
 plugin radius.so
 plugin radattr.so
 radius-config-file /etc/radiusclient/pptp-radiusclient.conf

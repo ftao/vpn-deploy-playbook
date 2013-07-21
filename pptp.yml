@@ -5,15 +5,17 @@
   vars:
     if_name: eth0
     public_ip:  ${ansible_eth0.ipv4.address}
+    #pptp_use_radius: false
 
   roles:
-    - common
+#    - common
     #nas role will setup firewall
     - role: nas
       device_type: pptp
-      subnet: ${pptp.subnet}
-      mtu: ${pptp.mtu}
-      radius: ${pptp.radius}
       if_name: 'eth0'
+      subnet: ${pptp_network.subnet}
+      mtu: ${pptp_network.mtu}
+      use_radius: ${pptp_use_radius}
+      radius_servers: ${pptp_radius_servers}
 
     - pptp
