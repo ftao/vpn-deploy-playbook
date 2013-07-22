@@ -21,14 +21,14 @@ How to use
 Tips & Tricks
 --------------------------
 1. Get `Authentication failed` error message like below:
-
-    {'msg': 'FAILED: Authentication failed.', 'failed': True}
-
-You need set the ssh username and private key in `ansible_hosts`  or you can use *ssh-agent*  .
+   ```
+   {'msg': 'FAILED: Authentication failed.', 'failed': True}
+   ```
+   You need set the ssh username and private key in `ansible_hosts`  or you can use *ssh-agent*  .
 
 2. I don't want the freeradius stuff , just the pptp/l2tp server.
-You can set the var `pptp_use_radius` or `l2tp_use_radius` to false by:
-  * edit the vars file and set `pptp_use_radius` or `l2tp_use_radius` to `false`.
-  * edit `pptp.yml` or `l2tp.yml` and set `pptp_use_radius` or `l2tp_use_radius` to `false`.
+   You can set the var `pptp_use_radius` or `l2tp_use_radius` to false by:
+     * edit the vars file and set `pptp_use_radius` or `l2tp_use_radius` to `false`.
+     * edit `pptp.yml` or `l2tp.yml` and set `pptp_use_radius` or `l2tp_use_radius` to `false`.
 
 
