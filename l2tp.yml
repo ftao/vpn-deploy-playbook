@@ -14,5 +14,5 @@
       subnet: ${l2tp_network.subnet}
       mtu: ${l2tp_network.mtu}
       use_radius: ${l2tp_use_radius}
-      radius: ${l2tp_radius_servers}
+      radius_servers: ${l2tp_radius_servers}
     - l2tp
