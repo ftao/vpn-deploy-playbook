@@ -1,0 +1,6 @@
+---
+
+- hosts: openvpn
+  gather_facts: false
+  roles:
+    - openvpn
