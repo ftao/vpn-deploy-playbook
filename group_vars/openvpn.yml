@@ -14,8 +14,11 @@ openvpn_servers:
       dns_servers:
         - 8.8.8.8
         - 8.8.4.4
-    use_radius: false
     cred_folder: "cred/openvpn/"
+    use_radius: true
+    radius_servers:
+      - host: 127.0.0.1
+      - secret: b5059852om47i8u2Vplq
 
   - name: server_tcp
     port: 1194
@@ -28,5 +31,8 @@ openvpn_servers:
       dns_servers:
         - 8.8.8.8
         - 8.8.4.4
-    use_radius: false
     cred_folder: "cred/openvpn/"
+    use_radius: true
+    radius_servers:
+      - host: 127.0.0.1
+      - secret: b5059852om47i8u2Vplq

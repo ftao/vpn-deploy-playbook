@@ -17,3 +17,13 @@
   with_items: $openvpn_servers
   notify:
     - restart openvpn
+
+
+- name: install openvpn
+  action: apt package=openvpn-auth-radius state=present
+
+- name: upload radiusplugin config file
+  action: template src=etc/openvpn/radiusplugin.cnf dest=/etc/openvpn/radiusplugin-{{ item.name }}.cnf
+  with_items: $openvpn_servers
+  notify:
+    - restart openvpn
