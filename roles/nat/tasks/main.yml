@@ -1,5 +1,5 @@
 ---
-#NAS 
+#NAT
 
 - name: Ensure iptables is installed
   action: apt pkg=iptables state=installed

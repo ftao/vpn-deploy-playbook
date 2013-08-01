@@ -17,8 +17,8 @@
       device_type: pptp
       radius_servers: ${pptp_radius_servers}
 
-    #nas role will setup firewall
-    - role: nas
+    #nat role will setup firewall
+    - role: nat
       device_type: pptp
       subnet: ${pptp_network.subnet}
       mtu: ${pptp_network.mtu}
