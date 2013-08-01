@@ -1,0 +1,38 @@
+---
+#default vars for openvpn
+
+openvpn_servers:
+
+  - name: server_udp
+    port: 1194
+    proto: udp
+    management:
+      port: 9900
+    network:
+      subnet: 10.8.1.0
+      mask: 255.255.255.0
+      dns_servers:
+        - 8.8.8.8
+        - 8.8.4.4
+    cred_folder: "cred/openvpn/"
+    use_radius: true
+    radius_servers:
+      - host: 127.0.0.1
+      - secret: b5059852om47i8u2Vplq
+
+  - name: server_tcp
+    port: 1194
+    proto: tcp
+    management:
+      port: 9901
+    network:
+      subnet: 10.8.2.0
+      mask: 255.255.255.0
+      dns_servers:
+        - 8.8.8.8
+        - 8.8.4.4
+    cred_folder: "cred/openvpn/"
+    use_radius: true
+    radius_servers:
+      - host: 127.0.0.1
+      - secret: b5059852om47i8u2Vplq
