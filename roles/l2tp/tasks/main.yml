@@ -4,7 +4,7 @@
 #
 # public_ip : xxx.xxx.xx.xxx ; the ip address used to provide ipsec service, used by /etc/ipsec.d/l2tp-psk.conf
 # ipsec:
-#   psk: some-shared-secrect ;  ipsec pre shared key
+#   psk: some-shared-secret ;  ipsec pre shared key
 # l2tp:
 #   ms_dns:
 #     - 8.8.8.8

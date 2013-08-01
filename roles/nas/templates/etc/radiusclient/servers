@@ -1,5 +1,5 @@
 {% for radius in radius_servers %}
-{{ radius.host }}  {{ radius.secrect }}
+{{ radius.host }}  {{ radius.secret }}
 {% endfor %}
 
 

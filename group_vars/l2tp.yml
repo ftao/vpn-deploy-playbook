@@ -15,4 +15,4 @@ l2tp_network:
 l2tp_use_radius: true
 l2tp_radius_servers:
   - host: 127.0.0.1
-    secrect: b5059852om47i8u2Vplq
+    secret: b5059852om47i8u2Vplq

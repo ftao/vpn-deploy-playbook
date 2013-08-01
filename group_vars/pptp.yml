@@ -11,4 +11,4 @@ pptp_network:
 pptp_use_radius: true
 pptp_radius_servers:
   - host: 127.0.0.1
-    secrect: b5059852om47i8u2Vplq
+    secret: b5059852om47i8u2Vplq
