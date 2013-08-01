@@ -9,13 +9,16 @@
 
   roles:
 #    - common
+    - pptp
+
+    #setup auth via radius
+    - role: ppp-radiusclient
+      when: pptp_use_radius
+      device_type: pptp
+      radius_servers: ${pptp_radius_servers}
+
     #nas role will setup firewall
     - role: nas
       device_type: pptp
-      if_name: 'eth0'
       subnet: ${pptp_network.subnet}
       mtu: ${pptp_network.mtu}
-      use_radius: ${pptp_use_radius}
-      radius_servers: ${pptp_radius_servers}
-
-    - pptp

@@ -1,0 +1,16 @@
+---
+#RadiusClient for PPP 
+
+- name:  Enforce radiusclient is installed
+  action: apt pkg=radiusclient1 state=installed
+  tags: radius
+
+- name:   upload radiusclient config
+  action: template src=etc/radiusclient/$item
+                    dest=/etc/radiusclient/${device_type}-$item
+                    owner=root group=root mode=0644
+  with_items:
+    - radiusclient.conf
+    - servers
+    - dictionary
+  tags: radius

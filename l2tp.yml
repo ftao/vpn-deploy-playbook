@@ -7,12 +7,17 @@
     #l2tp_use_radius: false
 
   roles:
-    - common
+    #- common
+    - l2tp
+
+    #setup auth via radius
+    - role: ppp-radiusclient
+      when: l2tp_use_radius
+      device_type: pptp
+      radius_servers: ${l2tp_radius_servers}
+
     #nas role will setup firewall
     - role: nas
       device_type: l2tp
       subnet: ${l2tp_network.subnet}
       mtu: ${l2tp_network.mtu}
-      use_radius: ${l2tp_use_radius}
-      radius_servers: ${l2tp_radius_servers}
-    - l2tp
