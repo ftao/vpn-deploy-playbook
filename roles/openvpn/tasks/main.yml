@@ -1,0 +1,29 @@
+---
+#install & config openvpn servers
+
+- name: install openvpn
+  action: apt package=openvpn state=present
+
+- name: upload cert & key files
+  action: copy src={{item[0].cred_folder}}/{{item[1]}} dest=/etc/openvpn/{{item[0].name}}_{{item[1]}} owner=root mode=600
+  with_nested:
+    - $openvpn_servers
+    - ['ca.crt', 'server.crt', 'server.key', 'dh1024.pem']
+  notify:
+    - restart openvpn
+
+- name: upload server config files
+  action: template src=etc/openvpn/server.conf dest=/etc/openvpn/{{ item.name }}.conf
+  with_items: $openvpn_servers
+  notify:
+    - restart openvpn
+
+
+- name: install openvpn
+  action: apt package=openvpn-auth-radius state=present
+
+- name: upload radiusplugin config file
+  action: template src=etc/openvpn/radiusplugin.cnf dest=/etc/openvpn/radiusplugin-{{ item.name }}.cnf
+  with_items: $openvpn_servers
+  notify:
+    - restart openvpn
