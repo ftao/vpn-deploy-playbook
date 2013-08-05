@@ -32,7 +32,7 @@
     - nat
 
 - name: set network in easynat rule file
-  action: lineinfile dest=/opt/easynat/rules.cnf regexp="${pptp.subnet}" line="${pptp.subnet}" state=present create=yes
+  action: lineinfile dest=/opt/easynat/rules.cnf regexp="${pptp_network.subnet}" line="${pptp_network.subnet}" state=present create=yes
   notify: 
     - setup nat rules
   tags: 
