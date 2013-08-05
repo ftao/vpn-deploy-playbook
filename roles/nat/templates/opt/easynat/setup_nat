@@ -1,0 +1,45 @@
+#!/bin/sh
+IPTABLES=/sbin/iptables
+
+#clear up
+$IPTABLES -t nat -D POSTROUTING -j EASY_NAT_FILTER 2>/dev/null
+$IPTABLES -t nat -F EASY_NAT_FILTER 2>/dev/null
+$IPTABLES -t nat -X EASY_NAT_FILTER 2>/dev/null
+$IPTABLES -t nat -F EASY_NAT 2>/dev/null
+$IPTABLES -t nat -X EASY_NAT 2>/dev/null
+
+$IPTABLES -D FORWARD -j EASY_NAT_SET_MTU_FILTER 2>/dev/null
+$IPTABLES -F EASY_NAT_SET_MTU_FILTER 2>/dev/null
+$IPTABLES -X EASY_NAT_SET_MTU_FILTER 2>/dev/null
+$IPTABLES -F EASY_NAT_SET_MTU 2>/dev/null
+$IPTABLES -X EASY_NAT_SET_MTU 2>/dev/null
+
+# Create our own chain
+$IPTABLES -t nat -N EASY_NAT_FILTER
+$IPTABLES -t nat -N EASY_NAT
+
+$IPTABLES -N EASY_NAT_SET_MTU_FILTER
+$IPTABLES -N EASY_NAT_SET_MTU
+ 
+# Do not try to redirect local traffic
+$IPTABLES -t nat -I EASY_NAT_FILTER -o lo -j RETURN
+ 
+# Redirect only specified addresses and do not try redirect other traffic. (whitelist option)
+
+while read line 
+do
+    $IPTABLES -t nat -A EASY_NAT_FILTER -s $line -o eth0 -j EASY_NAT
+    $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp -j EASY_NAT_SET_MTU
+done < /opt/easynat/rules.cnf
+
+$IPTABLES -t nat -A EASY_NAT_FILTER -j RETURN
+
+$IPTABLES -A EASY_NAT_SET_MTU -p tcp --syn -j TCPMSS --set-mss 1340
+$IPTABLES -t nat -A EASY_NAT -j MASQUERADE
+
+$IPTABLES -t nat -A POSTROUTING -j EASY_NAT_FILTER
+$IPTABLES -A FORWARD -j EASY_NAT_SET_MTU_FILTER
+
+echo "IPtables reconfigured."
+
+exit 0

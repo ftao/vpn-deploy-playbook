@@ -1,0 +1,6 @@
+---
+#NAT
+
+- name: setup nat rules
+  action: command /opt/easynat/setup_nat
+  tags: nat

@@ -9,23 +9,14 @@
   action: sysctl name=net.ipv4.ip_forward value=1 state=present
   tags: nat
 
-- name: Install if-pre-up script 
-  action: template src=etc/network/if-pre-up.d/setup_nat
-          dest=/etc/network/if-pre-up.d/${device_type}_setup_nat
-          mode=755
+- name: make sure /opt/easynat exists
+  action: file path=/opt/easynat/ state=directory
   tags: nat
 
-- name: Install if-post-down script 
-  action: template src=etc/network/if-post-down.d/teardown_nat
-          dest=/etc/network/if-post-down.d/${device_type}_teardown_nat
-          mode=755
+- name: install easynat
+  action: template src=opt/easynat/setup_nat dest=/opt/easynat/setup_nat mode=755
   tags: nat
 
-#run if-down/if-up scripts
-- name: remove previous iptable rule
-  action: shell IFACE=${if_name} /etc/network/if-post-down.d/${device_type}_teardown_nat
-  tags: nat
-
-- name: setup iptable rule
-  action: shell IFACE=${if_name} /etc/network/if-pre-up.d/${device_type}_setup_nat
+- name: make sure easynat is in rc.local
+  action: lineinfile dest=/etc/rc.local insertafter="^#" regexp="/opt/easynat/setup_nat" line="/opt/easynat/setup_nat" state=present
   tags: nat
