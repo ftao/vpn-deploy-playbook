@@ -1,6 +1,9 @@
 ---
 #default vars for openvpn
 
+#cred_folder should have 4 files 
+#ca.crt, server.crt, server.key, dh1024.pem
+
 openvpn_servers:
 
   - name: server_udp

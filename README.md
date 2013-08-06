@@ -5,6 +5,7 @@ Includes:
   - auth.yml : setup freeradius server for authentication and accounting.
   - pptp.yml : setup pptp server 
   - l2tp.yml : setup IPSec/L2TP server (with pre-shared key)
+  - openvpn.yml : setup Openvpn server 
 
 
 How to use
@@ -16,6 +17,7 @@ How to use
 5. run `ansible-playbook auth.yml` to setup radius server
 6. run `ansible-playbook pptp.yml` to setup pptp server
 7. run `ansible-playbook l2tp.yml` to setup ipsec/l2tp server
+7. run `ansible-playbook openvpn.yml` to setup openvpn server
 
 
 Tips & Tricks
