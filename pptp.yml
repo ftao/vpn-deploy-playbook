@@ -19,6 +19,3 @@
 
     #nat role will setup firewall
     - role: nat
-      device_type: pptp
-      subnet: ${pptp_network.subnet}
-      mtu: ${pptp_network.mtu}
