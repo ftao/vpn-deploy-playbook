@@ -1,0 +1,5 @@
+---
+#freeradius-admin
+
+- name: restart djra
+  action: supervisorctl name=djra-web state=restarted

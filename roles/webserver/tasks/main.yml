@@ -1,0 +1,12 @@
+---
+#setup nginx
+
+- name: install nginx
+  action: apt package=nginx state=present
+  tags:
+    - nginx
+
+- name: start nginx
+  action: service name=nginx state=started enabled=yes
+  tags:
+    - nginx

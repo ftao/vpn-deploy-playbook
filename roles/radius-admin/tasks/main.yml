@@ -1,0 +1,84 @@
+---
+#freeradius-admin
+
+- name: create djra database
+  action: mysql_db name=${freeradius_admin.db_name} collation=utf8_general_ci encoding=utf8 
+  tags: djra
+
+- name: setup djra database user
+  action: mysql_user name=${freeradius_admin.db_user} password=${freeradius_admin.db_password} priv=${freeradius_admin.db_name}.*:ALL state=present
+  tags: djra
+
+- name: ensure directory used by djra exists
+  action: file path=$item state=directory
+  with_items:
+    - /opt/djra
+    - /opt/djra/code
+    - /opt/djra/env
+    - /opt/djra/data
+    - /opt/djra/data/static
+  tags: djra
+
+- name: pull djra
+  action: hg repo=https://ftao@bitbucket.org/ftao/django-freeradius-admin dest=/opt/djra/code/ force=yes
+  notify:
+    - restart djra
+  tags: djra
+
+- name: setup enviroment
+  action: pip requirements=/opt/djra/code/requirements.txt virtualenv=/opt/djra/env virtualenv_site_packages=yes
+  notify:
+    - restart djra
+  tags: djra
+
+- name: setup local_settings.py
+  action: template src=local_settings.py dest=/opt/djra/code/djra/local_settings.py
+  notify:
+    - restart djra
+  tags: 
+    - djra
+    - app
+
+- name: migrate
+  action: django_manage command=syncdb app_path=/opt/djra/code/ virtualenv=/opt/djra/env
+  tags: 
+    - djra
+    - app
+
+- name: collect static files
+  action: django_manage command=collectstatic app_path=/opt/djra/code/ virtualenv=/opt/djra/env
+  tags: 
+    - djra
+    - app
+
+- name: setup default admin
+  action: django_manage command=loaddata fixtures=default_admin app_path=/opt/djra/code/ virtualenv=/opt/djra/env
+  tags: 
+    - djra
+    - app
+    - setup
+  when: djra_setup_admin is defined
+
+- name: setup supervisor config
+  action: template src=djra.supervisor.conf dest=/etc/supervisor/conf.d/djra.conf
+  notify:
+    - restart djra
+  tags: 
+    - djra
+    - app
+
+- name: setup ngix config
+  action: template src=djra.nginx.conf dest=/etc/nginx/sites-available/djra.conf
+  tags: 
+    - djra
+    - app
+  notify:
+    - restart nginx
+
+- name: link ngix config
+  action: file src=/etc/nginx/sites-available/djra.conf dest=/etc/nginx/sites-enabled/djra.conf state=link
+  tags: 
+    - djra
+    - app
+  notify:
+    - restart nginx

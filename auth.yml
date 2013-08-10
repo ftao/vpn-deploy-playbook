@@ -7,5 +7,7 @@
 
   roles:
     - common
+    - webserver
     - db
     - auth
+    - radius-admin
