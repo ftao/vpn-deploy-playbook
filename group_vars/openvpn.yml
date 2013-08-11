@@ -1,8 +1,11 @@
 ---
 #default vars for openvpn
 
-#cred_folder should have 4 files 
-#ca.crt, server.crt, server.key, dh1024.pem
+openvpn_cred:
+  ca: "{{ lookup('file', inventory_dir + '/cred/openvpn/ca.crt') }}"
+  cert: "{{ lookup('file', inventory_dir + '/cred/openvpn/server.crt') }}"
+  key: "{{ lookup('file', inventory_dir + '/cred/openvpn/server.key') }}"
+  dh: "{{ lookup('file', inventory_dir + '/cred/openvpn/dh1024.pem') }}"
 
 openvpn_servers:
 
@@ -17,7 +20,6 @@ openvpn_servers:
       dns_servers:
         - 8.8.8.8
         - 8.8.4.4
-    cred_folder: "cred/openvpn/"
     use_radius: true
     radius_servers:
       - host: 127.0.0.1
@@ -34,7 +36,6 @@ openvpn_servers:
       dns_servers:
         - 8.8.8.8
         - 8.8.4.4
-    cred_folder: "cred/openvpn/"
     use_radius: true
     radius_servers:
       - host: 127.0.0.1
