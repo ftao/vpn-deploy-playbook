@@ -9,3 +9,4 @@
   roles:
     - openvpn
     - nat
+    - vpn-mgr

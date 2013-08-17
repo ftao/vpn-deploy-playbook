@@ -16,5 +16,5 @@
       device_type: l2tp
       radius_servers: ${l2tp_radius_servers}
 
-    #nat role will setup firewall
-    - role: nat
+    - nat
+    - vpn-mgr

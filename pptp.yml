@@ -18,4 +18,5 @@
       radius_servers: ${pptp_radius_servers}
 
     #nat role will setup firewall
-    - role: nat
+    - nat
+    - vpn-mgr

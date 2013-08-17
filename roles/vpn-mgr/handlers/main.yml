@@ -1,0 +1,5 @@
+---
+#vpn-mgr
+
+- name: restart vpn-mgr-web
+  action: supervisorctl name=vpn-mgr-web state=restarted
