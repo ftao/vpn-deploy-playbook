@@ -10,13 +10,13 @@
 
 
 - name: install some vpn-mgr dependecy
-  action: pip name="git+https://github.com/ftao/python-ifcfg.git#egg=ifcfg" virtualenv=/opt/vpn-mgr/env virtualenv_site_packages=yes
+  action: pip name="git+https://github.com/ftao/python-ifcfg.git#egg=ifcfg" virtualenv=/opt/vpn-mgr/env virtualenv_site_packages=yes extra_args="-e"
   notify:
     - restart vpn-mgr-web
   tags: vpn-mgr
 
 - name: install vpn-mgr
-  action: pip name="git+https://github.com/ftao/vpn-mgr#egg=vpn-mgr" virtualenv=/opt/vpn-mgr/env virtualenv_site_packages=yes
+  action: pip name="git+https://github.com/ftao/vpn-mgr#egg=vpn-mgr" virtualenv=/opt/vpn-mgr/env virtualenv_site_packages=yes extra_args="-e"
   notify:
     - restart vpn-mgr-web
   tags: vpn-mgr
