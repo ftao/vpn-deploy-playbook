@@ -12,8 +12,6 @@ openvpn_servers:
   - name: server_udp
     port: 1194
     proto: udp
-    management:
-      port: 9900
     network:
       subnet: 10.8.1.0
       mask: 255.255.255.0
@@ -28,8 +26,6 @@ openvpn_servers:
   - name: server_tcp
     port: 1194
     proto: tcp
-    management:
-      port: 9901
     network:
       subnet: 10.8.2.0
       mask: 255.255.255.0
