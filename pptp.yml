@@ -8,7 +8,7 @@
     #pptp_use_radius: false
 
   roles:
-#    - common
+    - common
     - pptp
 
     #setup auth via radius

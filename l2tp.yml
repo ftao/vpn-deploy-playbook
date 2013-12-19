@@ -7,7 +7,7 @@
     #l2tp_use_radius: false
 
   roles:
-    #- common
+    - common
     - l2tp
 
     #setup auth via radius
