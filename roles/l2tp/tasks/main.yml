@@ -19,8 +19,8 @@
   action: apt pkg=xl2tpd state=installed
 
 - name:  Upload xl2tpd config files
-  action: template src=etc/$item
-                   dest=/etc/$item
+  action: template src=etc/{{ item }}
+                   dest=/etc/{{ item }}
                    owner=root group=root mode=0644
   with_items:
     - xl2tpd/xl2tpd.conf
@@ -28,8 +28,8 @@
 
 #change this file, no need to restart xl2tpd
 - name:  Upload ppp l2tpd options file
-  action: template src=etc/$item
-                   dest=/etc/$item
+  action: template src=etc/{{ item }}
+                   dest=/etc/{{ item }}
                    owner=root group=root mode=0644
   with_items:
     - ppp/l2tpd-options
@@ -39,8 +39,8 @@
   action: apt pkg=openswan state=installed
 
 - name:  Upload ipsec config files
-  action: template src=etc/$item
-                   dest=/etc/$item
+  action: template src=etc/{{ item }}
+                   dest=/etc/{{ item }}
                    owner=root group=root mode=0644
   with_items:
     - ipsec.conf
@@ -55,7 +55,10 @@
     - nat
 
 - name: set network in easynat rule file
-  action: lineinfile dest=/opt/easynat/rules.cnf regexp="${l2tp_network.subnet}" line="${l2tp_network.subnet}" state=present create=yes
+  action: lineinfile dest=/opt/easynat/rules.cnf 
+                     regexp="{{ l2tp_network.subnet }}"
+                     line="{{ l2tp_network.subnet }}"
+                     state=present create=yes
   notify: 
     - setup nat rules
   tags: 

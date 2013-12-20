@@ -35,7 +35,9 @@
     - nat
 
 - name: set network in easynat rule file
-  action: lineinfile dest=/opt/easynat/rules.cnf regexp="${item.network.subnet}" line="${item.network.subnet}/${item.network.mask}" state=present create=yes
+  action: lineinfile dest=/opt/easynat/rules.cnf 
+                     regexp="{{item.network.subnet}}" 
+                     line="{{item.network.subnet}}/{{item.network.mask}}" state=present create=yes
   notify: 
     - setup nat rules
   with_items: $openvpn_servers

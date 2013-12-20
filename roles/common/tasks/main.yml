@@ -2,7 +2,7 @@
 #install common packages
 
 - name: install editor
-  action: apt pkg=$item state=installed
+  action: apt pkg={{ item }} state=installed
   with_items:
     - vim
   tags:
@@ -10,7 +10,7 @@
     - editor
 
 - name: install version control tools
-  action: apt pkg=$item state=installed
+  action: apt pkg={{ item }} state=installed
   with_items:
     - git
     - mercurial
@@ -19,7 +19,7 @@
     - vcs
 
 - name: install common python packages
-  action: apt pkg=$item state=installed
+  action: apt pkg={{ item }} state=installed
   with_items:
     - python-setuptools
     - python-pip
@@ -29,7 +29,7 @@
 
 
 - name: install supervisor
-  action: apt pkg=$item state=installed
+  action: apt pkg={{ item }} state=installed
   with_items:
     - supervisor
   tags:
@@ -38,7 +38,7 @@
     - supervisor
 
 - name: install virtualenv 
-  action: pip name=$item state=present
+  action: pip name={{ item }} state=present
   with_items:
     - virtualenv
   tags:

@@ -6,8 +6,8 @@
   tags: radius
 
 - name:   upload radiusclient config
-  action: template src=etc/radiusclient/$item
-                    dest=/etc/radiusclient/${device_type}-$item
+  action: template src=etc/radiusclient/{{ item }}
+                    dest=/etc/radiusclient/{{ device_type }}-{{ item }}
                     owner=root group=root mode=0644
   with_items:
     - radiusclient.conf

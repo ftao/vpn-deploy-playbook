@@ -2,7 +2,7 @@
 #vpn server management api
 
 - name: ensure directory used by vpn-mgr exists
-  action: file path=$item state=directory
+  action: file path={{ item }} state=directory
   with_items:
     - /opt/vpn-mgr
     - /opt/vpn-mgr/env

@@ -41,6 +41,7 @@ overwriteccfiles=false
 # useauthcontrolfile=false
 
 
+{% if openvpn.use_radius %}
 {% for radius_server in openvpn.radius_servers %}
 server
 {
@@ -58,3 +59,4 @@ server
 	sharedsecret={{ radius_server.secret }}
 }
 {% endfor %}
+{% endif %}
