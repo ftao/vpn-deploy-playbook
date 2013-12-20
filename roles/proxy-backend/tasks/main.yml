@@ -1,0 +1,32 @@
+---
+#install shadowsocks
+
+- name: ensure working dir exists
+  action: file path=/opt/shadowsocks-server/ state=directory
+
+- name: install shadowssocks
+  action: copy src=shadowsocks-server
+               dest=/opt/shadowsocks-server/shadowsocks-server
+               mode=755
+  notify:
+    - restart shadowsocks-server
+
+- name: install shadowssocks-server supervisorconfig
+  action: copy src=proxy-backend.supervisor.conf
+               dest=/etc/supervisor/conf.d/proxy-backend.conf
+
+  notify:
+    - restart shadowsocks-server
+
+- name: install shadowssocks server config file
+  action: template src=config.json
+                   dest=/opt/shadowsocks-server/config.json
+                   mode=640
+  notify:
+    - restart shadowsocks-server
+
+- name: make shadowssocks-server is present 
+  action: supervisorctl name=shadowsocks-server state=present
+
+- name: make shadowssocks-server is started 
+  action: supervisorctl name=shadowsocks-server state=started

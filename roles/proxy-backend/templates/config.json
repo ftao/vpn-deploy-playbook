@@ -1,0 +1,10 @@
+{
+  "port_password": {
+{% for item in shadowsocks_server.ports %}
+    "{{ item.port }}": "{{ item.password }}" {% if not loop.last %},{% endif %}
+
+{% endfor %}
+  },
+  "method": "aes-256-cfb",
+  "timeout": 600
+}

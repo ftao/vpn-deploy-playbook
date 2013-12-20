@@ -1,0 +1,5 @@
+- name: restart shadowsocks-server
+  action: supervisorctl name=shadowsocks-server state=restarted
+
+- name: reload shadowsocks-server
+  action: shell /bin/kill -s HUP `/usr/bin/supervisorctl pid shadowsocks-server`
