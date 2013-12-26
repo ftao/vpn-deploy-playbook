@@ -1,5 +1,7 @@
 ---
 
+l2tp_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
+
 ipsec:
   psk: l2tpworks
 
@@ -12,7 +14,8 @@ l2tp_network:
   mtu: 1340
   subnet: 10.9.0.0/24
 
-l2tp_use_radius: true
+l2tp_use_radius: false
+
 l2tp_radius_servers:
   - host: 127.0.0.1
-    secret: b5059852om47i8u2Vplq
+    secret: some-radius-secret

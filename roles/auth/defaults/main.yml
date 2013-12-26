@@ -1,0 +1,13 @@
+---
+
+freeradius:
+  db_name: radius
+  db_user: raduser
+  db_password: "change-this-to-a-very-strong-password-4Xykokqpdj"
+  client_secret: some-radius-secret
+
+freeradius_admin:
+  db_name: djra
+  db_user: djra
+  db_password: "change-this-to-a-very-strong-password-ijjj803kJ"
+  api_key: really-secrect-api-key

@@ -1,12 +1,6 @@
 ---
 
 - hosts: pptp
-#  gather_facts: false
-  vars:
-    if_name: eth0
-    public_ip:  ${ansible_eth0.ipv4.address}
-    #pptp_use_radius: false
-
   roles:
     - common
     - pptp

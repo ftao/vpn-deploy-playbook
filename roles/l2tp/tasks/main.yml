@@ -2,7 +2,7 @@
 #install & config xl2tpd/ipsec
 #config options:
 #
-# public_ip : xxx.xxx.xx.xxx ; the ip address used to provide ipsec service, used by /etc/ipsec.d/l2tp-psk.conf
+# l2tp_bind_ip : xxx.xxx.xx.xxx ; the ip address used to provide ipsec service, used by /etc/ipsec.d/l2tp-psk.conf
 # ipsec:
 #   psk: some-shared-secret ;  ipsec pre shared key
 # l2tp:

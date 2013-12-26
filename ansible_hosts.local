@@ -1,0 +1,17 @@
+#A example of Ansible Invetery
+#Some useful parameters:
+# - ansible_ssh_port
+# - ansible_ssh_user
+# - ansible_ssh_private_key_file
+#Check out http://www.ansibleworks.com/docs/patterns.html#list-of-reserved-inventory-parameters  for all possible parameters
+
+localhost  ansible_connection=local
+
+[pptp]
+localhost
+
+[l2tp]
+localhost
+
+[openvpn]
+localhost

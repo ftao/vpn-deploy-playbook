@@ -12,7 +12,7 @@ Framed-Protocol=1
 NAS-Port-Type=5
 
 # The NAS IP address which is sent to the RADIUS server
-NAS-IP-Address={{ public_ip }}
+NAS-IP-Address={{ openvpn_bind_ip }}
 
 # Path to the OpenVPN configfile. The plugin searches there for
 # client-config-dir PATH   (searches for the path)

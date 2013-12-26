@@ -1,6 +1,8 @@
 ---
 #default vars for openvpn
 
+openvpn_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
+
 openvpn_cred:
   ca: "{{ lookup('file', inventory_dir + '/cred/openvpn/ca.crt') }}"
   cert: "{{ lookup('file', inventory_dir + '/cred/openvpn/server.crt') }}"
@@ -18,10 +20,11 @@ openvpn_servers:
       dns_servers:
         - 8.8.8.8
         - 8.8.4.4
-    use_radius: true
-    radius_servers:
-      - host: 127.0.0.1
-      - secret: b5059852om47i8u2Vplq
+    use_radius: false
+#   use_radius: true
+#    radius_servers:
+#      - host: 127.0.0.1
+#      - secret: b5059852om47i8u2Vplq
 
   - name: server_tcp
     port: 1194
@@ -32,7 +35,9 @@ openvpn_servers:
       dns_servers:
         - 8.8.8.8
         - 8.8.4.4
-    use_radius: true
-    radius_servers:
-      - host: 127.0.0.1
-      - secret: b5059852om47i8u2Vplq
+    use_radius: false
+#   use_radius: true
+#    radius_servers:
+#      - host: 127.0.0.1
+#      - secret: b5059852om47i8u2Vplq
+

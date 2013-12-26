@@ -1,15 +1,3 @@
 ---
 
 mysql_root_password: "4b7RVXvjMtU1w1g"
-
-freeradius:
-  db_name: radius
-  db_user: raduser
-  db_password: c6h927nLIgOxh1S
-  client_secret: b5059852om47i8u2Vplq
-
-freeradius_admin:
-  db_name: djra
-  db_user: djra
-  db_password: some-very-secret-password
-  api_key: really-secrect-api-key
