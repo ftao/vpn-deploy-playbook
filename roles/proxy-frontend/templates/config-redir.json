@@ -1,0 +1,10 @@
+{
+    "local_port": {{ proxy_frontend_redir_port }},
+    {% for server in proxy_frontend_shadowsocks_servers[:1] %}
+    "server" : "{{ server.host }}",
+    "server_port" : {{ server.port }},
+    "password" : "{{ server.password }}",
+    {% endfor %}
+    "method" : "aes-256-cfb"
+}
+

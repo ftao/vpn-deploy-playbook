@@ -1,0 +1,10 @@
+---
+
+proxy_frontend_redir_port : 5552
+proxy_frontend_dns_tunnel_port : 5553
+proxy_frontend_remote_dns_server: 8.8.8.8:53
+proxy_frontend_shadowsocks_servers:
+  - host: 127.0.0.1
+    port: 5551
+    password: somepassword
+

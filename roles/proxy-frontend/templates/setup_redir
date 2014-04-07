@@ -1,0 +1,71 @@
+#!/bin/sh
+MAIN_IF_NAME={{ if_name|default("eth0") }}
+#set -e
+
+# Where to find $IPTABLES
+IPTABLES="/sbin/iptables"
+ 
+# Port that is redsocks listening on
+PF_REDIR_PORT="{{ proxy_frontend_redir_port }}"
+PF_REDIR_UDP_PORT="{{ proxy_frontend_dns_tunnel_port }}"
+
+$IPTABLES -t nat -D PREROUTING -i ppp+ -p tcp -j PF_REDIR_FILTER 2>/dev/null
+$IPTABLES -t nat -D PREROUTING -i ppp+ -p udp --dport 53 -j PF_REDIR_FILTER 2>/dev/null
+#$IPTABLES -t nat -D OUTPUT -p tcp -d 8.8.8.8 --dport 53 -o $MAIN_IF_NAME -j PF_REDIR_FILTER
+#$IPTABLES -t nat -D OUTPUT -p tcp -d 8.8.4.4 --dport 53 -o $MAIN_IF_NAME -j PF_REDIR_FILTER
+$IPTABLES -t nat -D PREROUTING -p tcp -j PF_REDIR_FILTER 2>/dev/null
+
+$IPTABLES -t nat -F PF_REDIR_FILTER 2>/dev/null
+$IPTABLES -t nat -X PF_REDIR_FILTER 2>/dev/null
+$IPTABLES -t nat -F PF_REDIR 2>/dev/null
+$IPTABLES -t nat -X PF_REDIR 2>/dev/null
+ 
+# Create our own chain
+$IPTABLES -t nat -N PF_REDIR
+$IPTABLES -t nat -N PF_REDIR_FILTER
+ 
+# Do not try to redirect local traffic
+$IPTABLES -t nat -I PF_REDIR_FILTER -o lo -j RETURN
+ 
+### Below whitelist and blacklist cannot operate together.
+### If you want to change it, refactor the code. It's simple.
+
+## Do not redirect LAN traffic and some other reserved addresses. (blacklist option)
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 0.0.0.0/8 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 10.0.0.0/8 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 127.0.0.0/8 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 169.254.0.0/16 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 172.16.0.0/12 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 192.168.0.0/16 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 224.0.0.0/4 -j RETURN
+$IPTABLES -t nat -A PF_REDIR_FILTER -d 240.0.0.0/4 -j RETURN
+#TODO: add cnroute
+$IPTABLES -t nat -A PF_REDIR_FILTER -j PF_REDIR
+ 
+## Do not redirect traffic for the SOCKS-Server
+## Not needed if server is not on a whitelist or is already blacklisted.
+#$IPTABLES -t nat -I PF_REDIR -p tcp -d $SOCKS_HOST --dport $SOCKS_PORT -j RETURN
+ 
+$IPTABLES -t nat -A PF_REDIR -p tcp --syn -j TCPMSS --set-mss 1340
+
+# Redirect all traffic that gets to the end of our chain
+$IPTABLES -t nat -A PF_REDIR -p tcp -j REDIRECT --to-port $PF_REDIR_PORT
+$IPTABLES -t nat -A PF_REDIR -p udp -j REDIRECT --to-port $PF_REDIR_UDP_PORT 
+ 
+## Filter all traffic from the own host
+## BE CAREFULL HERE IF THE SOCKS-SERVER RUNS ON THIS MACHINE
+#$IPTABLES -t nat -A OUTPUT     -p tcp -j PF_REDIR_FILTER
+ 
+#$IPTABLES -t raw -A PREROUTING -p tcp -i ppp+ -j TRACE
+
+#$IPTABLES -t nat -A OUTPUT -p tcp -s 10.8.1.0/24 -o $MAIN_IF_NAME -j PF_REDIR_FILTER
+
+# Filter all traffic from ppp connections that is routed over this host
+$IPTABLES -t nat -A PREROUTING -i ppp+ -p tcp -j PF_REDIR_FILTER
+
+$IPTABLES -t nat -A PREROUTING -i ppp+ -p udp --dport 53 -j PF_REDIR_FILTER
+
+#$IPTABLES -t nat -A OUTPUT -p tcp -d 8.8.8.8 --dport 53 -o $MAIN_IF_NAME -j PF_REDIR_FILTER
+#$IPTABLES -t nat -A OUTPUT -p tcp -d 8.8.4.4 --dport 53 -o $MAIN_IF_NAME -j PF_REDIR_FILTER
+ 
+echo IPtables reconfigured.

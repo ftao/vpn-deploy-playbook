@@ -1,0 +1,6 @@
+---
+- hosts: proxy-frontend
+
+  roles:
+    - common
+    - proxy-frontend
