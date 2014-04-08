@@ -1,6 +1,18 @@
 ---
 - hosts: proxy-frontend
 
+  vars:
+    - pptp_do_nat: false
+
   roles:
     - common
+    - pptp
+    #setup auth via radius
+    - role: ppp-radiusclient
+      when: pptp_use_radius
+      device_type: pptp
+      radius_servers: ${pptp_radius_servers}
+
     - proxy-frontend
+    - vpn-mgr
+

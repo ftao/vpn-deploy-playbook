@@ -2,11 +2,11 @@
 #install shadowsocks
 
 - name: ensure working dir exists
-  action: file path=/opt/shadowsocks-server/ state=directory
+  action: file path=/opt/proxy-backend/ state=directory
 
 - name: install shadowssocks
-  action: copy src=shadowsocks-server
-               dest=/opt/shadowsocks-server/shadowsocks-server
+  action: copy src=ss-server
+               dest=/opt/proxy-backend/ss-server
                mode=755
   notify:
     - restart shadowsocks-server
@@ -20,7 +20,7 @@
 
 - name: install shadowssocks server config file
   action: template src=config.json
-                   dest=/opt/shadowsocks-server/config.json
+                   dest=/opt/proxy-backend/config.json
                    mode=640
   notify:
     - restart shadowsocks-server

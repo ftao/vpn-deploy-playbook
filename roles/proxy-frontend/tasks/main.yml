@@ -24,7 +24,7 @@
     - restart shadowsocks-redir
 
 - name: generate ss dns tunnel config file
-  action: template src=config-redir.json
+  action: template src=config-dns-tunnel.json
                    dest=/opt/proxy-frontend/config-dns-tunnel.json
                    mode=755
   tags: proxy-frontend

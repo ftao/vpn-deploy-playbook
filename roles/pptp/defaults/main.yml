@@ -14,3 +14,5 @@ pptp_use_radius: false
 pptp_radius_servers:
   - host: 127.0.0.1
     secret: some-radius-secret
+
+pptp_do_nat: true

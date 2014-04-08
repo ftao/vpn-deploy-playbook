@@ -30,6 +30,7 @@
   tags: 
     - pptp
     - nat
+  when: pptp_do_nat
 
 - name: set network in easynat rule file
   action: lineinfile dest=/opt/easynat/rules.cnf regexp="{{ pptp_network.subnet }}" line="{{ pptp_network.subnet }}" state=present create=yes
@@ -38,3 +39,4 @@
   tags: 
     - pptp
     - nat
+  when: pptp_do_nat
