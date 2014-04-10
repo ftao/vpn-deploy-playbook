@@ -1,0 +1,38 @@
+---
+#install & config dnsmasq
+
+- name: install dnsmasq
+  apt: pkg=dnsmasq state=installed
+  tags:
+    - dns
+
+#- name: remove dnsmasq from resolveconf
+#  file: path=/run/resolvconf/interface/lo.dnsmasq state=absent
+#  tags:
+#    - dns
+#  notify:
+#    - update resolvconf
+
+- name: tell dnsmasq not acting as local resolver 
+  lineinfile: dest=/etc/default/dnsmasq line='DNSMASQ_EXCEPT="lo"'
+  tags:
+    - dns
+  notify:
+    - restart dnsmasq
+
+- name: ensure config directory exists
+  file: path=/etc/dnsmasq.d/ state=directory
+  tags:
+    - dns
+
+- name: upload config files
+  template: src={{ item }}  dest=/etc/{{ item }}
+  with_items:
+    - dnsmasq.conf
+    - dnsmasq.d/server.china.conf
+  notify:
+    - restart dnsmasq
+  tags:
+    - dns
+
+#- action: template src=templates/etc/resolve.conf  dest=/etc/resolve.conf

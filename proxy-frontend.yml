@@ -13,6 +13,9 @@
       device_type: pptp
       radius_servers: ${pptp_radius_servers}
 
-    - proxy-frontend
+    - role: proxy-frontend
+
     - vpn-mgr
 
+    - role: dns
+      default_resolver: "127.0.0.1#{{ proxy_frontend_dns_tunnel_port }}"

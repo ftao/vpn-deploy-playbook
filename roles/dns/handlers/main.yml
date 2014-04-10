@@ -1,0 +1,11 @@
+---
+
+- name: update resolvconf
+  command: /sbin/resolvconf -u
+  tags:
+    - dns
+
+- name: restart dnsmasq
+  service: name=dnsmasq state=restarted
+  tags:
+    - dns

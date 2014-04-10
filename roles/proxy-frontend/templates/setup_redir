@@ -7,7 +7,8 @@ IPTABLES="/sbin/iptables"
  
 # Port that is redsocks listening on
 PF_REDIR_PORT="{{ proxy_frontend_redir_port }}"
-PF_REDIR_UDP_PORT="{{ proxy_frontend_dns_tunnel_port }}"
+#PF_REDIR_UDP_PORT="{{ proxy_frontend_dns_tunnel_port }}"
+PF_REDIR_UDP_PORT="53"
 
 $IPTABLES -t nat -D PREROUTING -i ppp+ -p tcp -j PF_REDIR_FILTER 2>/dev/null
 $IPTABLES -t nat -D PREROUTING -i ppp+ -p udp --dport 53 -j PF_REDIR_FILTER 2>/dev/null
