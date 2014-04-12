@@ -1,0 +1,2 @@
+{{ ipsec_group }}  {{ ipsec_psk }}
+

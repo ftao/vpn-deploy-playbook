@@ -1,0 +1,14 @@
+---
+
+ipsec_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
+ipsec_group : "ipsec"
+ipsec_psk : "ipsec_shared_key_82762"
+ipsec_network: 10.12.0.30
+ipsec_mask: 255.255.255.0
+ipsec_subnet: 10.12.0.0/24
+ipsec_pool_size: 200
+ipsec_dns: 8.8.8.8
+
+ipsec_radius_servers:
+  - host: 127.0.0.1
+    secret: somesecret

@@ -1,0 +1,38 @@
+---
+
+- name: install racoon
+  apt: pkg=racoon state=present
+  tags:
+    - ipsec
+
+- name: install libpam-radius-auth
+  apt: pkg=libpam-radius-auth state=present
+  tags:
+    - ipsec
+
+- name: install racoon config files
+  template: src="{{ item }}" dest=/etc/"{{ item }}" backup=yes
+  with_items:
+    - racoon/motd
+    - racoon/psk.txt
+    - racoon/racoon.conf
+    - pam_radius_auth.conf
+    - pam.d/racoon
+  notify:
+    - restart ipsec
+  tags:
+    - ipsec
+
+- name: make sure /opt/easynat exists
+  action: file path=/opt/easynat/ state=directory
+  tags:
+    - ipsec
+    - nat
+
+- name: set network in easynat rule file
+  action: lineinfile dest=/opt/easynat/rules.cnf regexp="{{ ipsec_subnet }}" line="{{ ipsec_subnet }}" state=present create=yes
+  notify:
+    - setup nat rules
+  tags: 
+    - ipsec
+    - nat

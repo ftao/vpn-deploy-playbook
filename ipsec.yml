@@ -1,0 +1,8 @@
+---
+- hosts: ipsec
+
+  roles:
+    - common
+    - ipsec
+    - nat
+#    - vpn-mgr

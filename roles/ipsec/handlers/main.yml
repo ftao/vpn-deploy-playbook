@@ -1,0 +1,7 @@
+---
+
+#- name: restart racoon
+#  service: name=racoon state=restarted
+
+- name: restart ipsec
+  service: name=racoon state=restarted
