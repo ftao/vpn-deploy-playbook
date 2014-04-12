@@ -1,0 +1,38 @@
+---
+
+# setup base dir
+- action: file path=/opt/ss-client/ state=directory
+  tags: ss-client
+
+#install shadowsocks
+- name: copy shadowsocks
+  action: copy src={{ item }}
+               dest=/opt/ss-client/{{ item }}
+               mode=755
+  with_items:
+    - ss-redir
+    - ss-tunnel
+    - ss-local
+  tags: ss-client
+  notify:
+    - restart ss-client
+
+- name: generate config file
+  action: template src=config.json
+                   dest=/opt/ss-client/config-{{ name }}.json
+                   mode=755
+  tags: ss-client
+  notify:
+    - restart ss-client
+
+- name: create supervisor config file for this ss-client
+  action: template src=ss-client.supervisor.conf
+                   dest=/etc/supervisor/conf.d/ss-client-{{ name }}.conf
+  tags: ss-client
+  notify:
+    - restart ss-client
+
+- name: make sure supervisor pick up ss-client
+  action: supervisorctl name=ss-client-{{ name }} state=present
+  tags: ss-client
+

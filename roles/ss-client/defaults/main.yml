@@ -1,0 +1,12 @@
+---
+
+name: 'default'
+mode: 'local'  #'redir', 'tunnel'
+enable_udp: true      #enable udp
+port: 1080
+tunnel_target: '8.8.8.8:53' #tunnel target in tunnel mode
+
+server_host: '127.0.0.1'
+server_port: 1081
+password: 'someverylogpassword'
+method: "aes-256-cfb"

@@ -1,0 +1,8 @@
+{
+    "local_port": {{ port }},
+    "server" : "{{ server_host }}",
+    "server_port" : {{ server_port }},
+    "password" : "{{ password }}",
+    "method" : "{{ method }}"
+}
+

@@ -1,9 +1,0 @@
----
-
-proxy_frontend_redir_port : 5352
-proxy_frontend_dns_tunnel_port : 5353
-proxy_frontend_remote_dns_server: 8.8.8.8:53
-proxy_frontend_shadowsocks_servers:
-  - host: 127.0.0.1
-    port: 5351
-    password: "ssserver-very-long-password-876410482"

@@ -1,0 +1,23 @@
+---
+
+# setup base dir
+- action: file path=/opt/redir/ state=directory
+  tags: redir
+
+#setup firewall
+
+- name: upload setup_redir script
+  copy: src=setup_redir
+        dest=/opt/redir/setup_redir
+        mode=755
+  notify:
+    - setup redir
+  tags: redir
+
+- name: make sure setup_redir is in rc.local
+  lineinfile: dest=/etc/rc.local 
+              insertafter="^#" 
+              regexp="/opt/redir/setup_redir" 
+              line="/opt/redir/setup_redir {{ tcp_redir_port }} {{ dns_redir_port }}"
+              state=present
+  tags: redir

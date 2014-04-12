@@ -1,0 +1,3 @@
+---
+tcp_redir_port: 5352
+dns_redir_port: 53

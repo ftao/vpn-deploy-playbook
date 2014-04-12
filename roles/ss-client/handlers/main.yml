@@ -1,0 +1,3 @@
+- name: restart ss-client
+  action: supervisorctl name=ss-client-{{ name }} state=restarted
+  tags: ss-client

@@ -1,3 +1,0 @@
----
-proxy_backend_port : 5351
-proxy_backend_password: "ssserver-very-long-password-876410482"

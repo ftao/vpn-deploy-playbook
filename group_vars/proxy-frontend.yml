@@ -1,0 +1,7 @@
+---
+proxy_frontend_redir_port: 5352
+proxy_frontend_dns_tunnel_port: 5353
+proxy_frontend_upstream_dns_server: '8.8.8.8:53'
+proxy_frontend_ss_server_host: '127.0.0.1'
+proxy_frontend_ss_server_port: 5351
+proxy_frontend_ss_server_password: 'some-very-long-ss-server-password-87402'
