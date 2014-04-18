@@ -1,0 +1,6 @@
+---
+name: 'default'
+enable_udp: true      #enable udp
+port : 5351
+password: "ssserver-very-long-password-876410482"
+method: "aes-256-cfb"

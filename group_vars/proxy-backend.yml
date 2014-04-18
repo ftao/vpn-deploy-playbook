@@ -2,7 +2,14 @@
 #default vars for proxy-backend
 
 
-shadowsocks_server:
-  ports:
-    - {"port" : 36000, "password" : "pass36000"}
-    - {"port" : 36001, "password" : "pass36001"}
+shadowsocks_servers:
+
+  default:
+    port: 8838
+    password: "ssserver-very-long-password-876410482"
+    enable_udp: false
+
+  udp_relay:
+    port: 8839
+    password: "ssserver-very-long-password-udp-876410482"
+    enable_udp: true

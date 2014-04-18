@@ -1,0 +1,7 @@
+{
+  "server" : "0.0.0.0",
+  "server_port" : {{ port }},
+  "password" : "{{ password }}",
+  "method": "{{ method }}",
+  "timeout": 10
+}

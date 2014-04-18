@@ -1,0 +1,10 @@
+- name: reload supervisor
+  shell: /etc/init.d/supervisor restart
+  tags:
+    - ss-server
+
+- name: "restart shadowsocks-server {{ name }}"
+  action: supervisorctl name=ss-server-{{ name }} state=restarted
+  tags:
+    - ss-server
+
