@@ -34,3 +34,6 @@
 
 - include: make_client.yml
   when: action is defined and action == "make_client"
+
+- include: make_server.yml
+  when: action is defined and action == "make_server"

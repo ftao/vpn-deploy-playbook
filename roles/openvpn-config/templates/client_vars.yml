@@ -9,3 +9,5 @@ remotes:
 pki_root: {{ pki_root }}
 
 route_mode: {{ route_mode }}
+
+auth_user_pass : {{ auth_user_pass|default(False) }}
