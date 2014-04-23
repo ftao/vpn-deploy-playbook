@@ -1,0 +1,25 @@
+---
+
+#generate a client key & config files
+#
+- name: generate dh
+  shell: "{{ easy_pki_cmd }} gen-dh --pki-dir={{ pki_root }}
+         creates={{ pki_root }}/dh.pem
+         chdir={{ ocs_root }}"
+
+- name: generate key
+  shell: "{{ easy_pki_cmd }} gen-key server {{ cname }} --pki-dir={{ pki_root }}
+         creates={{ pki_root }}/private/{{ cname }}.key
+         chdir={{ ocs_root }}"
+
+# real conf generate will be in another playbook
+#- name: ensure server dir 
+#  file: path={{ ocs_root }}/servers/{{ cname }} state=directory
+
+#- name: generate openvpn config vars file
+#  template: src=server_vars.yml dest={{ ocs_root }}/servers/{{ cname }}/vars.yml
+
+#- name: make server config files
+#  shell: "{{ ovpnconf_gen_cmd }} server {{ cname }} --vars-file='./servers/{{ cname }}/vars.yml' > './servers/{{ cname }}/{{ cname }}.ovpn' 
+#         chdir={{ ocs_root }}"
+

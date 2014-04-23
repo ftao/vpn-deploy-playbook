@@ -1,0 +1,36 @@
+---
+
+# these tasks can only be ran in local mode
+
+- name: ensure config store root exists
+  file: dest={{ ocs_root }}/{{ item }} state=directory
+  with_items:
+    - easy-rsa
+    - easy-pki
+    - env
+    - pki
+    - clients
+    - servers
+
+- name: install easy-rsa tool
+  git: repo='https://github.com/OpenVPN/easy-rsa'
+       dest={{ ocs_root }}/easy-rsa
+
+- name: clone easy-pki 
+  git: repo='https://github.com/ftao/easy-pki'
+       dest={{ocs_root}}/easy-pki
+
+- name: init virtualenv 
+  pip: name='docopt'
+       virtualenv={{ ocs_root }}/env
+
+- name: install easy-pki 
+  shell: "{{ocs_root}}/env/bin/python setup.py develop chdir={{ ocs_root }}/easy-pki"
+
+- name: init ca
+  shell: "{{ easy_pki_cmd }} init-ca {{ ca_name }} --pki-dir={{ pki_root }}
+         creates={{ pki_root }}/ca.crt
+         chdir={{ ocs_root }}"
+
+- include: make_client.yml
+  when: action is defined and action == "make_client"

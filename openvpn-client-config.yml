@@ -1,0 +1,11 @@
+- hosts: ocs
+  connection: local
+
+  vars:
+    action: make_client
+
+  vars_files:
+    - [ "vars/ocp-{{ profile_name }}.yml", "vars/ocp_defaults.yml" ]
+
+  roles:
+    - openvpn-config

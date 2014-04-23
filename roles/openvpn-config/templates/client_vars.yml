@@ -1,0 +1,11 @@
+---
+
+remotes: 
+{% for remote in client_remotes %}
+  - {{ remote|to_yaml }}
+{% endfor %}
+
+
+pki_root: {{ pki_root }}
+
+route_mode: {{ route_mode }}

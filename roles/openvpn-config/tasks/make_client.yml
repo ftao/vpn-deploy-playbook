@@ -1,0 +1,32 @@
+---
+
+#generate a client key & config files
+
+- name: generate key
+  shell: "{{ easy_pki_cmd }} gen-key client {{ cname }} --pki-dir={{ pki_root }}
+         creates={{ pki_root }}/private/{{ cname }}.key
+         chdir={{ ocs_root }}"
+
+- name: ensure  client dir 
+  file: path={{ ocs_root }}/clients/{{ item }} state=directory
+  with_items:
+    - "{{ cname }}"
+    - "{{ cname }}/{{ca_name}}-{{ profile_name }}.tblk"
+
+- name: generate openvpn config vars file
+  template: src=client_vars.yml dest={{ ocs_root }}/clients/{{ cname }}/vars-{{ profile_name}}.yml
+#  register: ovpn_conf_vars_create_result
+
+- name: make client config files
+  shell: "{{ ovpnconf_gen_cmd }} client {{ cname }} --vars-file='{{ ocs_root }}/clients/{{ cname }}/vars-{{ profile_name }}.yml' > './clients/{{ cname }}/{{ ca_name }}-{{ profile_name }}.ovpn' 
+         chdir={{ ocs_root }}"
+#  when: ovpn_conf_vars_create_result.changed 
+
+- name: make tunnel blink config file
+  shell: "cp '{{ ca_name }}-{{ profile_name }}.ovpn' '{{ ca_name }}-{{ profile_name }}.tblk/{{ profile_name }}.ovpn' chdir='{{ ocs_root}}/clients/{{ cname }}/'"
+#  when: ovpn_conf_vars_create_result.changed
+
+- name: zip tunnel blink file
+  shell: "zip -r {{ ca_name }}-{{ profile_name}}.zip {{ ca_name }}-{{ profile_name }}.tblk  chdir='{{ ocs_root}}/clients/{{ cname }}/'"
+#  when: ovpn_conf_vars_create_result.changed
+
