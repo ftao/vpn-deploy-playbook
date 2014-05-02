@@ -1,0 +1,19 @@
+---
+http_tunnel_port: 6129
+dns_tunnel_port: 5353
+upstream_http_proxy: "127.0.0.1:6128"
+
+cache_peers:
+  - domain: cache-parent-1
+    host: 127.0.0.1
+    port: "{{ http_tunnel_port }}"
+
+domain_groups:
+  - name: cn
+    ip_list_file: cn_ips.txt
+    is_direct: true
+  - name: blocked
+    peers:
+      - cache-parent-1
+    is_direct: false
+

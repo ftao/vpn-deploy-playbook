@@ -1,0 +1,28 @@
+---
+- hosts: apnp-frontend
+
+  roles:
+
+    - role: squid
+
+    - role: ss-client
+      name: "http-proxy-tunnel"
+      port: "{{ http_tunnel_port }}"
+      mode: "tunnel"
+      tunnel_target: "{{ upstream_http_proxy }}"
+      server_host: "{{ ss_server_host }}"
+      server_port: "{{ ss_server_port }}"
+      password: "{{ ss_server_password }}"
+
+    - role: ss-client
+      name: "dns_tunnel"
+      port: "{{ dns_tunnel_port }}"
+      mode: "tunnel"
+      tunnel_target: "{{ upstream_dns_server }}"
+      enable_udp: true
+      server_host: "{{ ss_server_host }}"
+      server_port: "{{ ss_server_udp_port }}"
+      password: "{{ ss_server_password }}"
+
+    - role: dns
+      default_resolver: "127.0.0.1#{{ dns_tunnel_port }}"

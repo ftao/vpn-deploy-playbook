@@ -1,0 +1,24 @@
+---
+
+- name: install squid3
+  apt: pkg=squid3 state=installed
+
+- name: enable squid3
+  service: name=squid3 enabled=yes
+
+- name: install squid config file
+  template: src=squid.conf dest=/etc/squid3/squid.conf
+  notify:
+    - restart squid
+
+- name: upload ip list
+  copy: src={{ item.ip_list_file }} dest=/etc/squid3/{{ item.name }}_ips.txt
+  with_items: domain_groups
+  when: item.ip_list_file is defined
+  notify:
+    - reload squid
+
+- name: upload hosts file
+  template: src=hosts dest=/etc/squid3/hosts
+  notify:
+    - reload squid

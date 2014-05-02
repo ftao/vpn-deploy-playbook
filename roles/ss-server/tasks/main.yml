@@ -27,7 +27,7 @@
     - {"name" : "net.ipv4.tcp_rmem" , "value" : 10240 87380 12582912}
     - {"name" : "net.ipv4.tcp_wmem" , "value" : 10240 87380 12582912}
     - {"name" : "net.ipv4.ip_local_port_range" , "value" : 18000    65535}
-    - {"name" : "net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait" , "value" : 1}
+    #- {"name" : "net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait" , "value" : 1}
     - {"name" : "net.ipv4.tcp_window_scaling" , "value" : 1}
     - {"name" : "net.ipv4.tcp_max_syn_backlog" , "value" : 3240000}
     - {"name" : "net.core.somaxconn" , "value" : 3240000}

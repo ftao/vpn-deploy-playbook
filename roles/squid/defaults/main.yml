@@ -1,0 +1,22 @@
+---
+listen_port: 6128
+
+nameservers:
+  - 127.0.0.1
+
+cache_peers:
+  - domain: other-squid.example.com
+    host: 127.0.0.1
+    port: 6129
+
+domain_groups:
+  #order is important
+  - name: cn
+    ip_list_file: cn_ips.txt
+    is_direct: true
+
+  - name: blocked
+    peers:
+      - other-squid.example.com 
+    is_direct: false
+    is_others: true

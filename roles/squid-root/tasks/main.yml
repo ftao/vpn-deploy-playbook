@@ -1,0 +1,12 @@
+---
+
+- name: install squid
+  apt: pkg={{ squid_name }} state=installed
+
+- name: enable squid
+  service: name={{ squid_name }} enabled=yes
+
+- name: install squid config file
+  template: src=squid.conf dest=/etc/{{ squid_name }}/squid.conf
+  notify:
+    - restart squid
