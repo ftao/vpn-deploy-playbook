@@ -1,0 +1,41 @@
+---
+
+- name: install nginx
+  apt: pkg=nginx state=present
+  tags:
+    - pch
+
+- name: enable nginx
+  service: name=nginx enabled=true
+  tags:
+    - pch
+
+- name: upload nginx site config file
+  template: src=nginx.conf dest=/etc/nginx/sites-available/pch
+  notify:
+    - restart nginx
+  tags:
+    - pch
+
+- name: enable site 
+  file: path=/etc/nginx/sites-enabled/pch 
+        src=/etc/nginx/sites-available/pch
+        state=link
+  notify:
+    - restart nginx
+  tags:
+    - pch
+
+- name: create pac root directory 
+  file: path=/var/www/pch/ 
+        state=directory
+        owner=www-data group=www-data
+  tags:
+    - pch
+
+- name: upload pac files
+  template: src=proxy.pac 
+            dest=/var/www/pch/proxy.pac
+            owner=www-data group=www-data
+  tags:
+    - pch

@@ -26,3 +26,5 @@
 
     - role: dns
       default_resolver: "127.0.0.1#{{ dns_tunnel_port }}"
+
+    - proxy-config-host
