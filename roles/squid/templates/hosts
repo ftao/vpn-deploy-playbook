@@ -1,6 +1,0 @@
-127.0.0.1   localhost
-
-{% for item in cache_peers %}
-{{ item.host }}  {{ item.domain }}
-{% endfor %}
-

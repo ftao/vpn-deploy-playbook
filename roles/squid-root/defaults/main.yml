@@ -1,4 +1,3 @@
 ---
 bind_ip: 127.0.0.1
 listen_port: 6128
-squid_name: squid3

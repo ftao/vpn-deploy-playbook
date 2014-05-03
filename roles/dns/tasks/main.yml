@@ -6,15 +6,19 @@
   tags:
     - dns
 
-#- name: remove dnsmasq from resolveconf
-#  file: path=/run/resolvconf/interface/lo.dnsmasq state=absent
-#  tags:
-#    - dns
-#  notify:
-#    - update resolvconf
+- name: remove dnsmasq from resolveconf
+  lineinfile: dest=/etc/init.d/dnsmasq 
+              state=present
+              insertbefore="/sbin/resolvconf -a"
+              line="return 0 \#ANSIBLE_ADDED"
+              regexp="return 0 \#ANSIBLE_ADDED"
+  tags:
+    - dns
+  notify:
+    - restart dnsmasq
 
 - name: tell dnsmasq not acting as local resolver 
-  lineinfile: dest=/etc/default/dnsmasq line='DNSMASQ_EXCEPT="lo"'
+  lineinfile: dest=/etc/default/dnsmasq line='DNSMASQ_EXCEPT=""' regexp='DNSMASQ_EXCEPT' state="present"
   tags:
     - dns
   notify:

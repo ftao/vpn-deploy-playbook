@@ -18,7 +18,3 @@
   notify:
     - reload squid
 
-- name: upload hosts file
-  template: src=hosts dest=/etc/squid3/hosts
-  notify:
-    - reload squid

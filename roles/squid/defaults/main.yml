@@ -5,7 +5,7 @@ nameservers:
   - 127.0.0.1
 
 cache_peers:
-  - domain: other-squid.example.com
+  - name: cp1
     host: 127.0.0.1
     port: 6129
 
@@ -17,6 +17,6 @@ domain_groups:
 
   - name: blocked
     peers:
-      - other-squid.example.com 
+      - cp1
     is_direct: false
     is_others: true
