@@ -2,7 +2,7 @@
 - hosts: ipsec
 
   roles:
-    - common
-    - ipsec
+#    - common
+    - ipsec-sw
     - nat
 #    - vpn-mgr

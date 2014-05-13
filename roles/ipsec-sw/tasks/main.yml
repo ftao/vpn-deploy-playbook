@@ -1,0 +1,54 @@
+---
+#install & config ikev2 server 
+
+- name: Enforce strongswan is installed
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - strongswan
+    - strongswan-plugin-xauth-generic
+    - strongswan-plugin-xauth-eap
+    - strongswan-plugin-eap-md5
+    - strongswan-plugin-eap-radius
+
+- name:  Upload ipsec config files
+  template: src={{ item }}
+            dest=/etc/{{ item }}
+            owner=root group=root mode=0644
+  with_items:
+    - ipsec.conf
+    - ipsec.secrets
+    - strongswan.conf
+  notify: restart ipsec
+
+- name: Upload ipsec certs
+  copy: src={{ ipsec_cert }}
+        dest=/etc/ipsec.d/certs/ipsec.pem
+        owner=root group=root
+  when: ipsec_enable_ikev2
+  notify: restart ipsec
+
+- name: Upload ipsec private key
+  copy: src={{ ipsec_key }}
+        dest=/etc/ipsec.d/private/ipsec.key
+        owner=root group=root
+  when: ipsec_enable_ikev2
+  notify: restart ipsec
+
+
+- name: make sure /opt/easynat exists
+  action: file path=/opt/easynat/ state=directory
+  tags:
+    - ipsec
+    - nat
+
+- name: set network in easynat rule file
+  action: lineinfile dest=/opt/easynat/rules.cnf 
+                     regexp="{{ ipsec_subnet }}" 
+                     line="{{ ipsec_subnet }}"
+                     state=present 
+                     create=yes
+  notify:
+    - setup nat rules
+  tags: 
+    - ipsec
+    - nat
