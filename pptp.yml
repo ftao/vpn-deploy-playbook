@@ -9,7 +9,7 @@
     - role: ppp-radiusclient
       when: pptp_use_radius
       device_type: pptp
-      radius_servers: ${pptp_radius_servers}
+      radius_servers: "{{ pptp_radius_servers }}"
 
     #nat role will setup firewall
     - nat
