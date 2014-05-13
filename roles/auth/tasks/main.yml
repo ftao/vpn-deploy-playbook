@@ -2,7 +2,7 @@
 #freeradius
 
 - name: install freeradius
-  action: apt pkg=$item state=installed
+  action: apt pkg={{ item }} state=installed
   with_items:
     - freeradius
     - freeradius-mysql
@@ -10,17 +10,17 @@
   tags: freeradius 
 
 - name: create freeradius database
-  action: mysql_db name=${freeradius.db_name} collation=utf8_general_ci encoding=utf8 
-                   login_user=root login_password=${mysql_root_password}
+  action: mysql_db name={{ freeradius.db_name } }} collation=utf8_general_ci encoding=utf8 
+                   login_user=root login_password={{ mysql_root_password }}
   tags: freeradius 
 
 - name: setup freeradius database user
-  action: mysql_user name=${freeradius.db_user} password=${freeradius.db_password} priv=${freeradius.db_name}.*:ALL state=present
-                     login_user=root login_password=${mysql_root_password}
+  action: mysql_user name={{ freeradius.db_user }} password={{ freeradius.db_password }} priv={{ freeradius.db_name }}.*:ALL state=present
+                     login_user=root login_password={{ mysql_root_password }}
   tags: freeradius 
 
 - name: create tables 
-  action: shell mysql -u${freeradius.db_user} -p${freeradius.db_password} ${freeradius.db_name} < /etc/freeradius/sql/mysql/$item
+  action: shell mysql -u{{ freeradius.db_user }} -p{{ freeradius.db_password }} {{ freeradius.db_name }} < /etc/freeradius/sql/mysql/{{ item }}
   ignore_errors: True
   with_items:
     - schema.sql
@@ -31,7 +31,7 @@
 
 #upload config files
 - name: install config files 
-  action: template src=etc/freeradius/$item  dest=/etc/freeradius/$item
+  action: template src=etc/freeradius/{{ item }}  dest=/etc/freeradius/{{ item }}
   with_items:
     - radiusd.conf
     - sites-available/vpn_auth

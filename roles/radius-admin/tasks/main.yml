@@ -2,15 +2,18 @@
 #freeradius-admin
 
 - name: create djra database
-  action: mysql_db name=${freeradius_admin.db_name} collation=utf8_general_ci encoding=utf8 
+  action: mysql_db name={{ freeradius_admin.db_name }} collation=utf8_general_ci encoding=utf8 
   tags: djra
 
 - name: setup djra database user
-  action: mysql_user name=${freeradius_admin.db_user} password=${freeradius_admin.db_password} priv=${freeradius_admin.db_name}.*:ALL state=present
+  action: mysql_user name={{ freeradius_admin.db_user }} password={{ freeradius_admin.db_password }} priv={{ freeradius_admin.db_name }}.*:ALL state=present
   tags: djra
 
+- name: install python-mysqldb
+  apt: pkg=python-mysqldb state=installed
+
 - name: ensure directory used by djra exists
-  action: file path=$item state=directory
+  action: file path={{ item }} state=directory
   with_items:
     - /opt/djra
     - /opt/djra/code
