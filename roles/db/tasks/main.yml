@@ -13,12 +13,11 @@
   tags: mysql 
 
 - name: ensure mysql root password 
-  action: command /usr/bin/mysqladmin -u root password "${mysql_root_password}"
-  when_set: $mysql_root_password
+  command: /usr/bin/mysqladmin -u root password "{{ mysql_root_password }}"
+  when: mysql_root_password is defined
   tags: mysql
 
 - name: install .my.cnf
-  action: template src=HOME/.my.cnf  dest=~/.my.cnf
-  when_set: $mysql_root_password
+  template: src=HOME/.my.cnf  dest=~/.my.cnf mode=600
+  when: mysql_root_password is defined
   tags: mysql
-
