@@ -1,0 +1,3 @@
+---
+openswan_l2tp_bind_ip: "{{ ansible_eth0.ipv4.address }}"
+

@@ -1,5 +1,5 @@
 require-mschap-v2
-{% for host in l2tp_network.ms_dns %}
+{% for host in l2tp_dns_servers %}
 ms-dns {{ host }}
 {% endfor %}
 asyncmap 0
@@ -8,7 +8,6 @@ crtscts
 lock
 hide-password
 modem
-name l2tpd
 proxyarp
 lcp-echo-interval 30
 lcp-echo-failure 4

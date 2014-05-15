@@ -1,21 +1,30 @@
 ---
-
+l2tp_server_name: "DefaultL2TPServer"
 l2tp_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
-
-ipsec:
-  psk: l2tpworks
 
 l2tp_network:
   local_ip: 10.9.0.1
   remote_ip: 10.9.0.30-250
-  ms_dns:
-    - 8.8.8.8
-    - 8.8.4.4
-  mtu: 1340
   subnet: 10.9.0.0/24
 
-l2tp_use_radius: false
+l2tp_dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
 
+l2tp_mtu: 1340
+
+l2tp_use_radius: false
 l2tp_radius_servers:
   - host: 127.0.0.1
     secret: some-radius-secret
+
+l2tp_enable_nat: true
+l2tp_under_ipsec: true
+
+l2tp_users: []
+
+#l2tp_users:
+#  - username: "user1"
+#    password: "pass1"
+#  - username: "user2"
+#    password: "passw"

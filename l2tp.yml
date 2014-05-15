@@ -3,6 +3,7 @@
 
   roles:
     - common
+    - openswan 
     - l2tp
 
     #setup auth via radius
@@ -12,4 +13,4 @@
       radius_servers: "{{ l2tp_radius_servers }}"
 
     - nat
-    - vpn-mgr
+    #- vpn-mgr
