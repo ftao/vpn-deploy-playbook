@@ -10,7 +10,7 @@
   tags: freeradius 
 
 - name: create freeradius database
-  action: mysql_db name={{ freeradius.db_name } }} collation=utf8_general_ci encoding=utf8 
+  action: mysql_db name={{ freeradius.db_name }} collation=utf8_general_ci encoding=utf8 
                    login_user=root login_password={{ mysql_root_password }}
   tags: freeradius 
 
