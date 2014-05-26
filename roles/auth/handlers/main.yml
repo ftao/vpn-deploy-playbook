@@ -1,5 +1,5 @@
 ---
 
 - name: restart freeradius
-  action: service name=freeradius state=restarted
+  shell: /etc/init.d/freeradius restart
 

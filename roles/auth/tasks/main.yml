@@ -19,6 +19,9 @@
                      login_user=root login_password={{ mysql_root_password }}
   tags: freeradius 
 
+- name: upload add_radusergroup_id.sql
+  copy: src=add_radusergroup_id.sql dest=/etc/freeradius/sql/mysql/add_radusergroup_id.sql
+
 - name: create tables 
   action: shell mysql -u{{ freeradius.db_user }} -p{{ freeradius.db_password }} {{ freeradius.db_name }} < /etc/freeradius/sql/mysql/{{ item }}
   ignore_errors: True
@@ -27,6 +30,7 @@
     - nas.sql
     - ippool.sql
     - wimax.sql
+    - add_radusergroup_id.sql
   tags: freeradius 
 
 #upload config files
