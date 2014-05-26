@@ -1,6 +1,5 @@
 ---
 l2tp_server_name: "DefaultL2TPServer"
-l2tp_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
 
 l2tp_network:
   local_ip: 10.9.0.1
