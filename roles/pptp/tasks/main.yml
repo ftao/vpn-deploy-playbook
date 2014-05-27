@@ -40,3 +40,6 @@
     - pptp
     - nat
   when: pptp_do_nat
+
+
+- include: add_user.yml

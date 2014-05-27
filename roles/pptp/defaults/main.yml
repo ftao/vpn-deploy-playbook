@@ -1,4 +1,5 @@
 ---
+pptp_server_name: pptpd
 
 pptp_network:
   local_ip: 10.10.0.1
@@ -16,3 +17,12 @@ pptp_radius_servers:
     secret: some-radius-secret
 
 pptp_do_nat: true
+
+
+pptp_users: []
+
+#pptp_users:
+#  - username: "user1"
+#    password: "pass1"
+#  - username: "user2"
+#    password: "passw"

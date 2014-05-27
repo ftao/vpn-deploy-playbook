@@ -15,7 +15,7 @@
 
 # Name of the local system for authentication purposes 
 # (must match the second field in /etc/ppp/chap-secrets entries)
-name pptpd
+name {{ pptp_server_name }}
 
 # Optional: domain name to use for authentication
 # domain mydomain.net

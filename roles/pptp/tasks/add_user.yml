@@ -1,0 +1,10 @@
+---
+
+- name: add user for pptp server
+  lineinfile: line="{{ item.username }} {{ pptp_server_name }} {{ item.password }} *"
+              regexp="{{ item.username }} {{ pptp_server_name }} {{ item.password }} *"
+              dest=/etc/ppp/chap-secrets
+  with_items: pptp_users 
+  tags:
+    - pptp
+    - add_user
