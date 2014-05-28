@@ -41,27 +41,8 @@
   tags:
     - ss-server
 
-- name: install shadowsocks dependencies
-  apt: pkg={{ item }}
-  with_items: shadowsocks_dependencies
-  when: install_shadowsocks_with_pypi
-  tags:
-    - ss-server
-
-- name: install shadowsocks
-  pip: name=shadowsocks
-  when: install_shadowsocks_with_pypi
-  tags:
-    - ss-server
-
 - name: ensure working dir exists
   action: file path=/opt/ss-server/ state=directory
-  tags:
-    - ss-server
-
-- name: make symbol link
-  file: state=link src=/usr/local/bin/ssserver dest=/opt/ss-server/ss-server
-  when: install_shadowsocks_with_pypi
   tags:
     - ss-server
 
@@ -71,7 +52,6 @@
                mode=755
   with_items:
     - ss-server
-  when: install_shadowsocks_with_pypi == false
   notify:
     - "restart shadowsocks-server {{ name }}"
   tags:
