@@ -1,0 +1,15 @@
+---
+
+- name: install gevent M2Crypto
+  apt: pkg={{ item }} state=present
+  with_items:
+    - python-gevent
+    - python-m2crypto
+
+- name: install python version shadowsocks
+  pip: name=shadowsocks state=present
+
+- name: make a symbol link to /opt/ss-server/
+  file: src=/usr/local/bin/ssserver dest=/opt/ss-server/ss-server state=link
+  tags:
+    - ss-server
