@@ -11,7 +11,7 @@
   tags:
     - nginx
 
-- name: disalbe default ngix config
+- name: disable default nginx config
   action: file path=/etc/nginx/sites-enabled/default state=absent
   tags: 
     - nginx
