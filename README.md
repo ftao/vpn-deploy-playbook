@@ -1,5 +1,4 @@
 # VPN Deploy Playbook
-============================
 A collection of Ansible Playbooks to deploy VPN services.
 
 
@@ -28,11 +27,11 @@ There are also some guides (in Chinese) in the [Wiki](https://github.com/ftao/vp
 
 
 ## Testing
-
 ### Vagrant
 
 Simply clone this repo and make sure you have [Vagrant](http://www.vagrantup.com) + [Virtual Box](https://www.virtualbox.org) installed and...
-```vagrant up```
-Vagrant is using Ubuntu 14.04 (ubuntu/trusty64) for it's OS.
 
+```vagrant up```
+
+Vagrant is using Ubuntu 14.04 (ubuntu/trusty64) for it's OS.
 
