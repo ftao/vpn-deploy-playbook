@@ -1,0 +1,78 @@
+---
+# A playbook for testing all roles.
+- hosts: test
+  sudo: yes
+
+  roles:
+    - common
+    
+    # Auth *********************************************************************
+    - webserver
+    - db
+    - role: auth
+      mysql_root_password: "TEST_ONLY"
+    - radius-admin
+    
+    # PPTP *********************************************************************
+    # setup auth via radius
+    - role: ppp-radiusclient
+      when: pptp_use_radius
+      device_type: pptp
+      radius_servers: "{{ pptp_radius_servers }}"
+    # nat role will setup firewall
+    - nat
+    - vpn-mgr
+    
+    # L2TP *********************************************************************
+    - ipsec-sw
+    
+    # proxy-backend ************************************************************
+    - role: ss-server
+      name: "default"
+      port: "8858"
+      password: "TEST_ONLY"
+      enalbe_udp: "false"
+      shadowsocks_provider: "python"
+      
+    - role: ss-server
+      name: "udp_relay"
+      port: "8859"
+      password: "TEST_ONLY"
+      enalbe_udp: "true"
+      shadowsocks_provider: "libev"
+    
+    # proxy-frontend ***********************************************************
+    - pptp
+    # setup auth via radius
+    - role: ppp-radiusclient
+      when: pptp_use_radius
+      device_type: pptp
+      radius_servers: ${pptp_radius_servers}
+
+    - role: ss-client
+      name: "redir"
+      port: "5382"
+      mode: "redir"
+      server_host: "127.0.0.1"
+      server_port: "5381"
+      password: "TEST_ONLY"
+
+    - role: ss-client
+      name: "dns_tunnel"
+      port: "5383"
+      mode: "tunnel"
+      tunnel_target: "8.8.8.8:53"
+      enable_udp: true
+      server_host: "127.0.0.1"
+      server_port: "5381"
+      password: "TEST_ONLY"
+
+    - role: redir
+      tcp_redir_port: "{{ proxy_frontend_redir_port }}"
+      dns_redir_port: 53
+
+    - role: dns
+      default_resolver: "127.0.0.1#{{ proxy_frontend_dns_tunnel_port }}"
+
+    # OpenVPN ******************************************************************
+    - openvpn
