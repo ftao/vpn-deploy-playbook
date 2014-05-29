@@ -5,12 +5,12 @@ A collection of Ansible Playbooks to deploy VPN services.
 
 ## Playbooks:
 
-[x] auth.yml : setup [FreeRadius](http://freeradius.org) server for authentication and accounting
-[x] pptp.yml : setup PPTP server
-[x] l2tp.yml : setup IPSec/L2TP server (with pre-shared key)
-[x] proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
-[ ] openvpn.yml : setup OpenVPN server
-[ ] apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
+- [x] auth.yml : setup [FreeRadius](http://freeradius.org) server for authentication and accounting
+- [x] pptp.yml : setup PPTP server
+- [x] l2tp.yml : setup IPSec/L2TP server (with pre-shared key)
+- [x] proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
+- [ ] openvpn.yml : setup OpenVPN server
+- [ ] apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
 
 
 ## How to use
@@ -24,7 +24,7 @@ A collection of Ansible Playbooks to deploy VPN services.
 7. run `ansible-playbook l2tp.yml` to setup ipsec/l2tp server
 7. run `ansible-playbook openvpn.yml` to setup openvpn server
 
-There are also some guides (in Chinese) in the [wiki](https://github.com/ftao/vpn-deploy-playbook/wiki)
+There are also some guides (in Chinese) in the [Wiki](https://github.com/ftao/vpn-deploy-playbook/wiki)
 
 
 ## Testing
@@ -32,9 +32,7 @@ There are also some guides (in Chinese) in the [wiki](https://github.com/ftao/vp
 ### Vagrant
 
 Simply clone this repo and make sure you have [Vagrant](http://www.vagrantup.com) + [Virtual Box](https://www.virtualbox.org) installed and...
-
 ```vagrant up```
-
 Vagrant is using Ubuntu 14.04 (ubuntu/trusty64) for it's OS.
 
 
