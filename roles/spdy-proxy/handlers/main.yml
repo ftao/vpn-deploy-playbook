@@ -1,0 +1,7 @@
+---
+
+- name: restart shrpx
+  supervisorctl: name=shrpx state=restarted
+  tags:
+    - spdy-proxy
+

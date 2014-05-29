@@ -1,0 +1,81 @@
+---
+
+- name: prepare working space
+  file: path=/opt/spdylay state=directory
+  tags:
+    - spdy-proxy
+
+- name: install spdylay depdency
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - autoconf
+    - automake
+    - autotools-dev
+    - libtool
+    - pkg-config
+    - zlib1g-dev
+    - libcunit1-dev
+    - libssl-dev
+    - libxml2-dev
+    - libevent-dev
+  tags:
+    - spdy-proxy
+
+- name: clone spdylay repo
+  git: repo=https://github.com/tatsuhiro-t/spdylay.git dest=/opt/spdylay
+  register: clone_result
+  tags:
+    - spdy-proxy
+
+- name: clean old binary
+  shell: "make clean chdir=/opt/spdylay"
+  when: clone_result.changed
+  ignore_errors: true
+  tags:
+    - spdy-proxy
+
+- name: build shrpx
+  shell: "{{ item }} chdir=/opt/spdylay creates=src/shrpx"
+  with_items:
+    - autoreconf -i 
+    - automake 
+    - autoconf 
+    - ./configure 
+    - make
+  notify:
+     - restart shrpx
+  tags:
+    - spdy-proxy
+
+- name: ensure shrpx directory
+  file: path=/etc/shrpx state=directory
+  tags:
+    - spdy-proxy
+
+- name: upload config
+  template: src=shrpx.conf dest=/etc/shrpx/shrpx.conf
+  notify:
+     - restart shrpx
+  tags:
+    - spdy-proxy
+
+- name: upload priviate key
+  copy: src={{ spdy_proxy_private_key }} dest=/etc/shrpx/ssl.key
+  notify:
+     - restart shrpx
+  tags:
+    - spdy-proxy
+
+- name: upload cert
+  copy: src={{ spdy_proxy_cert }} dest=/etc/shrpx/ssl.crt
+  notify:
+     - restart shrpx
+  tags:
+    - spdy-proxy
+
+- name: upload supervisor config
+  template: src=supervisor.shrpx.conf  dest=/etc/supervisor/conf.d/shrpx.conf 
+  notify:
+     - restart shrpx
+  tags:
+    - spdy-proxy
