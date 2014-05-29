@@ -2,11 +2,11 @@
 #freeradius-admin
 
 - name: create djra database
-  action: mysql_db name={{ freeradius_admin.db_name }} collation=utf8_general_ci encoding=utf8 
+  action: mysql_db name={{ djra_db_name }} collation=utf8_general_ci encoding=utf8 
   tags: djra
 
 - name: setup djra database user
-  action: mysql_user name={{ freeradius_admin.db_user }} password={{ freeradius_admin.db_password }} priv={{ freeradius_admin.db_name }}.*:ALL state=present
+  action: mysql_user name={{ djra_db_user }} password={{ djra_db_password }} priv={{ djra_db_name }}.*:ALL state=present
   tags: djra
 
 - name: install python-mysqldb
@@ -54,13 +54,18 @@
     - djra
     - app
 
+- name: upload setup admin script
+  template: src=setup_admin.py dest=/tmp/djra_setup_admin.py mode=700
+  when: djra_setup_admin
+
 - name: setup default admin
-  action: django_manage command=loaddata fixtures=default_admin app_path=/opt/djra/code/ virtualenv=/opt/djra/env
+  shell: PYTHONPATH=/opt/djra/code DJANGO_SETTINGS_MODULE="djra.settings" /opt/djra/env/bin/python /tmp/djra_setup_admin.py
+         chdir=/opt/djra/code/
   tags: 
     - djra
     - app
     - setup
-  when: djra_setup_admin is defined
+  when: djra_setup_admin 
 
 - name: setup supervisor config
   action: template src=djra.supervisor.conf dest=/etc/supervisor/conf.d/djra.conf

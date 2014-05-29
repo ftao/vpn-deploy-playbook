@@ -10,12 +10,12 @@
   tags: freeradius 
 
 - name: create freeradius database
-  action: mysql_db name={{ freeradius.db_name }} collation=utf8_general_ci encoding=utf8 
+  action: mysql_db name={{ freeradius_db_name }} collation=utf8_general_ci encoding=utf8 
                    login_user=root login_password={{ mysql_root_password }}
   tags: freeradius 
 
 - name: setup freeradius database user
-  action: mysql_user name={{ freeradius.db_user }} password={{ freeradius.db_password }} priv={{ freeradius.db_name }}.*:ALL state=present
+  action: mysql_user name={{ freeradius_db_user }} password={{ freeradius_db_password }} priv={{ freeradius_db_name }}.*:ALL state=present
                      login_user=root login_password={{ mysql_root_password }}
   tags: freeradius 
 
@@ -23,7 +23,7 @@
   copy: src=add_radusergroup_id.sql dest=/etc/freeradius/sql/mysql/add_radusergroup_id.sql
 
 - name: create tables 
-  action: shell mysql -u{{ freeradius.db_user }} -p{{ freeradius.db_password }} {{ freeradius.db_name }} < /etc/freeradius/sql/mysql/{{ item }}
+  action: shell mysql -u{{ freeradius_db_user }} -p{{ freeradius_db_password }} {{ freeradius_db_name }} < /etc/freeradius/sql/mysql/{{ item }}
   ignore_errors: True
   with_items:
     - schema.sql
