@@ -5,4 +5,4 @@
 #    - common
     - ipsec-sw
     - nat
-#    - vpn-mgr
+#    - vpnmgr-agent

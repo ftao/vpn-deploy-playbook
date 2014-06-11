@@ -1,0 +1,2 @@
+---
+vpnmgr_master_listen_addr: 'tcp://*:5589'

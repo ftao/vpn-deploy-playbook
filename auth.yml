@@ -3,7 +3,6 @@
 #It will install freeradius server with a mysql backend.
 
 - hosts: auth
-  gather_facts: false
 
   roles:
     - common
@@ -11,3 +10,4 @@
     - db
     - auth
     - radius-admin
+    - vpnmgr-master

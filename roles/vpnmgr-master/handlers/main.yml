@@ -1,0 +1,5 @@
+---
+#vpn-mgr
+
+- name: restart vpnmgr-master
+  supervisorctl: name=vpnmgr-master state=restarted

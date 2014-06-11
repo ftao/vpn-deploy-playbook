@@ -1,0 +1,5 @@
+---
+#vpn-mgr
+
+- name: restart vpnmgr-agent
+  action: supervisorctl name=vpnmgr-agent state=restarted

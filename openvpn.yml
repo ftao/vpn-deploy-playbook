@@ -5,4 +5,4 @@
     - common
     - openvpn
     - nat
-    - vpn-mgr
+    - vpnmgr-agent

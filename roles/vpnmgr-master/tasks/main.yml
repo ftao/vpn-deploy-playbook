@@ -1,0 +1,30 @@
+---
+#vpn server management master node
+
+- name: install header file
+  apt: pkg=python-dev state=present
+
+- name: ensure directory used by vpn-mgr exists
+  file: path={{ item }} state=directory
+  with_items:
+    - /opt/vpnmgr-master
+    - /opt/vpnmgr-master/env
+  tags: vpnmgr-master
+
+- name: install some vpn-mgr dependecy
+  pip: name="git+https://github.com/ftao/python-ifcfg.git#egg=ifcfg" virtualenv=/opt/vpnmgr-master/env virtualenv_site_packages=yes extra_args="-e"
+  notify:
+    - restart vpnmgr-master
+  tags: vpnmgr-master
+
+- name: install vpn-mgr
+  pip: name="git+https://github.com/ftao/vpn-mgr#egg=vpn-mgr" virtualenv=/opt/vpnmgr-master/env virtualenv_site_packages=yes extra_args="-e"
+  notify:
+    - restart vpnmgr-master
+  tags: vpnmgr-master
+
+- name: setup supervisor config
+  template: src=vpn-mgr.supervisor.conf dest=/etc/supervisor/conf.d/vpnmgr-master.conf
+  notify:
+    - restart vpnmgr-master
+  tags: vpnmgr-master

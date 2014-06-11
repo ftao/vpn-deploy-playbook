@@ -13,4 +13,4 @@
 
     #nat role will setup firewall
     - nat
-    - vpn-mgr
+    - vpnmgr-agent

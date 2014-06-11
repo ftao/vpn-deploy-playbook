@@ -1,0 +1,6 @@
+---
+#name: 'default'
+#vpnmgr_api_key: 'vpn-mgr-very-long-password-876410482'
+vpnmgr_agent_node_id: 'vpnnode-{{ inventory_hostname }}'
+vpnmgr_agent_server_addr: 'tcp://127.0.0.1:5589'
+
