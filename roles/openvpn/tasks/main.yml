@@ -8,7 +8,7 @@
 
 - name: upload server config files
   action: template src=etc/openvpn/server.conf dest=/etc/openvpn/{{ item.name }}.conf
-  with_items: $openvpn_servers
+  with_items: openvpn_servers
   notify:
     - restart openvpn
   tags:
@@ -22,7 +22,7 @@
 
 - name: upload radiusplugin config file
   action: template src=etc/openvpn/radiusplugin.cnf dest=/etc/openvpn/radiusplugin-{{ item.name }}.cnf
-  with_items: $openvpn_servers
+  with_items: openvpn_servers
   notify:
     - restart openvpn
   tags:
@@ -40,7 +40,7 @@
                      line="{{item.network.subnet}}/{{item.network.mask}}" state=present create=yes
   notify: 
     - setup nat rules
-  with_items: $openvpn_servers
+  with_items: openvpn_servers
   tags: 
     - openvpn
     - nat
