@@ -8,7 +8,9 @@
     - strongswan-plugin-xauth-generic
     - strongswan-plugin-xauth-eap
     - strongswan-plugin-eap-md5
+    - strongswan-plugin-eap-mschapv2
     - strongswan-plugin-eap-radius
+  notify: restart ipsec
 
 - name:  Upload ipsec config files
   template: src={{ item }}
@@ -30,11 +32,20 @@
               insertafter=": PSK"
               dest=/etc/ipsec.secrets'
   with_items: ikev1_users
+  when: ipsec_enable_ikev1
     
 - name: ensure ipsec.secrets contains correct info 
   lineinfile: 'dest=/etc/ipsec.secrets 
               line=": RSA /etc/ipsec.d/private/ipsec.key"
               regexp=": RSA /etc/ipsec.d/private/ipsec.key"'
+  when: ipsec_enable_ikev2
+
+- name: add ikev2 users
+  lineinfile: 'line="{{ item.username }} : EAP \"{{ item.password }}\""
+              regexp="{{ item.username }} : EAP \"{{ item.password }}\""
+              insertafter=": RSA"
+              dest=/etc/ipsec.secrets'
+  with_items: ikev2_users
   when: ipsec_enable_ikev2
 
 - name: Upload ipsec certs
@@ -50,7 +61,6 @@
         owner=root group=root
   when: ipsec_enable_ikev2
   notify: restart ipsec
-
 
 - name: make sure /opt/easynat exists
   action: file path=/opt/easynat/ state=directory

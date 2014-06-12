@@ -5,7 +5,7 @@ ipsec_enable_ikev2: true
 
 ipsec_domain: 'vpn.exampel.com'
 ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
-ipsec_subnet: 10.9.0.0/24
+ipsec_subnet: 10.7.0.0/24
 
 ipsec_use_radius: false
 ipsec_radius_servers:
@@ -20,28 +20,9 @@ ipsec_psk: ipsecworks
 ipsec_cert: ipsec.cert
 ipsec_key: ipsec.key
 
-l2tp_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
-
-ipsec:
-  psk: l2tpworks
-
-l2tp_network:
-  local_ip: 10.9.0.1
-  remote_ip: 10.9.0.30-250
-  ms_dns:
-    - 8.8.8.8
-    - 8.8.4.4
-  mtu: 1340
-  subnet: 10.9.0.0/24
-
-l2tp_use_radius: false
-
-l2tp_radius_servers:
-  - host: 127.0.0.1
-    secret: some-radius-secret
-
 ikev1_users: []
 
+ikev2_users: []
 #ikev_users:
 #  - username: "user1"
 #    password: "pass1"
