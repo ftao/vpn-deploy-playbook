@@ -21,7 +21,7 @@
       radius_servers: "{{ pptp_radius_servers }}"
     # nat role will setup firewall
     - nat
-    - vpn-mgr
+    - vpnmgr-agent
     
     # L2TP *********************************************************************
     - ipsec-sw
