@@ -1,0 +1,20 @@
+33c33
+< 	$(CC) $(CPPFLAGS) $(SODIUM_CPPFLAGS) $(DYLIB_CFLAGS) $(SODIUM_LDFLAGS) proto/proto_raw.c -o proto/proto_raw.o
+---
+> 	$(CC) $(CPPFLAGS) $(SODIUM_CPPFLAGS) $(DYLIB_CFLAGS) proto/proto_raw.c -o proto/proto_raw.o $(SODIUM_LDFLAGS) 
+36c36
+< 	$(CC) $(CPPFLAGS) $(SODIUM_CPPFLAGS) $(DYLIB_CFLAGS) $(SODIUM_LDFLAGS) proto/proto_nacl0.c types.o -o proto/proto_nacl0.o
+---
+> 	$(CC) $(CPPFLAGS) $(SODIUM_CPPFLAGS) $(DYLIB_CFLAGS) proto/proto_nacl0.c types.o -o proto/proto_nacl0.o $(SODIUM_LDFLAGS) 
+39c39
+< 	$(CC) $(CPPFLAGS) $(SODIUM_CPPFLAGS) $(DYLIB_CFLAGS) $(SODIUM_LDFLAGS) proto/proto_nacltai.c types.o -o proto/proto_nacltai.o
+---
+> 	$(CC) $(CPPFLAGS) $(SODIUM_CPPFLAGS) $(DYLIB_CFLAGS) proto/proto_nacltai.c types.o -o proto/proto_nacltai.o $(SODIUM_LDFLAGS) 
+51c51
+< 	$(CC) $(LDFLAGS) $(SODIUM_LDFLAGS) -o naclkeypair naclkeypair.o
+---
+> 	$(CC) -o naclkeypair naclkeypair.o $(LDFLAGS) $(SODIUM_LDFLAGS) 
+54c54
+< 	$(CC) $(LDFLAGS) $(SODIUM_LDFLAGS) -o sigmavpn main.o modules.o types.o dep/ini.o
+---
+> 	$(CC) -o sigmavpn main.o modules.o types.o dep/ini.o $(LDFLAGS) $(SODIUM_LDFLAGS) 

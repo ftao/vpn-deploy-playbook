@@ -3,15 +3,8 @@
 - name: install build-essential
   apt: pkg=build-essential state=installed
 
-#- name: download deb
-#  get_url: url=https://sigmavpn.googlecode.com/files/sigmavpn-0.2-0_amd64.deb
-#           dest=/tmp/sigmavpn-0.2-0_amd64.deb
-
-#- name: install deb
-#  apt: deb=/tmp/sigmavpn-0.2-0_amd64.deb
-  
 - name: download src package
-  get_url: url=https://sigmavpn.googlecode.com/files/sigmavpn-{{ sigmavpn_version }}.tar.gz
+  get_url: url=https://github.com/neilalexander/sigmavpn/archive/{{ sigmavpn_version }}.tar.gz
            dest=/tmp/sigmavpn-{{ sigmavpn_version }}.tar.gz
 
 - name: extract sigmavpn
@@ -19,24 +12,36 @@
          chdir=/tmp/
          creates=/tmp/sigmavpn-{{ sigmavpn_version }}
 
-- name: upload build.sh.patch
-  copy: src=build.sh.patch dest=/tmp/sigmavpn-{{ sigmavpn_version }}/build.sh.patch
+- name: upload makefile.patch
+  copy: src=makefile.patch dest=/tmp/sigmavpn-{{ sigmavpn_version }}/makefile.patch
 
-- name: patch build.sh
-  shell: patch build.sh build.sh.patch -o build.patched.sh
-         creates=build.patched.sh
+- name: patch makefile
+  shell: patch Makefile makefile.patch -o Makefile.patched
+         creates=Makefile.patched
          chdir=/tmp/sigmavpn-{{ sigmavpn_version }}/
 
-- name: add execute mode for build.sh / install.sh
-  file: path=/tmp/sigmavpn-{{ sigmavpn_version }}/{{ item }} mode=755
-  with_items:
-    - build.patched.sh
-    - install.sh
-
 - name: build 
-  shell: ./build.patched.sh --with-nacl && ./install.sh
+  shell: make -f Makefile.patched && make install -f Makefile.patched
          chdir=/tmp/sigmavpn-{{ sigmavpn_version }}
-         creates=/usr/bin/sigmavpn
+         creates=/usr/local/bin/sigmavpn
+  notify:
+     - restart sigmavpn
+     - setup sigmavpn ip
 
 - name: setup config 
   template: src=sigmavpn.conf dest=/usr/local/etc/sigmavpn.conf
+  notify:
+     - restart sigmavpn
+     - setup sigmavpn ip
+
+- name: upload supervisor config
+  template: src=supervisor.sigmavpn.conf  dest=/etc/supervisor/conf.d/sigmavpn.conf 
+  notify:
+     - restart sigmavpn
+     - setup sigmavpn ip
+
+#TODO: using ansible_tun_sigma_p1 like var to check change
+- name: force reconfig
+  shell: echo "force reconfig ip"
+  notify:
+     - setup sigmavpn ip

@@ -3,5 +3,6 @@
 - hosts: all
   
   roles:
+    - common
     - libsodium
     - sigmavpn

@@ -1,4 +1,0 @@
-78c78
-< gcc 	$CCFLAGS $LDFLAGS	-o build/sigmavpn build/main.o build/modules.o build/types.o build/ini.o
----
-> gcc 	$CCFLAGS -o build/sigmavpn build/main.o build/modules.o build/types.o build/ini.o $LDFLAGS	
