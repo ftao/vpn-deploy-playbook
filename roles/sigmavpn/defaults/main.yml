@@ -1,0 +1,13 @@
+sigmavpn_version: "0.2"
+sigmavpn_peers:
+  - name: p1
+    #proto: nacl0
+    proto_publickey: 1e22c6af59f23cd3c40464c29e307cbd616e3f6a743f17a33dd6bd0ae4c79e71
+    proto_privatekey: cf1d8756fdde0f73f0c06f7c3f4cf456c3d74596b9e559570cf27d8b34059121
+    local: tuntap
+    #local_interface: #/dev/tap0
+    peer: udp
+    peer_remoteaddr: 10.0.1.1
+    peer_remoteport: 4567
+    peer_localaddr: 0.0.0.0
+    peer_localport: 7654

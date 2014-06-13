@@ -1,0 +1,16 @@
+---
+#install libsodium
+
+- name: download  libsodium
+  get_url: url='https://download.libsodium.org/libsodium/releases/libsodium-{{ libsodium_version }}.tar.gz'
+           dest="/tmp/libsodium-{{ libsodium_version }}.tar.gz"
+
+- name: extrac libsodium
+  shell: tar -xzf /tmp/libsodium-{{ libsodium_version }}.tar.gz 
+         chdir=/tmp/
+         creates=/tmp/libsodium-{{ libsodium_version }}
+
+- name: build 
+  shell: ./configure  && make  && make install
+         chdir=/tmp/libsodium-{{ libsodium_version }}
+         creates=/usr/local/lib/libsodium.so

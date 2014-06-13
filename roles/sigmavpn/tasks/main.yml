@@ -1,0 +1,42 @@
+---
+
+- name: install build-essential
+  apt: pkg=build-essential state=installed
+
+#- name: download deb
+#  get_url: url=https://sigmavpn.googlecode.com/files/sigmavpn-0.2-0_amd64.deb
+#           dest=/tmp/sigmavpn-0.2-0_amd64.deb
+
+#- name: install deb
+#  apt: deb=/tmp/sigmavpn-0.2-0_amd64.deb
+  
+- name: download src package
+  get_url: url=https://sigmavpn.googlecode.com/files/sigmavpn-{{ sigmavpn_version }}.tar.gz
+           dest=/tmp/sigmavpn-{{ sigmavpn_version }}.tar.gz
+
+- name: extract sigmavpn
+  shell: tar -xzf /tmp/sigmavpn-{{ sigmavpn_version }}.tar.gz 
+         chdir=/tmp/
+         creates=/tmp/sigmavpn-{{ sigmavpn_version }}
+
+- name: upload build.sh.patch
+  copy: src=build.sh.patch dest=/tmp/sigmavpn-{{ sigmavpn_version }}/build.sh.patch
+
+- name: patch build.sh
+  shell: patch build.sh build.sh.patch -o build.patched.sh
+         creates=build.patched.sh
+         chdir=/tmp/sigmavpn-{{ sigmavpn_version }}/
+
+- name: add execute mode for build.sh / install.sh
+  file: path=/tmp/sigmavpn-{{ sigmavpn_version }}/{{ item }} mode=755
+  with_items:
+    - build.patched.sh
+    - install.sh
+
+- name: build 
+  shell: ./build.patched.sh --with-nacl && ./install.sh
+         chdir=/tmp/sigmavpn-{{ sigmavpn_version }}
+         creates=/usr/bin/sigmavpn
+
+- name: setup config 
+  template: src=sigmavpn.conf dest=/usr/local/etc/sigmavpn.conf
