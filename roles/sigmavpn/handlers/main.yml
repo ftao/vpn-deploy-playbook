@@ -1,8 +1,10 @@
 ---
 
-- name: restart sigmavpn
-  supervisorctl: name=sigmavpn state=restarted
+- name: restart sigmavpn-helper
+  supervisorctl: name=sigmavpn-helper state=restarted
 
-- name: setup sigmavpn ip
-  shell: ifconfig tun-sigma-{{ item.name }} {{ item.virtual_ip }} netmask 255.255.255.255 pointopoint {{ item.peer_ip }} mtu 1400
+- name: restart sigmavpn {{ item.name }}
+  supervisorctl: name=sigmavpn-{{ item.name }} state=restarted
   with_items: sigmavpn_peers
+
+

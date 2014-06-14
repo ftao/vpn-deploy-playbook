@@ -26,22 +26,32 @@
          creates=/usr/local/bin/sigmavpn
   notify:
      - restart sigmavpn
-     - setup sigmavpn ip
+
+- name: upload helper
+  copy: src=sigmavpn-helper.py dest=/usr/local/bin/sigmavpn-helper.py mode=755
+  notify:
+     - restart sigmavpn-helper
+
+- name: ensure config directoy 
+  file: path=/usr/local/etc/sigmavpn/conf.d/ state=directory
 
 - name: setup config 
-  template: src=sigmavpn.conf dest=/usr/local/etc/sigmavpn.conf
+  template: src=sigmavpn.conf dest=/usr/local/etc/sigmavpn/conf.d/{{ item.name }}.conf
   notify:
-     - restart sigmavpn
-     - setup sigmavpn ip
+     - restart sigmavpn {{ item.name }}
+  with_items: sigmavpn_peers
 
-- name: upload supervisor config
-  template: src=supervisor.sigmavpn.conf  dest=/etc/supervisor/conf.d/sigmavpn.conf 
-  notify:
-     - restart sigmavpn
-     - setup sigmavpn ip
+- name: setup ip config 
+  template: src=sigmavpn-ip.json dest=/usr/local/etc/sigmavpn/conf.d/{{ item.name }}-ip.json
+  with_items: sigmavpn_peers
 
-#TODO: using ansible_tun_sigma_p1 like var to check change
-- name: force reconfig
-  shell: echo "force reconfig ip"
+- name: upload supervisor config (peer)
+  template: src=supervisor.sigmavpn.conf  dest=/etc/supervisor/conf.d/sigmavpn-peer-{{ item.name }}.conf 
   notify:
-     - setup sigmavpn ip
+     - restart sigmavpn {{ item.name }}
+  with_items: sigmavpn_peers
+
+- name: upload supervisor config (helper)
+  template: src=supervisor.sigmavpn-helper.conf  dest=/etc/supervisor/conf.d/sigmavpn-helper.conf 
+  notify:
+     - restart sigmavpn-helper
