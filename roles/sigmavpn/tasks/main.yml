@@ -2,23 +2,38 @@
 
 - name: install build-essential
   apt: pkg=build-essential state=installed
+  tags:
+    - sigmavpn
+    - install
 
 - name: download src package
   get_url: url=https://github.com/neilalexander/sigmavpn/archive/{{ sigmavpn_version }}.tar.gz
            dest=/tmp/sigmavpn-{{ sigmavpn_version }}.tar.gz
+  tags:
+    - sigmavpn
+    - install
 
 - name: extract sigmavpn
   shell: tar -xzf /tmp/sigmavpn-{{ sigmavpn_version }}.tar.gz 
          chdir=/tmp/
          creates=/tmp/sigmavpn-{{ sigmavpn_version }}
+  tags:
+    - sigmavpn
+    - install
 
 - name: upload makefile.patch
   copy: src=makefile.patch dest=/tmp/sigmavpn-{{ sigmavpn_version }}/makefile.patch
+  tags:
+    - sigmavpn
+    - install
 
 - name: patch makefile
   shell: patch Makefile makefile.patch -o Makefile.patched
          creates=Makefile.patched
          chdir=/tmp/sigmavpn-{{ sigmavpn_version }}/
+  tags:
+    - sigmavpn
+    - install
 
 - name: build 
   shell: make -f Makefile.patched && make install -f Makefile.patched
@@ -26,6 +41,9 @@
          creates=/usr/local/bin/sigmavpn
   notify:
      - restart sigmavpn
+  tags:
+    - sigmavpn
+    - install
 
 - name: upload helper
   copy: src=sigmavpn-helper.py dest=/usr/local/bin/sigmavpn-helper.py mode=755

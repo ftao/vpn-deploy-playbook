@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: sigmavpn
   
   roles:
     - common
