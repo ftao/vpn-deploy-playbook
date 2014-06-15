@@ -33,9 +33,30 @@
   tags:
     - pch
 
-- name: upload pac files
-  template: src=proxy.pac 
-            dest=/var/www/pch/proxy.pac
-            owner=www-data group=www-data
-  tags:
-    - pch
+- name: install gfwlist2pac
+  pip: name=gfwlist2pac state=present
+
+- name: download gfwlist
+  get_url: url=https://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt 
+           dest=/tmp/gfwlist.txt
+
+- name: generate pac file (socks)
+  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/proxy-{{ item.name }}.pac -p "SOCKS5 {{ item.host }}:{{ item.port }}; SOCKS {{ item.host }}:{{ item.port }};"
+  with_items: pch_proxy_servers
+  when: item.type == "socks5"
+
+- name: generate pac file (http)
+  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/proxy-{{ item.name }}.pac -p "PROXY {{ item.host }}:{{ item.port }};"
+  with_items: pch_proxy_servers
+  when: item.type == "http"
+ 
+- name: change owner to www-data 
+  file: path=/var/www/pch/proxy-{{ item.name }}.pac owner=www-data group=www-data
+  with_items: pch_proxy_servers
+
+#- name: upload pac files
+#  template: src=proxy.pac 
+#            dest=/var/www/pch/proxy.pac
+#            owner=www-data group=www-data
+#  tags:
+#    - pch

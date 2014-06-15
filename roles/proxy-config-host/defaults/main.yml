@@ -5,9 +5,11 @@ pch_hostname: 'localhost'
 pch_listen_ip: "*"
 pch_listen_port: 30081
 
-proxy_server_type: 'socks5'
-proxy_server_host: "{{ ansible_default_ipv4.address }}"
-proxy_server_port: 1080
+pch_proxy_servers:
+  - name: default
+    type: "socks5"
+    host: "{{ ansible_default_ipv4.address }}"
+    port: 1080
 
 intranet_addresses:
   - ["127.0.0.0", "255.0.0.0"]
