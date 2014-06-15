@@ -1,0 +1,7 @@
+---
+- hosts: all
+
+  roles:
+    - dante
+
+    #run other services, for example openvpn , etc ...

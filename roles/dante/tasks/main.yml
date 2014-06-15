@@ -1,0 +1,12 @@
+---
+
+- name: install dante
+  apt: pkg=dante-server state=installed
+
+- name: upload config
+  template: src=danted.conf dest=/etc/danted.conf
+  notify:
+    - restart danted
+
+
+ 
