@@ -6,10 +6,11 @@ pch_listen_ip: "*"
 pch_listen_port: 30081
 
 proxy_server_type: 'socks5'
-proxy_server_host: "{{ ansible_eth0.ipv4.address }}"
-proxy_server_port: 8388
+proxy_server_host: "{{ ansible_default_ipv4.address }}"
+proxy_server_port: 1080
 
 intranet_addresses:
+  - ["127.0.0.0", "255.0.0.0"]
   - ["10.0.0.0", "255.0.0.0"]
   - ["172.16.0.0", "255.0.0.0"]
   - ["192.168.0.0", "255.255.0.0"]

@@ -1,7 +1,9 @@
 ---
-- hosts: all
+- hosts: proxy
 
   roles:
     - dante
+    - polipo
+    - proxy-config-host
 
     #run other services, for example openvpn , etc ...
