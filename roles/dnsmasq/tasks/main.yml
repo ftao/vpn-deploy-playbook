@@ -1,0 +1,12 @@
+---
+
+- name: install dnsmasq
+  apt: pkg=dnsmasq state=installed
+  tags:
+    - dns
+
+- name: ensure config directory exists
+  file: path=/etc/dnsmasq.d/ state=directory
+  tags:
+    - dns
+

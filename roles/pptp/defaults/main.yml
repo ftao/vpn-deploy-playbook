@@ -1,13 +1,14 @@
 ---
 pptp_server_name: pptpd
 
+pptp_dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+
 pptp_network:
   local_ip: 10.10.0.1
   remote_ip: 10.10.0.100-200
   subnet: 10.10.0.0/24
-  ms_dns:
-    - 8.8.8.8
-    - 8.8.4.4
   mtu: 1340
 
 pptp_use_radius: false
