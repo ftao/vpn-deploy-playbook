@@ -1,11 +1,27 @@
 ---
+
 - hosts: proxy
+
+  vars:
+    pch_proxy_servers:
+      - name: socks
+        type: "socks5"
+        port: 1080
+      - name: http
+        type: "http"
+        port: 8123
 
   roles:
     - dnsmasq
     - dante
     - polipo
-    - proxy-config-host
-#    - sniproxy
 
-    #run other services, for example openvpn , etc ...
+    - role: proxy-config-host
+      pch_name: 'pptp'
+      pch_listen_ip: '{{ pch_pptp_listen_ip }}'
+      when: pch_pptp_enable
+    
+    - role: proxy-config-host
+      pch_name: 'l2tp'
+      pch_listen_ip: '{{ pch_l2tp_listen_ip }}'
+      when: pch_l2tp_enable

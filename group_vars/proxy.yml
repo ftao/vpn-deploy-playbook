@@ -1,0 +1,9 @@
+---
+pch_pptp_enable: true
+pch_pptp_listen_ip : '10.10.0.1'
+pch_l2tp_enable: true
+pch_l2tp_listen_ip : '10.9.0.1'
+
+http_proxy_listen_ip: 
+  - 10.10.0.1
+  - 10.9.0.1

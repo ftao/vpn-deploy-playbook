@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Proxy & PAC Files</h1>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Proxy Type</th>
+            <th>Proxy Address</th>
+            <th>Mode</th>
+            <th>PAC URL</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for mode in ["chnroutes", "gfwlist"] %}
+        {% for item in pch_proxy_servers %}
+          <tr>
+            <td>{{ item.type }}</td>
+            <td>{{ item.host|default(pch_listen_ip)}}:{{ item.port }}</td>
+            <td>{{ mode }}</td>
+            <td>
+              <a href="http://{{pch_listen_ip}}/proxy-{{ item.name }}-{{ mode }}.pac">http://{{ pch_listen_ip }}/proxy-{{ item.name }}-{{ mode }}.pac</a>
+            </td>
+          </tr>
+        {% endfor %}
+        {% endfor %}
+        </tbody>
+      </table>
+
+
+    </div>
+  </body>
+</html>
+
