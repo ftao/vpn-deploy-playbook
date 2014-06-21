@@ -1,0 +1,7 @@
+---
+# Setup a sane dns server
+
+- hosts: sane-dns
+
+  roles:
+    - sane-dns

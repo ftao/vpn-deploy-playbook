@@ -1,0 +1,4 @@
+---
+
+- name: restart fqdns-server
+  supervisorctl: name=fqdns-server state=restarted

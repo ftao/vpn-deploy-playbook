@@ -1,0 +1,18 @@
+---
+
+- name: install fqdns
+  git: repo=https://github.com/fqrouter/fqdns.git dest=/opt/fqdns
+
+- name: install gevent
+  pip: name=gevent state=present
+
+- name: upload dpkt
+  copy: src=dpkt-1.8.tar.gz dest=/tmp/dpkt.tar.gz
+  
+- name: install dpkt 
+  pip: name=/tmp/dpkt.tar.gz state=present
+
+- name: setup fqdns server
+  template: src=fqdns.supervisor.conf dest=/etc/supervisor/conf.d/fqdns.conf
+  notify:
+    - restart fqdns-server
