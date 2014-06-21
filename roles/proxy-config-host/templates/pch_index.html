@@ -18,9 +18,9 @@
           </tr>
         </thead>
         <tbody>
-        {% for mode in ["chnroutes", "gfwlist"] %}
+        {% for mode in ["gfwlist", "chnroutes"] %}
         {% for item in pch_proxy_servers %}
-          <tr>
+          <tr {% if mode == pch_default_mode and item.name == pch_default_proxy %}class="success" {% endif %}>
             <td>{{ item.type }}</td>
             <td>{{ item.host|default(pch_listen_ip)}}:{{ item.port }}</td>
             <td>{{ mode }}</td>
@@ -32,7 +32,6 @@
         {% endfor %}
         </tbody>
       </table>
-
 
     </div>
   </body>

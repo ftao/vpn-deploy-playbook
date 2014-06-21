@@ -43,58 +43,98 @@
 
 - name: install gfwlist2pac
   pip: name=gfwlist2pac state=present
+  tags:
+    - pch
+    - pac
 
 - name: download gfwlist
   get_url: url=https://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt 
            dest=/tmp/gfwlist.txt
+  tags:
+    - pch
+    - pac
+
+- name: upload user rules
+  copy: src=user_rule.txt
+        dest=/tmp/gfwlist_user_rule.txt
+  tags:
+    - pch
+    - pac
 
 - name: generate pac file (gfwlist socks)
-  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-gfwlist.pac -p "SOCKS5 {{ item.host|default(pch_listen_ip) }}:{{ item.port }}; SOCKS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-gfwlist.pac -p "SOCKS5 {{ item.host|default(pch_listen_ip) }}:{{ item.port }}; SOCKS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};" --user-rule=/tmp/gfwlist_user_rule.txt
   with_items: pch_proxy_servers
   when: item.type == "socks5"
+  tags:
+    - pch
+    - pac
 
 - name: generate pac file (gfwlist http)
-  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-gfwlist.pac -p "PROXY {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-gfwlist.pac -p "PROXY {{ item.host|default(pch_listen_ip) }}:{{ item.port }};" --user-rule=/tmp/gfwlist_user_rule.txt
   with_items: pch_proxy_servers
   when: item.type == "http"
+  tags:
+    - pch
+    - pac
  
 - name: upload chnroute2pac 
   copy: src={{ item }} dest=/tmp/{{ item }} mode=755
   with_items:
     - chnroutes.py
     - chnroutes2pac.py
+  tags:
+    - pch
+    - pac
 
 - name: dowload apnic data
   get_url: url=http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest
            dest=/tmp/apnic.dat
+  tags:
+    - pch
+    - pac
   
 - name: generate pac file (chnroutes socks)
   shell: ./chnroutes2pac.py -i /tmp/apnic.dat -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-chnroutes.pac -p "SOCKS5 {{ item.host|default(pch_listen_ip) }}:{{ item.port }}; SOCKS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
          chdir=/tmp/
   with_items: pch_proxy_servers
   when: item.type == "socks5"
-
+  tags:
+    - pch
+    - pac
+ 
 - name: generate pac file (chnroutes2 http)
   shell: ./chnroutes2pac.py -i /tmp/apnic.dat -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-chnroutes.pac -p "PROXY {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
          chdir=/tmp/
   with_items: pch_proxy_servers
   when: item.type == "http"
+  tags:
+    - pch
+    - pac
  
 - name: ensure css direcotry
   file: path=/var/www/pch/{{ pch_name }}/css/ state=directory
+  tags:
+    - pch
+    - html
 
 - name: upload css 
   copy: src=bootstrap.min.css dest=/var/www/pch/{{ pch_name }}/css/bootstrap.min.css
+  tags:
+    - pch
+    - html
   
 - name: generate index page
   template: src=pch_index.html dest=/var/www/pch/{{ pch_name }}/index.html
+  tags:
+    - pch
+    - html
 
 - name: change owner to www-data 
   file: path=/var/www/pch/{{ pch_name }} owner=www-data group=www-data
+  tags:
+    - pch
 
 #- name: upload pac files
 #  template: src=proxy.pac 
 #            dest=/var/www/pch/proxy.pac
 #            owner=www-data group=www-data
-#  tags:
-#    - pch
