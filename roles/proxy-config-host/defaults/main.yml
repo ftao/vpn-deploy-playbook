@@ -1,9 +1,13 @@
 ---
 
 #nginx setup
-pch_hostname: 'localhost'
+#pch_hostname: 'localhost'
+#pch_listen_ip: "*"
+#pch_listen_port: 30081
+
+pch_hostname: 'wpd'
 pch_listen_ip: "*"
-pch_listen_port: 30081
+pch_listen_port: 80
 
 pch_proxy_servers:
   - name: default

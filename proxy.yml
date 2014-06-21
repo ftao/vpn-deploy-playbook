@@ -2,8 +2,10 @@
 - hosts: proxy
 
   roles:
+    - dnsmasq
     - dante
     - polipo
     - proxy-config-host
+#    - sniproxy
 
     #run other services, for example openvpn , etc ...
