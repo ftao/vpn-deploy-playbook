@@ -1,0 +1,25 @@
+---
+#install sniproxy
+
+- name: install dep
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - autotools-dev 
+    - cdbs 
+    - debhelper 
+    - dh-autoreconf 
+    - dpkg-dev 
+    - gettext 
+    - libev-dev 
+    - libpcre3-dev 
+    - libudns-dev 
+    - pkg-config
+
+- name: clone sniproxy
+  git: repo={{ sniproxy_repo }}
+       dest=~/sniproxy/
+
+- name: build sniproxy
+  shell: ./autogen.sh && ./configure && make && make install
+        chdir=~/sniproxy/
+        creates=/usr/local/sbin/sniproxy

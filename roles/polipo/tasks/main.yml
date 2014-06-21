@@ -1,0 +1,14 @@
+---
+
+- name: install polipo
+  apt: pkg=polipo state=installed
+  tags:
+    - polipo
+
+- name: upload config
+  template: src=polipo.config dest=/etc/polipo/config
+  notify:
+    - restart polipo
+  tags:
+    - polipo
+

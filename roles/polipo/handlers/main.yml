@@ -1,0 +1,6 @@
+---
+
+- name: restart polipo
+  service: name=polipo state=restarted
+  tags:
+    - polipo
