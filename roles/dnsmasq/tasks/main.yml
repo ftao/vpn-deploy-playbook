@@ -10,3 +10,19 @@
   tags:
     - dns
 
+- name: stat /etc/resolv.conf
+  stat: path=/etc/resolv.conf 
+  register: resolv_conf_stat
+  tags:
+    - dns
+
+- name: fixup some config issue regarding resolveconf
+  lineinfile: dest=/etc/default/dnsmasq  
+              line="IGNORE_RESOLVCONF=yes" 
+              regexp="^IGNORE_RESOLVCONF=yes"
+              state=present
+  when: resolv_conf_stat.stat.isreg
+  notify:
+    - restart dnsmasq
+  tags:
+    - dns
