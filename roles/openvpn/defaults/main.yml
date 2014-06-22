@@ -1,7 +1,7 @@
 ---
 #default vars for openvpn
 
-openvpn_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
+openvpn_bind_ip:  "{{ ansible_default_ipv4.address }}"
 
 openvpn_cred:
   ca: "{{ lookup('file', inventory_dir + '/cred/openvpn/ca.crt') }}"

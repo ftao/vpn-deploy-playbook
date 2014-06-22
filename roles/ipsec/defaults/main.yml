@@ -1,6 +1,6 @@
 ---
 
-ipsec_bind_ip:  "{{ ansible_eth0.ipv4.address }}"
+ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
 ipsec_group : "ipsec"
 ipsec_psk : "ipsec_shared_key_82762"
 ipsec_network: 10.12.0.30

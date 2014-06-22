@@ -17,6 +17,6 @@
 
 - name: fix can't resolve own hostname problem 
   lineinfile: dest=/etc/hosts 
-              line="{{ ansible_eth0.ipv4.address }} {{ ansible_hostname }}"
-              regexp="{{ ansible_eth0.ipv4.address }} {{ ansible_hostname }}"
+              line="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
+              regexp="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
               state=present
