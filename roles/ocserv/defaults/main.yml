@@ -1,0 +1,5 @@
+---
+nettle_version: '2.7'
+gnutls_version_major: '3.2'
+gnutls_version: '3.2.15'
+ocserv_version: '0.8.0'

@@ -1,0 +1,46 @@
+---
+- name: install nettle 
+  get_url: url=ftp://ftp.gnu.org/gnu/nettle/nettle-{{ nettle_version }}.tar.gz
+           dest=/tmp/nettle-{{ nettle_version }}.tar.gz
+
+- name: uncompress nettle
+  command: /bin/tar -xzf  /tmp/nettle-{{ nettle_version }}.tar.gz
+           chdir=/tmp/
+           creates=/tmp/nettle
+
+- name: build nettle
+  shell: ./configure && make && make install
+        chdir=/tmp/nettle-{{ nettle_version }}
+        creates=/usr/local/lib/libnettle.so.4.6
+
+- name: download gnutls
+  get_url: url=ftp://ftp.gnutls.org/gcrypt/gnutls/v{{ gnutls_version_major }}/gnutls-{{ gnutls_version }}.tar.xz
+           dest=/tmp/gnutls-{{ gnutls_version }}.tar.xz
+
+- name: uncompress gnutls
+  command: /bin/tar -xJf  /tmp/gnutls-{{ gnutls_version }}.tar.xz  
+           chdir=/tmp/
+           creates=/tmp/gnutls-{{ gnutls_version }}
+
+- name: build gnutls
+  shell: ./configure && make && make install
+        chdir=/tmp/gnutls-{{ gnutls_version }}
+        creates=/usr/local/lib/libgnutls.so.28.30.6
+
+- name: run ldconfig
+  command: /sbin/ldconfig
+
+- name: download ocserv
+  get_url: url=ftp://ftp.infradead.org/pub/ocserv/ocserv-{{ ocserv_version }}.tar.xz
+           dest=/tmp/ocserv-{{ ocserv_version }}.tar.xz
+
+- name: uncompress ocserv
+  command: /bin/tar -xJf  /tmp/ocserv-{{ ocserv_version }}.tar.xz  
+           chdir=/tmp/
+           creates=/tmp/ocserv-{{ ocserv_version }}
+
+- name: build ocserv
+  shell: ./configure && make && make install
+        chdir=/tmp/ocserv-{{ ocserv_version }}
+        creates=/usr/local/sbin/ocserv
+
