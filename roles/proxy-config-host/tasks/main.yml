@@ -10,14 +10,6 @@
   tags:
     - pch
 
-- name: disable default site 
-  file: path=/etc/nginx/sites-enabled/default 
-        state=absent
-  notify:
-    - restart nginx
-  tags:
-    - pch
-
 - name: upload nginx site config file
   template: src=nginx.conf dest=/etc/nginx/sites-available/pch-{{ pch_name }}
   notify:
