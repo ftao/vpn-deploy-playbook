@@ -4,7 +4,7 @@ ipsec_enable_ikev1: true
 ipsec_enable_ikev2: true
 
 ipsec_domain: 'vpn.exampel.com'
-ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
+#ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
 ipsec_subnet: 10.7.0.0/24
 
 ipsec_use_radius: false
