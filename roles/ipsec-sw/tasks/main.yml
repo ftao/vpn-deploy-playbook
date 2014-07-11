@@ -11,6 +11,8 @@
     - strongswan-plugin-eap-mschapv2
     - strongswan-plugin-eap-radius
   notify: restart ipsec
+  tags:
+    - ipsec
 
 - name:  Upload ipsec config files
   template: src={{ item }}
@@ -20,11 +22,15 @@
     - ipsec.conf
     - strongswan.conf
   notify: restart ipsec
+  tags:
+    - ipsec
 
 - name: ensure ipsec.secrets contains psk info 
   lineinfile: 'line=": PSK \"{{ ipsec_psk }}\""
               regexp=": PSK \"{{ ipsec_psk }}\""
               dest=/etc/ipsec.secrets'
+  tags:
+    - ipsec
 
 - name: add ikev1 users
   lineinfile: 'line="{{ item.username }} : XAUTH \"{{ item.password }}\""
@@ -33,12 +39,16 @@
               dest=/etc/ipsec.secrets'
   with_items: ikev1_users
   when: ipsec_enable_ikev1
+  tags:
+    - ipsec
     
 - name: ensure ipsec.secrets contains correct info 
   lineinfile: 'dest=/etc/ipsec.secrets 
               line=": RSA /etc/ipsec.d/private/ipsec.key"
               regexp=": RSA /etc/ipsec.d/private/ipsec.key"'
   when: ipsec_enable_ikev2
+  tags:
+    - ipsec
 
 - name: add ikev2 users
   lineinfile: 'line="{{ item.username }} : EAP \"{{ item.password }}\""
@@ -47,6 +57,8 @@
               dest=/etc/ipsec.secrets'
   with_items: ikev2_users
   when: ipsec_enable_ikev2
+  tags:
+    - ipsec
 
 - name: Upload ipsec certs
   copy: src={{ ipsec_cert }}
@@ -54,6 +66,8 @@
         owner=root group=root
   when: ipsec_enable_ikev2
   notify: restart ipsec
+  tags:
+    - ipsec
 
 - name: Upload ipsec private key
   copy: src={{ ipsec_key }}
@@ -61,6 +75,8 @@
         owner=root group=root
   when: ipsec_enable_ikev2
   notify: restart ipsec
+  tags:
+    - ipsec
 
 - name: make sure /opt/easynat exists
   action: file path=/opt/easynat/ state=directory

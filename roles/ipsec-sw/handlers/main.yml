@@ -1,3 +1,5 @@
 ---
 - name: restart ipsec
   action: service name=strongswan state=restarted
+  tags:
+    - ipsec
