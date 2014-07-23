@@ -20,29 +20,15 @@
     - python
     - supervisor
 
+- name: install curl
+  action: apt pkg=curl state=installed
+  tags:
+    - cow
 
 - name: install cow
   raw: export COW_INSTALLDIR=/usr/local/bin/; curl -L git.io/cow | bash
   tags:
     - cow
-
-
-# - name: add backend config
-#   template: src=rc-backend.j2 dest="~/.cow/rc"
-#   tags:
-#     - cow
-#     - backend
-#   notify:
-#     - restart cow
-
-
-# - name: add frontend config
-#   template: src=rc-frontend.j2 dest="~/.cow/rc"
-#   tags:
-#     - cow
-#     - frontend
-#   notify:
-#     - restart cow
 
 
 - name: add cow.conf to supervisor
