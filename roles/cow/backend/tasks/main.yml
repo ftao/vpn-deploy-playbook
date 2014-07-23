@@ -1,0 +1,10 @@
+---
+# config cow backend
+
+- name: add backend config
+  template: src=rc-backend.j2 dest="~/.cow/rc"
+  tags:
+    - cow
+    - backend
+  notify:
+    - restart cow
