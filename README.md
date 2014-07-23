@@ -8,6 +8,7 @@ A collection of Ansible Playbooks to deploy VPN services.
 - [x] pptp.yml : setup PPTP server
 - [x] l2tp.yml : setup IPSec/L2TP server (with pre-shared key)
 - [x] proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
+- [x] cow-*.yml : setup [COW](https://github.com/cyfdecyf/cow)
 - [ ] openvpn.yml : setup OpenVPN server
 - [ ] apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
 

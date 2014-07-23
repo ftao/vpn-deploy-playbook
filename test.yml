@@ -5,14 +5,14 @@
 
   roles:
     - common
-    
+
     # Auth *********************************************************************
     - webserver
     - db
     - role: auth
       mysql_root_password: "TEST_ONLY"
     - radius-admin
-    
+
     # PPTP *********************************************************************
     # setup auth via radius
     - role: ppp-radiusclient
@@ -22,10 +22,10 @@
     # nat role will setup firewall
     - nat
     - vpnmgr-agent
-    
+
     # L2TP *********************************************************************
     - ipsec-sw
-    
+
     # proxy-backend ************************************************************
     - role: ss-server
       name: "default"
@@ -33,14 +33,20 @@
       password: "TEST_ONLY"
       enalbe_udp: "false"
       shadowsocks_provider: "python"
-      
+
     - role: ss-server
       name: "udp_relay"
       port: "8859"
       password: "TEST_ONLY"
       enalbe_udp: "true"
       shadowsocks_provider: "libev"
-    
+
+    # COW **********************************************************************
+    - role: cow
+    - role: "cow/frontend"
+    - role: "cow/backend"
+
+
     # proxy-frontend ***********************************************************
     - pptp
     # setup auth via radius
