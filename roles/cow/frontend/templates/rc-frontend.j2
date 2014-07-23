@@ -1,0 +1,7 @@
+listen = http://0.0.0.0:{{ cow_frontend_port }}
+
+loadBalance = backup
+
+{% for server in cow_backend_servers %}
+proxy=cow://{{ cow_encrypt_method }}:{{ cow_password }}@{{ server }}:{{ cow_backend_port }}
+{% endfor %}

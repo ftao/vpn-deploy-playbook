@@ -1,0 +1,9 @@
+- name: reload supervisor
+  shell: /etc/init.d/supervisor force-reload
+  tags:
+    - cow
+
+- name: restart cow
+  action: supervisorctl name=cow state=restarted
+  tags:
+    - cow

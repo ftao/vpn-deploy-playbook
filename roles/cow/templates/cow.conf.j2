@@ -1,0 +1,10 @@
+[program:cow]
+command=/usr/local/bin/cow -err=true -rc="/root/.cow/rc"
+numprocs=1
+directory=/root/.cow
+autostart=true
+autorestart=unexpected
+startsecs=2
+startretries=3
+stdout_logfile=/var/log/cow.log
+stdout_logfile_maxbytes=5MB

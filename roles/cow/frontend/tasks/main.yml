@@ -1,0 +1,10 @@
+---
+# config cow frontend
+
+- name: add frontend config
+  template: src=rc-frontend.j2 dest="~/.cow/rc"
+  tags:
+    - cow
+    - frontend
+  notify:
+    - restart cow

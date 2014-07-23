@@ -1,0 +1,6 @@
+---
+
+- hosts: all
+  roles:
+    - role: "cow"
+    - role: "cow/frontend"

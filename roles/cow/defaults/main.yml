@@ -1,0 +1,7 @@
+---
+name: 'default'
+cow_encrypt_method: "aes-256-cfb" #aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, table, rc4
+cow_backend_port: 8383
+cow_frontend_port: 8787
+cow_password: "cow-very-long-password-574210014"
+cow_backend_servers: []
