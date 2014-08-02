@@ -1,8 +1,7 @@
 ---
+http_proxy_port : 36128
 http_tunnel_port: 6129
-dns_tunnel_port: 5353
 upstream_http_proxy: "127.0.0.1:6128"
-upstream_dns_server: "8.8.8.8:53"
 
 cache_peers:
   - name: cp1
@@ -18,3 +17,10 @@ domain_groups:
       - cp1
     is_direct: false
 
+pch_proxy_servers:
+  - name: http
+    type: "http"
+    port: "{{ http_proxy_port }}"  #the port for local squid
+
+pch_listen_ip: "{{ ansible_eth0.ipv4.address }}"
+pch_listen_port: 30080

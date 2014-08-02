@@ -10,12 +10,5 @@
       password: "{{ shadowsocks_servers.default.password }}"
       enalbe_udp: "{{ shadowsocks_servers.default.enable_udp }}"
 
-    - role: ss-server
-      name: "udp_relay"
-      port: "{{ shadowsocks_servers.udp_relay.port }}"
-      password: "{{ shadowsocks_servers.udp_relay.password }}"
-      enalbe_udp: "{{ shadowsocks_servers.udp_relay.enable_udp }}"
-
     - role: squid-root
 
-    #run other services, for example openvpn , etc ...

@@ -45,6 +45,15 @@
   tags:
     - pch
     - pac
+  ignore_errors: yes
+  register: download_gfwlist_result
+
+- name: upload gfwlist (if download failed)
+  copy: src=gfwlist.txt dest=/tmp/gfwlist.txt
+  tags:
+    - pch
+    - pac
+  when: download_gfwlist_result|failed
 
 - name: upload user rules
   copy: src=user_rule.txt
