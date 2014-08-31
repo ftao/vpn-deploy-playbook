@@ -1,0 +1,5 @@
+# PAM configuration for the Secure Shell service
+
+auth            sufficient      pam_radius_auth.so           try_first_pass template_user=vpnuser
+account         sufficient      pam_radius_auth.so           template_user=vpnuser 
+password        sufficient      pam_radius_auth.so           try_first_pass template_user=vpnuser

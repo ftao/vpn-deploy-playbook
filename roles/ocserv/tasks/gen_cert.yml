@@ -1,0 +1,54 @@
+---
+
+- name: create certs - step1
+  shell: certtool --generate-privkey --outfile ca-key.pem
+         chdir={{ cert_dir }}
+         creates=ca-key.pem
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+
+- name: create certs - step2
+  template: src=ca.tmpl dest={{ cert_dir }}/ca.tmpl
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+
+- name: create certs - step3
+  shell: certtool --generate-self-signed --load-privkey ca-key.pem  --template ca.tmpl --outfile ca-cert.pem
+         chdir={{ cert_dir }}
+         creates=ca-cert.pem
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+
+- name: create certs - step4
+  shell: certtool --generate-privkey --outfile server-key.pem
+         chdir={{ cert_dir }}
+         creates=server-key.pem
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+
+- name: create certs - step5
+  template: src=server.tmpl dest={{ cert_dir }}/server.tmpl
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+
+- name: create certs - step6
+  shell: certtool --generate-certificate --load-privkey server-key.pem 
+                  --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem 
+                   --template server.tmpl --outfile server-cert.pem
+         chdir={{ cert_dir }}
+         creates=server-cert.pem
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+

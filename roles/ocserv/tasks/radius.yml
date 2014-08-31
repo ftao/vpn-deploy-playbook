@@ -1,0 +1,18 @@
+---
+
+- name: install pam & radius
+  apt: pkg=libpam-radius-auth  state=present
+  tags:
+    - ocserv
+
+- name: install pam config files
+  template: src="{{ item }}" dest=/etc/"{{ item }}" backup=yes
+  with_items:
+    - pam_radius_auth.conf
+    - pam.d/ocserv
+  notify:
+    - restart ocserv
+  tags:
+    - ocserv
+
+
