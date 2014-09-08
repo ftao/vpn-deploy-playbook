@@ -47,6 +47,10 @@
     - ocserv
 
 - include: gen_cert.yml cert_dir=/usr/local/etc/ocserv/
+  when: ocserv_cert_auto
+
+- include: upload_cert.yml cert_dir=/usr/local/etc/ocserv/
+  when: not ocserv_cert_auto
   
 - name: create ocserv config file
   template: src=ocserv.conf  dest=/usr/local/etc/ocserv/ocserv.conf

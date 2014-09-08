@@ -4,3 +4,7 @@ ocserv_version: '0.8.0'
 ocserv_network: '10.10.6.0'
 ocserv_use_radius: False
 ocserv_radius_servers: []
+
+ocserv_cert_auto: True
+#ocserv_cert_path: ''
+#ocserv_cert_key_path: ''

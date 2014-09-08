@@ -1,0 +1,15 @@
+---
+
+- name: upload cert
+  copy: src={{ ocserv_cert_path }} dest={{ cert_dir }}/server-cert.pem
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
+
+- name: upload cert key
+  copy: src={{ ocserv_cert_key_path }} dest={{ cert_dir }}/server-key.pem
+  tags:
+    - ocserv
+  notify:
+    - restart ocserv
