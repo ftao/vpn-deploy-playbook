@@ -6,7 +6,7 @@
     - ocserv
 
 - name: install pam config files
-  template: src="{{ item }}" dest=/etc/"{{ item }}" backup=yes
+  template: src="{{ item }}" dest="/etc/{{ item }}" backup=yes
   with_items:
     - pam_radius_auth.conf
     - pam.d/ocserv
