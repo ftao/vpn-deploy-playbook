@@ -15,8 +15,14 @@
     - dictionary
   tags: radius
 
-- name: fix can't resolve own hostname problem 
+- name: fix can't resolve own hostname problem  - hostname
   lineinfile: dest=/etc/hosts 
               line="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
               regexp="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
+              state=present
+
+- name: fix can't resolve own hostname problem - fqdn 
+  lineinfile: dest=/etc/hosts 
+              line="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
+              regexp="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
               state=present
