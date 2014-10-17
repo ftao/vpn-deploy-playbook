@@ -1,0 +1,45 @@
+- name: install gfwlist2pac
+  pip: name=gfwlist2pac state=present
+  tags:
+    - pch
+    - pac
+
+- name: download gfwlist
+  get_url: url=https://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt 
+           dest=/tmp/gfwlist.txt
+  tags:
+    - pch
+    - pac
+  ignore_errors: yes
+  register: download_gfwlist_result
+
+- name: upload gfwlist (if download failed)
+  copy: src=gfwlist.txt dest=/tmp/gfwlist.txt
+  tags:
+    - pch
+    - pac
+  when: download_gfwlist_result|failed
+
+- name: upload user rules
+  copy: src=user_rule.txt
+        dest=/tmp/gfwlist_user_rule.txt
+  tags:
+    - pch
+    - pac
+
+- name: generate pac file (gfwlist socks)
+  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-gfwlist.pac -p "SOCKS5 {{ item.host|default(pch_listen_ip) }}:{{ item.port }}; SOCKS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};" --user-rule=/tmp/gfwlist_user_rule.txt
+  with_items: pch_proxy_servers
+  when: item.type == "socks5"
+  tags:
+    - pch
+    - pac
+
+- name: generate pac file (gfwlist http)
+  shell: gfwlist2pac -i /tmp/gfwlist.txt -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-gfwlist.pac -p "PROXY {{ item.host|default(pch_listen_ip) }}:{{ item.port }};" --user-rule=/tmp/gfwlist_user_rule.txt
+  with_items: pch_proxy_servers
+  when: item.type == "http"
+  tags:
+    - pch
+    - pac
+ 

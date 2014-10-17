@@ -1,0 +1,8 @@
+---
+
+- name: generate pac file (whitelist socks)
+  template: src=whitelist.pac dest=/var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-whitelist.pac
+  with_items: pch_proxy_servers
+  tags:
+    - pch
+    - pac
