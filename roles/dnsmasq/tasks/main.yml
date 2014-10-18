@@ -26,3 +26,14 @@
     - restart dnsmasq
   tags:
     - dns
+
+
+- name: make dnsmasq only listen on given addresses
+  lineinfile: line="listen-address={{ item }}" regexp="listen-address={{ item }}" 
+              dest=/etc/dnsmasq.d/listen-address.conf
+              create=yes
+  with_items: dnsmasq_listen_addresses
+  notify:
+    - restart dnsmasq
+  tags:
+    - dns
