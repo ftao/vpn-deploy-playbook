@@ -5,3 +5,10 @@
   tags:
     - spdy-proxy
 
+
+- name: restart node-spdyproxy
+  supervisorctl: name=node-spdyproxy state=restarted
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
