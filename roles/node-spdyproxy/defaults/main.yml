@@ -1,0 +1,14 @@
+---
+spdy_proxy_listen_port: 8443
+spdy_proxy_private_key: example.key
+spdy_proxy_cert: example.crt
+
+spdy_proxy_auth_method: "none"  #basic,radius
+
+spdy_proxy_username: 'spdy'
+spdy_proxy_password: 'pass'
+
+spdy_proxy_radius_server: "127.0.0.1"
+spdy_proxy_radius_secret: "some-radius-secrect"
+spdy_proxy_radius_nasid: "{{ ansible_default_ipv4.address }}"
+#spdy_proxy_radius_creds_ttl: 120
