@@ -36,10 +36,14 @@ refuse-mschap
 # Require the peer to authenticate itself using MS-CHAPv2 [Microsoft
 # Challenge Handshake Authentication Protocol, Version 2] authentication.
 require-mschap-v2
+{% if pptp_require_mppe == 128 %}
 # Require MPPE 128-bit encryption
 # (note that MPPE requires the use of MSCHAP-V2 during authentication)
 require-mppe-128
-#require-mppe
+{% elif pptp_require_mppe == 40 %}
+require-mppe
+{% else %}
+{% endif %}
 #nomppe-40
 
 

@@ -17,13 +17,16 @@ pptp_radius_servers:
   - host: 127.0.0.1
     secret: some-radius-secret
 
+
 pptp_do_nat: true
 
-
 pptp_users: []
+
 
 #pptp_users:
 #  - username: "user1"
 #    password: "pass1"
 #  - username: "user2"
 #    password: "passw"
+
+pptp_require_mppe: 128  #40,128
