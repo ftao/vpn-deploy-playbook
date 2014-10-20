@@ -17,6 +17,24 @@
   tags:
     - pch
 
+- name: upload cert for ssl site
+  copy: src={{ pch_cert }}
+        dest=/etc/ssl/certs/pch-{{ pch_name }}.pem
+  when: pch_cert is defined
+  notify:
+    - restart nginx
+  tags:
+    - pch
+
+- name: upload private key for ssl site
+  copy: src={{ pch_private_key }}
+        dest=/etc/ssl/private/pch-{{ pch_name }}.key
+  when: pch_private_key is defined
+  notify:
+    - restart nginx
+  tags:
+    - pch
+
 - name: enable site 
   file: path=/etc/nginx/sites-enabled/pch-{{ pch_name }}
         src=/etc/nginx/sites-available/pch-{{ pch_name }}
@@ -59,8 +77,3 @@
   file: path=/var/www/pch/{{ pch_name }} owner=www-data group=www-data
   tags:
     - pch
-
-#- name: upload pac files
-#  template: src=proxy.pac 
-#            dest=/var/www/pch/proxy.pac
-#            owner=www-data group=www-data

@@ -32,3 +32,12 @@
     - pch
     - pac
  
+- name: generate pac file (chnroutes2 spdy)
+  shell: ./chnroutes2pac.py -i /tmp/apnic.dat -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-chnroutes.pac -p "HTTPS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+         chdir=/tmp/
+  with_items: pch_proxy_servers
+  when: item.type == "spdy"
+  tags:
+    - pch
+    - pac
+ 

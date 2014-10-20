@@ -6414,7 +6414,9 @@ var domains = {
   "zzz4.com": 1
 };
 
-{% if item.type == "socks" %}
+{% if item.type == "spdy" %}
+var proxy = "HTTPS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+{% elif item.type == "socks" %}
 var proxy = "SOCKS5 {{ item.host|default(pch_listen_ip) }}:{{ item.port }}; SOCKS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
 {% else %}
 var proxy = "PROXY {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
