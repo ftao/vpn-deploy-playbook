@@ -1,0 +1,31 @@
+---
+#set a static openvpn server
+
+- name: install openvpn
+  action: apt package=openvpn state=present
+  tags:
+    - openvpn-static-server
+
+- name: upload server config files
+  action: template src=static-server.conf dest=/etc/openvpn/{{ openvpn_conf_name }}.conf
+  notify:
+    - restart openvpn
+  tags:
+    - openvpn-static-server
+
+- name: make sure /opt/easynat exists
+  action: file path=/opt/easynat/ state=directory
+  tags: 
+    - openvpn-static-server
+    - nat
+
+- name: set network in easynat rule file
+  action: lineinfile dest=/opt/easynat/rules.cnf 
+                     regexp="{{ openvpn_peer_ip }}/255.255.255.2555"
+                     line="{{ openvpn_peer_ip }}/255.255.255.2555"
+                     state=present create=yes
+  notify: 
+    - setup nat rules
+  tags: 
+    - openvpn-static-server
+    - nat

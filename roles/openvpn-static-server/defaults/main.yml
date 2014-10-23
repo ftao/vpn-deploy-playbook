@@ -1,0 +1,9 @@
+---
+#default vars for openvpn
+
+openvpn_conf_name: 'static-ovpn-server'
+openvpn_port: 9194
+openvpn_proto: udp
+openvpn_local_ip: '10.11.0.1'
+openvpn_peer_ip: '10.11.0.2'
+openvpn_key: "some key content"

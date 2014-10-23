@@ -1,6 +1,0 @@
----
-
-easy_pki_cmd: "EASYRSA=./easy-rsa/easyrsa3 ./env/bin/easy-pki"
-pki_root: "./pki"
-
-ovpnconf_gen_cmd: "./env/bin/ovpnconf-gen"
