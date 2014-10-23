@@ -1,0 +1,11 @@
+---
+
+- name: restart chinadns-server
+  supervisorctl: name=chinadns-server state=restarted
+  tags:
+    - chinadns
+
+- name: update resolvconf
+  command: /sbin/resolvconf -u
+  tags:
+    - chinadns
