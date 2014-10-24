@@ -6,5 +6,9 @@ ocserv_use_radius: False
 ocserv_radius_servers: []
 
 ocserv_cert_auto: True
+ocserv_tcp_port: 443
+ocserv_udp_port: 443
+
+ocserv_users: []
 #ocserv_cert_path: ''
 #ocserv_cert_key_path: ''
