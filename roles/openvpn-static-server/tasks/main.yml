@@ -21,9 +21,10 @@
 
 - name: set network in easynat rule file
   action: lineinfile dest=/opt/easynat/rules.cnf 
-                     regexp="{{ openvpn_peer_ip }}/255.255.255.2555"
-                     line="{{ openvpn_peer_ip }}/255.255.255.2555"
-                     state=present create=yes
+                     regexp="{{ openvpn_peer_ip }}"
+                     line="{{ openvpn_peer_ip }}"
+                     state=present
+                     create=yes
   notify: 
     - setup nat rules
   tags: 
