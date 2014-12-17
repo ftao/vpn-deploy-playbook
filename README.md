@@ -1,5 +1,5 @@
 # VPN Deploy Playbook
-A collection of Ansible Playbooks to deploy VPN services.
+A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and proxy services.
 
 
 ## Playbooks:
@@ -9,6 +9,9 @@ A collection of Ansible Playbooks to deploy VPN services.
 - [x] l2tp.yml : setup IPSec/L2TP server (with pre-shared key)
 - [x] proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
 - [x] cow-*.yml : setup [COW](https://github.com/cyfdecyf/cow)
+- [x] ipsec.yml : setup IPSec IKEv1/IKEv2 VPN server with StrongSwan
+- [ ] openconnect.yml : setup [OpenConnect VPN server](http://www.infradead.org/ocserv/) for Cisco AnyConnect client
+- [ ] spdy-proxy.yml : setup [spdylay](https://github.com/tatsuhiro-t/spdylay)
 - [ ] openvpn.yml : setup OpenVPN server
 - [ ] apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
 
@@ -19,10 +22,7 @@ A collection of Ansible Playbooks to deploy VPN services.
 2. copy `ansible_hosts.example` to `ansible_hosts`
 3. edit the file to add your servers
 4. edit files in `group_vars` or create and edit `host_vars/SERVER_NAME.yml` to fit your needs
-5. run `ansible-playbook auth.yml` to setup radius server
-6. run `ansible-playbook pptp.yml` to setup pptp server
-7. run `ansible-playbook l2tp.yml` to setup ipsec/l2tp server
-7. run `ansible-playbook openvpn.yml` to setup openvpn server
+5. run `ansible-playbook PLAYBOOK_NAME.yml` to setup servers
 
 There are also some guides (in Chinese) in the [Wiki](https://github.com/ftao/vpn-deploy-playbook/wiki)
 
