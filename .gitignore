@@ -1,5 +1,6 @@
 ansible_hosts
 host_vars/*.yml
+group_vars/*.yml
 *.sw*
 
 # Created by http://www.gitignore.io

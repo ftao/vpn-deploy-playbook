@@ -1,7 +1,7 @@
 ---
-#install & config ikev2 server 
+#install & config ikev2 server
 
-- name: Enforce strongswan is installed
+- name: Enforce strongswan is installed for Ubuntu
   apt: pkg={{ item }} state=installed
   with_items:
     - strongswan
@@ -11,6 +11,30 @@
     - strongswan-plugin-eap-mschapv2
     - strongswan-plugin-eap-radius
   notify: restart ipsec
+  when: ansible_os_family == "Ubuntu"
+  tags:
+    - ipsec
+
+- name: Add backports repository for Deiban
+  apt_repository: repo='deb http://ftp.debian.org/debian {{ansible_distribution_release}}-backports main contrib non-free' state=present update_cache=yes
+  when: ansible_os_family == "Debian"
+
+- name: Enforce strongswan is installed for Debian
+  apt: pkg={{ item }} state=installed default_release={{ansible_distribution_release}}-backports update_cache=yes
+  with_items:
+    - strongswan
+    - libstrongswan
+    - libstrongswan-extra-plugins
+    - libstrongswan-standard-plugins
+    - libcharon-extra-plugins
+    - strongswan-charon
+    - strongswan-ike
+    - strongswan-libcharon
+    - strongswan-ikev1
+    - strongswan-ikev2
+    - strongswan-starter
+  notify: restart ipsec
+  when: ansible_os_family == "Debian"
   tags:
     - ipsec
 
@@ -25,7 +49,7 @@
   tags:
     - ipsec
 
-- name: ensure ipsec.secrets contains psk info 
+- name: ensure ipsec.secrets contains psk info
   lineinfile: 'line=": PSK \"{{ ipsec_psk }}\""
               regexp=": PSK \"{{ ipsec_psk }}\""
               dest=/etc/ipsec.secrets'
@@ -41,9 +65,9 @@
   when: ipsec_enable_ikev1
   tags:
     - ipsec
-    
-- name: ensure ipsec.secrets contains correct info 
-  lineinfile: 'dest=/etc/ipsec.secrets 
+
+- name: ensure ipsec.secrets contains correct info
+  lineinfile: 'dest=/etc/ipsec.secrets
               line=": RSA /etc/ipsec.d/private/ipsec.key"
               regexp=": RSA /etc/ipsec.d/private/ipsec.key"'
   when: ipsec_enable_ikev2
@@ -85,13 +109,13 @@
     - nat
 
 - name: set network in easynat rule file
-  action: lineinfile dest=/opt/easynat/rules.cnf 
-                     regexp="{{ ipsec_subnet }}" 
+  action: lineinfile dest=/opt/easynat/rules.cnf
+                     regexp="{{ ipsec_subnet }}"
                      line="{{ ipsec_subnet }}"
-                     state=present 
+                     state=present
                      create=yes
   notify:
     - setup nat rules
-  tags: 
+  tags:
     - ipsec
     - nat

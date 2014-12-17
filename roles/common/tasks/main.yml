@@ -1,6 +1,12 @@
 ---
 #install common packages
 
+- name: update apt cache
+  action: apt update_cache=yes cache_valid_time=3600
+  tags:
+    - common
+    - update
+
 - name: install editor
   action: apt pkg={{ item }} state=installed
   with_items:
@@ -37,7 +43,7 @@
     - python
     - supervisor
 
-- name: install virtualenv 
+- name: install virtualenv
   action: pip name={{ item }} state=present
   with_items:
     - virtualenv
