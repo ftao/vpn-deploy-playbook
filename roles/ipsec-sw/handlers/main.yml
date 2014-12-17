@@ -1,5 +1,12 @@
 ---
 - name: restart ipsec
   action: service name=strongswan state=restarted
+  when: ansible_os_family == "Ubuntu"
+  tags:
+    - ipsec
+
+- name: restart ipsec
+  raw: service name=ipsec state=restarted
+  when: ansible_os_family == "Debian"
   tags:
     - ipsec
