@@ -1,10 +1,10 @@
-- name: add shadowsocks repo 
+- name: add shadowsocks repo
   apt_repository: repo='deb http://shadowsocks.org/debian wheezy main' state=present
   tags:
     - ss-server
 
 - name: install shadowsocks libev
-  apt: pkg=shadowsocks state=installed force=yes
+  apt: pkg=shadowsocks-libev state=installed force=yes
   tags:
     - ss-server
 
