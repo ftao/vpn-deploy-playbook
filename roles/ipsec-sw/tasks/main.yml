@@ -11,13 +11,13 @@
     - strongswan-plugin-eap-mschapv2
     - strongswan-plugin-eap-radius
   notify: restart ipsec
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
   tags:
     - ipsec
 
 - name: Add backports repository for Deiban
   apt_repository: repo='deb http://ftp.debian.org/debian {{ansible_distribution_release}}-backports main contrib non-free' state=present update_cache=yes
-  when: ansible_os_family == "Debian"
+  when: ansible_distribution == "Debian"
 
 - name: Enforce strongswan is installed for Debian
   apt: pkg={{ item }} state=installed default_release={{ansible_distribution_release}}-backports update_cache=yes
@@ -34,7 +34,7 @@
     - strongswan-ikev2
     - strongswan-starter
   notify: restart ipsec
-  when: ansible_os_family == "Debian"
+  when: ansible_distribution == "Debian"
   tags:
     - ipsec
 
@@ -45,42 +45,8 @@
   with_items:
     - ipsec.conf
     - strongswan.conf
+    - ipsec.secrets
   notify: restart ipsec
-  tags:
-    - ipsec
-
-- name: ensure ipsec.secrets contains psk info
-  lineinfile: 'line=": PSK \"{{ ipsec_psk }}\""
-              regexp=": PSK \"{{ ipsec_psk }}\""
-              dest=/etc/ipsec.secrets'
-  tags:
-    - ipsec
-
-- name: add ikev1 users
-  lineinfile: 'line="{{ item.username }} : XAUTH \"{{ item.password }}\""
-              regexp="{{ item.username }} : XAUTH \"{{ item.password }}\""
-              insertafter=": PSK"
-              dest=/etc/ipsec.secrets'
-  with_items: ikev1_users
-  when: ipsec_enable_ikev1
-  tags:
-    - ipsec
-
-- name: ensure ipsec.secrets contains correct info
-  lineinfile: 'dest=/etc/ipsec.secrets
-              line=": RSA /etc/ipsec.d/private/ipsec.key"
-              regexp=": RSA /etc/ipsec.d/private/ipsec.key"'
-  when: ipsec_enable_ikev2
-  tags:
-    - ipsec
-
-- name: add ikev2 users
-  lineinfile: 'line="{{ item.username }} : EAP \"{{ item.password }}\""
-              regexp="{{ item.username }} : EAP \"{{ item.password }}\""
-              insertafter=": RSA"
-              dest=/etc/ipsec.secrets'
-  with_items: ikev2_users
-  when: ipsec_enable_ikev2
   tags:
     - ipsec
 
