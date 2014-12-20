@@ -13,3 +13,12 @@
       radius_servers: "{{ l2tp_radius_servers }}"
 
     - nat
+
+    - role: static-site
+      nginx_site_name: 'ipsec-profile-host'
+      nginx_site_server_name: '{{ ipsec_domain }}'
+      nginx_site_port: 9441
+      nginx_site_ssl_on: false
+      nginx_site_root: /var/www/ikev2/
+      when: ipsec_gen_ios8_profile
+

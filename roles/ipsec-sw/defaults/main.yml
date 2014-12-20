@@ -7,6 +7,9 @@ ipsec_domain: "{{ inventory_hostname }}"
 ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
 ipsec_subnet: 10.7.0.0/24
 
+ipsec_ikev1_split_include: []
+  #- {{ ipsec_subnet }}
+
 ipsec_use_radius: false
 ipsec_radius_servers:
   - host: 127.0.0.1
@@ -17,6 +20,9 @@ ipsec_dns_servers:
    - 8.8.4.4
 
 ipsec_psk: ipsecworks
+ipsec_cert_auto: true
+ipsec_ca_common_name: 'VPN Deploybook CA'
+ipsec_ca_cert: ca.cert
 ipsec_cert: ipsec.cert
 ipsec_key: ipsec.key
 
@@ -30,3 +36,7 @@ ikev2_users: []
 #    password: "passw"
 
 ipsec_service_name: "{%if ansible_distribution == 'Ubuntu' %}strongswan{% else %}ipsec{% endif %}"
+
+ipsec_gen_ios8_profile: true
+ipsec_ios8_include_password: false
+

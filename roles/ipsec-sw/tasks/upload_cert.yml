@@ -1,0 +1,26 @@
+---
+#upload certs
+#
+- name: Upload ca cert
+  copy: src={{ ipsec_ca_cert }}
+        dest=/etc/ipsec.d/cacerts/ca_cert.pem
+        owner=root group=root
+  notify: restart ipsec
+  tags:
+    - ipsec
+
+- name: Upload ipsec certs
+  copy: src={{ ipsec_server_cert }}
+        dest=/etc/ipsec.d/certs/server_cert.pem
+        owner=root group=root
+  notify: restart ipsec
+  tags:
+    - ipsec
+
+- name: Upload ipsec server key
+  copy: src={{ ipsec_server_key }}
+        dest=/etc/ipsec.d/private/server_key.pem
+        owner=root group=root
+  notify: restart ipsec
+  tags:
+    - ipsec

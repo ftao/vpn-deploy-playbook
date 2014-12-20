@@ -1,0 +1,34 @@
+---
+#auto generate ikev2 certs
+#
+- name: init ca 
+  shell: ipsec pki --gen --outform pem > /etc/ipsec.d/private/ca_key.pem
+         creates=/etc/ipsec.d/private/ca_key.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
+    - ca
+
+- name: create ca cert
+  shell: ipsec pki --self --in /etc/ipsec.d/private/ca_key.pem --dn "C=CH, O=vpndeploy, CN={{ ipsec_ca_common_name }}" --ca --outform pem > /etc/ipsec.d/cacerts/ca_cert.pem
+         creates=/etc/ipsec.d/cacerts/ca_cert.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
+    - ca
+
+- name: create server key
+  shell: ipsec pki --gen --outform pem > /etc/ipsec.d/private/server_key.pem
+         creates=/etc/ipsec.d/private/server_key.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
+    - ca
+
+- name: create server cert
+  shell: ipsec pki --pub --in /etc/ipsec.d/private/server_key.pem | ipsec pki --issue --cacert /etc/ipsec.d/cacerts/ca_cert.pem --cakey /etc/ipsec.d/private/ca_key.pem --dn "C=CH,O=vpndeploy,CN={{ ipsec_domain }}" --san="{{ ipsec_domain }}" --flag serverAuth --flag ikeIntermediate --outform pem > /etc/ipsec.d/certs/server_cert.pem
+         creates=/etc/ipsec.d/certs/server_cert.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
+    - ca

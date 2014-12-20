@@ -1,0 +1,47 @@
+---
+
+- name: install nginx
+  apt: pkg=nginx state=installed
+  tags:
+    - nginx
+    - static-site
+
+- name: upload cert for ssl site
+  copy: src={{ nginx_site_cert }}
+        dest=/etc/ssl/certs/nginx-site-{{ nginx_site_name }}.pem
+  when: nginx_site_ssl_on
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+    - static-site
+
+- name: upload private key for ssl site
+  copy: src={{ nginx_site_key }}
+        dest=/etc/ssl/private/nginx-site-{{ nginx_site_name }}.key
+  when: nginx_site_ssl_on
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+    - static-site
+
+- name: install site
+  template: src=site.nginx.conf 
+            dest=/etc/nginx/sites-available/{{ nginx_site_name }}.conf
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+    - static-site
+
+- name: enable site
+  file: src=/etc/nginx/sites-available/{{ nginx_site_name }}.conf
+        dest=/etc/nginx/sites-enabled/{{ nginx_site_name }}.conf
+        state=link
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+    - static-site
+

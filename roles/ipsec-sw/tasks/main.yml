@@ -50,23 +50,14 @@
   tags:
     - ipsec
 
-- name: Upload ipsec certs
-  copy: src={{ ipsec_cert }}
-        dest=/etc/ipsec.d/certs/ipsec.pem
-        owner=root group=root
-  when: ipsec_enable_ikev2
-  notify: restart ipsec
-  tags:
-    - ipsec
+- include: gen_cert.yml
+  when: ipsec_enable_ikev2 and ipsec_cert_auto
 
-- name: Upload ipsec private key
-  copy: src={{ ipsec_key }}
-        dest=/etc/ipsec.d/private/ipsec.key
-        owner=root group=root
-  when: ipsec_enable_ikev2
-  notify: restart ipsec
-  tags:
-    - ipsec
+- include: upload_cert.yml
+  when: ipsec_enable_ikev2 and not ipsec_cert_auto
+
+- include: ios8.yml
+  when: ipsec_enable_ikev2 and ipsec_gen_ios8_profile
 
 - name: make sure /opt/easynat exists
   action: file path=/opt/easynat/ state=directory

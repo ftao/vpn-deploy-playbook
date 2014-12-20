@@ -1,0 +1,111 @@
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Set the name to whatever you like, it is used in the profile list on the device -->
+    <key>PayloadDisplayName</key>
+    <string>ikev2 VPN Profile</string>
+    <!-- This is a reverse-DNS style unique identifier used to detect duplicate profiles -->
+    <key>PayloadIdentifier</key>
+    <string>{{ ipsec_domain }}</string>
+    <!-- A globally unique identifier, use uuidgen on Linux/Mac OS X to generate it -->
+    <key>PayloadUUID</key>
+    <string>AF98E7E7-1A6D-4A1D-9E42-B99F2E808C34</string>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadContent</key>
+    <array>
+        <!-- It is possible to add multiple VPN payloads with different identifiers/UUIDs and names -->
+        <dict>
+            <!-- This is an extension of the identifier given above -->
+            <key>PayloadIdentifier</key>
+            <string>{{ ipsec_domain }}.conf1</string>
+            <!-- A globally unique identifier for this payload -->
+            <key>PayloadUUID</key>
+            <string>ABF0FDF0-57C2-4A52-96FB-0AAF6327040A</string>
+            <key>PayloadType</key>
+            <string>com.apple.vpn.managed</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <!-- This is the name of the VPN conneciton as seen in the VPN application later -->
+            <key>UserDefinedName</key>
+            <string>VPN Name</string>
+            <key>VPNType</key>
+            <string>IKEv2</string>
+            <key>IKEv2</key>
+            <dict>
+                <!-- Hostname or IP address of the VPN server -->
+                <key>RemoteAddress</key>
+                <string>{{ ipsec_domain }}</string>
+                <!-- Remote identity, can be a FQDN, a userFQDN, an IP or (theoretically) a certificate's subject DN. Can't be empty.
+                     IMPORTANT: DNs are currently not handled correctly, they are always sent as identities of type FQDN -->
+                <key>RemoteIdentifier</key>
+                <string>{{ ipsec_domain }}</string>
+                <!-- Local IKE identity, same restrictions as above. If it is empty the client's IP address will be used -->
+                <key>LocalIdentifier</key>
+                <string></string>
+                <!-- Optional, if it matches the CN of the root CA certificate (not the full subject DN) a certificate request will be sent
+                     NOTE: If this is not configured make sure to configure leftsendcert=always on the server, otherwise it won't send its certificate -->
+                <key>ServerCertificateIssuerCommonName</key>
+                <string>{{ ipsec_ca_common_name }}</string>
+                <!-- Optional, the CN or one of the subjectAltNames of the server certificate to verify it, if not set RemoteIdentifier will be used -->
+                <key>ServerCertificateCommonName</key>
+                <string>{{ ipsec_domain }}</string>
+                <!-- The server is authenticated using a certificate -->
+                <key>AuthenticationMethod</key>
+                <string>Certificate</string>
+                <!-- The client uses EAP to authenticate -->
+                <key>ExtendedAuthEnabled</key>
+                <integer>1</integer>
+                <!-- User name for EAP authentication, must be set as there is currently no prompt during installation.
+                     IMPORTANT: Because there is no prompt and this value cannot be changed later on the device a separate profile is required for every user -->
+                <key>AuthName</key>
+                <string>{{ item.username }}</string>
+                {% if ipsec_ios8_include_password %}
+                <!-- Optional password for EAP authentication, if it is not set the user is prompted when the profile is installed
+                -->
+                <key>AuthPassword</key>
+                <string>{{ item.password }}</string>
+                {% endif %}
+                <!-- The next two dictionaries are optional (as are the keys in them), but it is recommended to specify them as the default is to use 3DES.
+                     IMPORTANT: Because only one proposal is sent (even if nothing is configured here) it must match the server configuration -->
+                <key>IKESecurityAssociationParameters</key>
+                <dict>
+                    <key>EncryptionAlgorithm</key>
+                    <string>AES-128</string>
+                    <key>IntegrityAlgorithm</key>
+                    <string>SHA1-96</string>
+                    <key>DiffieHellmanGroup</key>
+                    <integer>14</integer>
+                </dict>
+                <key>ChildSecurityAssociationParameters</key>
+                <dict>
+                    <key>EncryptionAlgorithm</key>
+                    <string>AES-128</string>
+                    <key>IntegrityAlgorithm</key>
+                    <string>SHA1-96</string>
+                    <key>DiffieHellmanGroup</key>
+                    <integer>14</integer>
+                </dict>
+            </dict>
+        </dict>
+        <!-- This payload is optional but it provides an easy way to install the CA certificate together with the configuration -->
+        <dict>
+            <key>PayloadIdentifier</key>
+            <string>org.example.ca</string>
+            <key>PayloadUUID</key>
+            <string>3405414A-C89E-4A25-9178-F6CE34265141</string>
+            <key>PayloadType</key>
+            <string>com.apple.security.root</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <!-- This is the Base64 (PEM) encoded CA certificate -->
+            <key>PayloadContent</key>
+            <data>
+            {{ ipsec_ca_cert_content_action.stdout }}
+            </data>
+        </dict>
+    </array>
+</dict>
+</plist>
