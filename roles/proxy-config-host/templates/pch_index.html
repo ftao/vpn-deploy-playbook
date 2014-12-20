@@ -1,3 +1,10 @@
+{% macro pac_url(item, mode) -%}
+{% if pch_cert is defined %}
+https://{{ pch_server_name }}{% if pch_listen_port != 443 %}:{{ pch_listen_port }}{% endif %}/proxy-{{ item.name }}-{{ mode }}.pac
+{% else %}
+http://{{ pch_server_name|default(pch_listen_ip) }}{% if pch_listen_port != 80 %}:{{ pch_listen_port }}{% endif %}/proxy-{{ item.name }}-{{ mode }}.pac
+{% endif %}
+{%- endmacro %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,14 +25,14 @@
           </tr>
         </thead>
         <tbody>
-        {% for mode in ["gfwlist", "chnroutes"] %}
+        {% for mode in ["gfwlist", "chnroutes", "whitelist"] %}
         {% for item in pch_proxy_servers %}
           <tr {% if mode == pch_default_mode and item.name == pch_default_proxy %}class="success" {% endif %}>
             <td>{{ item.type }}</td>
             <td>{{ item.host|default(pch_listen_ip)}}:{{ item.port }}</td>
             <td>{{ mode }}</td>
             <td>
-              <a href="http://{{ pch_listen_ip }}:{{ pch_listen_port }}/proxy-{{ item.name }}-{{ mode }}.pac">http://{{ pch_listen_ip }}:{{ pch_listen_port }}/proxy-{{ item.name }}-{{ mode }}.pac</a>
+              <a href="{{ pac_url(item, mode) }}">{{ pac_url(item, mode) }}</a>
             </td>
           </tr>
         {% endfor %}

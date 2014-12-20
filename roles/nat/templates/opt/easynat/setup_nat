@@ -28,7 +28,7 @@ $IPTABLES -t nat -I EASY_NAT_FILTER -o lo -j RETURN
 
 while read line 
 do
-    $IPTABLES -t nat -A EASY_NAT_FILTER -s $line -o eth0 -j EASY_NAT
+    $IPTABLES -t nat -A EASY_NAT_FILTER -s $line -j EASY_NAT
     $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp -j EASY_NAT_SET_MTU
 done < /opt/easynat/rules.cnf
 

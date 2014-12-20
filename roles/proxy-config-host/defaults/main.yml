@@ -7,6 +7,9 @@ pch_listen_port: 80
 pch_default_proxy: 'http'
 pch_default_mode: 'gfwlist'
 
+#pch_cert: "somecert.crt"
+#pch_private_key: "samekey.crt"
+ 
 pch_proxy_servers:
   - name: socks
     type: "socks5"

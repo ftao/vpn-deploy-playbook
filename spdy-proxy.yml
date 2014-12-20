@@ -3,5 +3,4 @@
 - hosts: spdy-proxy
   roles:
    - common
-   - squid-root
-   - spdy-proxy
+   - node-spdyproxy

@@ -1,0 +1,14 @@
+---
+#set a static openvpn server
+
+- name: install openvpn
+  action: apt package=openvpn state=present
+  tags:
+    - openvpn
+
+- name: upload server config files
+  action: template src=static-client.conf dest=/etc/openvpn/{{ openvpn_conf_name }}.conf
+  notify:
+    - restart openvpn
+  tags:
+    - openvpn-static

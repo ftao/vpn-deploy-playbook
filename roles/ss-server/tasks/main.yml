@@ -55,17 +55,6 @@
 - include: install_python.yml
   when: shadowsocks_provider == "python"
 
-#- name: install shadowssocks
-#  action: copy src={{ item }}
-#               dest=/opt/ss-server/{{ item }}
-#               mode=755
-#  with_items:
-#    - ss-server
-#  notify:
-#    - "restart shadowsocks-server {{ name }}"
-#  tags:
-#    - ss-server
-
 - name: install shadowssocks-server supervisorconfig
   template: src=ss-server.supervisor.conf
             dest=/etc/supervisor/conf.d/ss-server-{{ name }}.conf
@@ -76,9 +65,9 @@
     - ss-server
 
 - name: install shadowssocks server config file
-  action: template src=config.json
-                   dest=/opt/ss-server/config-{{ name }}.json
-                   mode=640
+  template: src=config.json
+            dest=/opt/ss-server/config-{{ name }}.json
+            mode=640
   notify:
     - "restart shadowsocks-server {{ name }}"
   tags:

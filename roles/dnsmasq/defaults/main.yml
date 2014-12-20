@@ -1,0 +1,3 @@
+---
+dnsmasq_listen_addresses:
+  - 127.0.0.1

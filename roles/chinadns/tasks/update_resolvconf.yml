@@ -1,0 +1,11 @@
+---
+
+- name: add cninadns to resolv.conf.d/head
+  lineinfile: line="nameserver 127.0.0.1"
+              regexp="nameserver 127.0.0.1"
+              dest=/etc/resolvconf/resolv.conf.d/head
+  notify:
+    - update resolvconf
+  tags:
+    - chinadns
+

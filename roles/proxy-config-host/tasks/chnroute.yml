@@ -1,0 +1,43 @@
+- name: upload chnroute2pac 
+  copy: src={{ item }} dest=/tmp/{{ item }} mode=755
+  with_items:
+    - chnroutes.py
+    - chnroutes2pac.py
+  tags:
+    - pch
+    - pac
+
+- name: dowload apnic data
+  get_url: url=http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest
+           dest=/tmp/apnic.dat
+  tags:
+    - pch
+    - pac
+  
+- name: generate pac file (chnroutes socks)
+  shell: ./chnroutes2pac.py -i /tmp/apnic.dat -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-chnroutes.pac -p "SOCKS5 {{ item.host|default(pch_listen_ip) }}:{{ item.port }}; SOCKS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+         chdir=/tmp/
+  with_items: pch_proxy_servers
+  when: item.type == "socks5"
+  tags:
+    - pch
+    - pac
+ 
+- name: generate pac file (chnroutes2 http)
+  shell: ./chnroutes2pac.py -i /tmp/apnic.dat -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-chnroutes.pac -p "PROXY {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+         chdir=/tmp/
+  with_items: pch_proxy_servers
+  when: item.type == "http"
+  tags:
+    - pch
+    - pac
+ 
+- name: generate pac file (chnroutes2 spdy)
+  shell: ./chnroutes2pac.py -i /tmp/apnic.dat -f /var/www/pch/{{ pch_name }}/proxy-{{ item.name }}-chnroutes.pac -p "HTTPS {{ item.host|default(pch_listen_ip) }}:{{ item.port }};"
+         chdir=/tmp/
+  with_items: pch_proxy_servers
+  when: item.type == "spdy"
+  tags:
+    - pch
+    - pac
+ 

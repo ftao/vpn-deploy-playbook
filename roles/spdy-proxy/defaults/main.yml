@@ -1,10 +1,14 @@
 ---
 spdy_proxy_listen_host: "{{ ansible_default_ipv4.address }}"
 spdy_proxy_listen_port: 8443
-spdy_proxy_server_name: proxy.example.com
 
 spdy_proxy_private_key: example.key
 spdy_proxy_cert: example.crt
 
 spdy_proxy_backend_host: 127.0.0.1
 spdy_proxy_backend_port: 6128
+
+spdy_proxy_provider: node-spdyproxy
+
+#spdy_proxy_username: 'spdy'
+#spdy_proxy_password: 'spdy'

@@ -1,0 +1,51 @@
+---
+- name: install nodejs & npm
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - nodejs
+    - npm
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
+- name: ensure node-spdyproxy directory
+  file: path=/opt/node-spdyproxy state=directory
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
+- name: ensure node-spdyproxy conf directory
+  file: path=/etc/node-spdyproxy state=directory
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
+- name: install  node-spdyproxy via npm
+  npm: name=spdyproxy path=/opt/node-spdyproxy
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
+- name: upload priviate key
+  copy: src={{ spdy_proxy_private_key }} dest=/etc/node-spdyproxy/ssl.key mode=600
+  notify:
+     - restart node-spdyproxy
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
+- name: upload cert
+  copy: src={{ spdy_proxy_cert }} dest=/etc/node-spdyproxy/ssl.crt mode=600
+  notify:
+     - restart node-spdyproxy
+  tags:
+    - spdy-proxy
+    - node-spdyproxy
+
+- name: upload supervisor config
+  template: src=supervisor.node-spdyproxy.conf  dest=/etc/supervisor/conf.d/node-spdyproxy.conf 
+  notify:
+    - restart node-spdyproxy
+  tags:
+    - spdy-proxy
+    - node-spdyproxy

@@ -8,10 +8,12 @@ function FindProxyForURL(url, host) {
     {% endfor %} ){
         return  "DIRECT";
     }
-    {% if proxy_server_type == "socks5" %}
+    {% if proxy_server_type == "spdy" %}
+    return  "HTTPS {{ proxy_server_host }}:{{ proxy_server_port }};";
+    {% elif proxy_server_type == "socks5" %}
     return  "SOCKS5 {{ proxy_server_host }}:{{ proxy_server_port }}; SOCKS {{ proxy_server_host }}:{{ proxy_server_port }};";
     {% endif %}
     {% if proxy_server_type == "http" %}
-    return  "PROXY {{ proxy_server_host }}:{{ proxy_server_port }}";
+    return  "PROXY {{ proxy_server_host }}:{{ proxy_server_port }};";
     {% endif %}
 }

@@ -28,3 +28,5 @@ ikev2_users: []
 #    password: "pass1"
 #  - username: "user2"
 #    password: "passw"
+
+ipsec_service_name: "{%if ansible_distribution == 'Ubuntu' %}strongswan{% else %}ipsec{% endif %}"

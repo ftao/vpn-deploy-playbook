@@ -1,3 +1,14 @@
 ---
 
 - include: shrpx.yml
+  when: spdy_proxy_provider == "shrpx"
+
+- include: node-spdyproxy.yml
+  when: spdy_proxy_provider == "node-spdyproxy"
+  
+- name: remove unused superivsor conf
+  file: path=/etc/supervisor/conf.d/{{ item }}.conf state=absent
+  when: spdy_proxy_provider != "{{ item }}"
+  with_items:
+    - shrpx
+    - node-spdyproxy

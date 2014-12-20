@@ -6,6 +6,12 @@
   tags:
     - openvpn
 
+- name: ensure log dir exists 
+  file: path=/var/log/openvpn state=directory
+  tags:
+    - openvpn
+
+
 - name: upload server config files
   action: template src=etc/openvpn/server.conf dest=/etc/openvpn/{{ item.name }}.conf
   with_items: openvpn_servers
