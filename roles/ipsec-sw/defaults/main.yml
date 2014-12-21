@@ -21,7 +21,8 @@ ipsec_dns_servers:
 
 ipsec_psk: ipsecworks
 ipsec_cert_auto: true
-ipsec_ca_common_name: 'VPN Deploybook CA'
+ipsec_ca_id: 'org.vpn-deploy-playbook.ca'
+ipsec_ca_common_name: 'VPN DeployPlaybook CA'
 ipsec_ca_cert: ca.cert
 ipsec_cert: ipsec.cert
 ipsec_key: ipsec.key

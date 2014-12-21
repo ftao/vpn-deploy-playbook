@@ -3,13 +3,13 @@
 <dict>
     <!-- Set the name to whatever you like, it is used in the profile list on the device -->
     <key>PayloadDisplayName</key>
-    <string>ikev2 VPN Profile</string>
+    <string>{{ item.username }} VPN Profile - {{ ipsec_domain }}</string>
     <!-- This is a reverse-DNS style unique identifier used to detect duplicate profiles -->
     <key>PayloadIdentifier</key>
     <string>{{ ipsec_domain }}</string>
     <!-- A globally unique identifier, use uuidgen on Linux/Mac OS X to generate it -->
     <key>PayloadUUID</key>
-    <string>AF98E7E7-1A6D-4A1D-9E42-B99F2E808C34</string>
+    <string>{{ ipsec_domain|uuid5(item.username, item.password, "global") }}</string>
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadVersion</key>
@@ -20,17 +20,17 @@
         <dict>
             <!-- This is an extension of the identifier given above -->
             <key>PayloadIdentifier</key>
-            <string>{{ ipsec_domain }}.conf1</string>
+            <string>{{ ipsec_domain }}.conf-{{ item.username }}</string>
             <!-- A globally unique identifier for this payload -->
             <key>PayloadUUID</key>
-            <string>ABF0FDF0-57C2-4A52-96FB-0AAF6327040A</string>
+            <string>{{ ipsec_domain|uuid5(item.username, item.password, "conf") }}</string>
             <key>PayloadType</key>
             <string>com.apple.vpn.managed</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <!-- This is the name of the VPN conneciton as seen in the VPN application later -->
             <key>UserDefinedName</key>
-            <string>VPN Name</string>
+            <string>{{ item.username }} {{ ipsec_domain }} IKEV2</string>
             <key>VPNType</key>
             <string>IKEv2</string>
             <key>IKEv2</key>
@@ -93,9 +93,9 @@
         <!-- This payload is optional but it provides an easy way to install the CA certificate together with the configuration -->
         <dict>
             <key>PayloadIdentifier</key>
-            <string>org.example.ca</string>
+            <string>{{ ipsec_ca_id }}</string>
             <key>PayloadUUID</key>
-            <string>3405414A-C89E-4A25-9178-F6CE34265141</string>
+            <string>{{ ipsec_ca_cert_content_action.stdout|uuid5 }}</string>
             <key>PayloadType</key>
             <string>com.apple.security.root</string>
             <key>PayloadVersion</key>
