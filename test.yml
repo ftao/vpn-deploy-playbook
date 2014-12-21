@@ -22,7 +22,7 @@
     # nat role will setup firewall
     - nat
     # L2TP *********************************************************************
-    - ipsec-sw
+    - strongswan
 
     # proxy-backend ************************************************************
     - role: ss-server
