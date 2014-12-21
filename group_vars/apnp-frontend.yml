@@ -22,5 +22,5 @@ pch_proxy_servers:
     type: "http"
     port: "{{ http_proxy_port }}"  #the port for local squid
 
-pch_listen_ip: "{{ ansible_eth0.ipv4.address }}"
+pch_listen_ip: "{{ ansible_default_ipv4.address }}"
 pch_listen_port: 30080
