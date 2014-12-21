@@ -3,7 +3,7 @@
 
   roles:
     - common
-    - ipsec-sw
+    - strongswan
     - role: l2tp
       when: ipsec_enable_l2tp
 
