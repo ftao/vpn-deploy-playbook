@@ -20,8 +20,8 @@ ipsec_dns_servers:
    - 8.8.4.4
 
 ipsec_psk: ipsecworks
-ipsec_cert_auto: true
-ipsec_ca_id: 'org.vpn-deploy-playbook.ca'
+ipsec_cert_source: "gen" #pki,upload
+ipsec_pki_server: "{{ inventory_hostname }}"
 ipsec_ca_common_name: 'VPN DeployPlaybook CA'
 ipsec_ca_cert: ca.cert
 ipsec_cert: ipsec.cert

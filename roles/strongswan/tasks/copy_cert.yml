@@ -1,0 +1,43 @@
+---
+#copy cert from pki server 
+
+- name: create local tmp directory
+  local_action: file path=/tmp/certs/{{ inventory_hostname }} state=directory
+  tags:
+    - ipsec
+    - ca
+
+- name: download certs from pki server 
+  fetch: src={{ item.src }} dest=/tmp/certs/{{ inventory_hostname }}/{{ item.dest }} flat=yes
+  delegate_to: "{{ ipsec_pki_server }}"
+  with_items:
+    - src: "/opt/pki/cacerts/ca_cert.pem"
+      dest: ca_cert.pem
+    - src: "/opt/pki/private/{{ ipsec_domain }}_key.pem"
+      dest: server_key.pem
+    - src: "/opt/pki/certs/{{ ipsec_domain }}_cert.pem"
+      dest: server_cert.pem
+  tags:
+    - ipsec
+    - ca
+
+- name: upload certs to server 
+  copy: src=/tmp/certs/{{ inventory_hostname }}/{{ item.src }} dest={{ item.dest }}
+  with_items:
+    - src: ca_cert.pem
+      dest: /etc/ipsec.d/cacerts/ca_cert.pem
+    - src: server_key.pem
+      dest: /etc/ipsec.d/private/server_key.pem
+    - src: server_cert.pem
+      dest: /etc/ipsec.d/certs/server_cert.pem
+  notify:
+    - restart ipsec
+  tags:
+    - ipsec
+    - ca
+
+- name: delete local tmp directory
+  local_action: file path=/tmp/certs/{{ inventory_hostname }} state=absent
+  tags:
+    - ipsec
+    - ca

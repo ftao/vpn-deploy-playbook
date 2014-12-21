@@ -1,0 +1,14 @@
+pki_tool_provider: 'strongswan'
+pki_ca_db: /opt/pki/
+pki_ca_name: 'VPN DeployPlaybook CA'
+pki_ca_info:
+  C: "US"
+  O: "vpn-deploy-playbook.org"
+  #ST: "CA"
+  #L: "San Francisco"
+
+pki_server_certs:
+  - cname: server1.vpn-deploy-playbook.org
+
+pki_client_certs:
+  - cname: client1

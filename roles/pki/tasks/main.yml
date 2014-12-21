@@ -1,0 +1,15 @@
+---
+
+- include: install.strongswan.yml
+  when: pki_tool_provider == "strongswan"
+
+- include: init_ca_db.yml
+
+- include: init_ca.strongswan.yml
+  when: pki_tool_provider == "strongswan"
+
+- include: gen_server_keys.strongswan.yml
+  when: pki_tool_provider == "strongswan"
+
+#- include: gen_client_keys.strongswan.yml
+#  when: pki_tool_provider == "strongswan"

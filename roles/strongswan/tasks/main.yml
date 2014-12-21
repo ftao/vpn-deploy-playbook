@@ -51,10 +51,13 @@
     - ipsec
 
 - include: gen_cert.yml
-  when: ipsec_enable_ikev2 and ipsec_cert_auto
+  when: ipsec_enable_ikev2 and ipsec_cert_source == "gen"
 
 - include: upload_cert.yml
-  when: ipsec_enable_ikev2 and not ipsec_cert_auto
+  when: ipsec_enable_ikev2 and ipsec_cert_source == "upload"
+
+- include: copy_cert.yml
+  when: ipsec_enable_ikev2 and ipsec_cert_source == "pki"
 
 - include: ios8.yml
   when: ipsec_enable_ikev2 and ipsec_gen_ios8_profile

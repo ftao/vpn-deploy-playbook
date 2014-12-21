@@ -1,0 +1,14 @@
+---
+- name: create ca key 
+  shell: ipsec pki --gen --outform pem > ./private/ca_key.pem
+         chdir={{ pki_ca_db }}
+         creates=./private/ca_key.pem
+  tags:
+    - pki
+
+- name: create ca cert
+  shell: ipsec pki --self --in ./private/ca_key.pem --dn "C={{ pki_ca_info.C}}, O={{ pki_ca_info.O }}, CN={{ pki_ca_name }}" --ca --outform pem > ./cacerts/ca_cert.pem
+         chdir={{ pki_ca_db }}
+         creates=./cacerts/ca_cert.pem
+  tags:
+    - pki

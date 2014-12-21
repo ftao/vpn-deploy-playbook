@@ -93,7 +93,7 @@
         <!-- This payload is optional but it provides an easy way to install the CA certificate together with the configuration -->
         <dict>
             <key>PayloadIdentifier</key>
-            <string>{{ ipsec_ca_id }}</string>
+            <string>{{ ipsec_ca_common_name }}</string>
             <key>PayloadUUID</key>
             <string>{{ ipsec_ca_cert_content_action.stdout|uuid5 }}</string>
             <key>PayloadType</key>

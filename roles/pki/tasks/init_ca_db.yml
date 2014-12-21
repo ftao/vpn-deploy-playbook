@@ -1,0 +1,8 @@
+---
+
+- name: init ca db
+  file: path={{ pki_ca_db }}/{{ item }} state=directory mode=600
+  with_items:
+    - cacerts
+    - certs
+    - private

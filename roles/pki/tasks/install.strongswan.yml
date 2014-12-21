@@ -1,0 +1,6 @@
+---
+- name: Enforce strongswan is installed
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - strongswan
+
