@@ -1,4 +1,5 @@
-# VPN Deploy Playbook
+# VPN Deploy Playbook [![Build Status](https://travis-ci.org/ftao/vpn-deploy-playbook.svg?branch=master)](https://travis-ci.org/ftao/vpn-deploy-playbook) 
+
 A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and proxy services.
 
 
