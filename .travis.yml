@@ -27,15 +27,23 @@ script:
     && (echo 'Test: fail' && exit 1)
     || (echo 'Test: pass' && exit 0)
 
+
   # Run the role/playbook with ansible-playbook.
+
+  # test auth / radius /admin  ui
+  - ansible-playbook -i ansible_hosts.local auth.yml --sudo
+
   # test pptp
   - ansible-playbook -i ansible_hosts.local pptp.yml --sudo
 
   # test ipsec (include ikev1/ikev2/l2tp)
-  - ansible-playbook -i ansible_hosts.local ipsec.yml --sudo
+  #- ansible-playbook -i ansible_hosts.local ipsec.yml --sudo
 
-  # Run the role/playbook with ansible-playbook.
-  # - ansible-playbook -i ansible_hosts.local 022_shadowsocks.yml -c local --sudo --skip-tags sysctl
+  # test openconnect server 
+  - ansible-playbook -i ansible_hosts.local openconnect.yml --sudo
+
+  # test node-spdyproxy server 
+  - ansible-playbook -i ansible_hosts.local spdy-proxy.yml --sudo
 
   # Requests to make sure web respond.
   # - "curl --retry 3 --connect-timeout 5 --max-time 120 -s -o /dev/null http://localhost/"
