@@ -77,3 +77,6 @@
 - include: radius.yml
   when: ocserv_use_radius
 
+- include: add_user.yml
+  when: not ocserv_use_radius
+

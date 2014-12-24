@@ -1,0 +1,10 @@
+---
+
+- name: add user for ocserv server
+  lineinfile: line="{{ item.username }} {{ item.password }} *"
+              regexp="{{ item.username }} {{ item.password }} *"
+              dest=/usr/local/etc/ocserv/passwd
+  with_items: ocserv_users
+  tags:
+    - ocserv
+    - add_user
