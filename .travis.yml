@@ -28,6 +28,13 @@ script:
     || (echo 'Test: pass' && exit 0)
 
   # Run the role/playbook with ansible-playbook.
+  # test pptp
+  - ansible-playbook -i ansible_hosts.local pptp.yml --sudo
+
+  # test ipsec (include ikev1/ikev2/l2tp)
+  - ansible-playbook -i ansible_hosts.local ipsec.yml --sudo
+
+  # Run the role/playbook with ansible-playbook.
   # - ansible-playbook -i ansible_hosts.local 022_shadowsocks.yml -c local --sudo --skip-tags sysctl
 
   # Requests to make sure web respond.
