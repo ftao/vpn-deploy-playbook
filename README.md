@@ -33,7 +33,15 @@ There are also some guides (in Chinese) in the [Wiki](https://github.com/ftao/vp
 
 Simply clone this repo and make sure you have [Vagrant](http://www.vagrantup.com) + [Virtual Box](https://www.virtualbox.org) installed and...
 
-```vagrant up```
+``` bash
+vagrant up --no-provision
+vagrant provision
+```
 
-Vagrant is using Ubuntu 14.04 (ubuntu/trusty64) for it's OS.
+It may take about 10 ~ 60 minutes depends on your network. Vagrant is using Ubuntu 14.04 (ubuntu/trusty64) for it's OS. If you'd like to test on Debian Wheezy:
+
+``` bash
+VAGRANT_VAGRANTFILE=VagrantfileDebian vagrant up --no-provision
+VAGRANT_VAGRANTFILE=VagrantfileDebian vagrant provision
+```
 
