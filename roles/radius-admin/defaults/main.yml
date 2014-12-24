@@ -9,6 +9,6 @@ djra_db_password: "change-this-to-a-very-strong-password-ijjj803kJ"
 
 djra_setup_admin: true
 djra_admin_user: "admin"
-djra_admin_pass: "superstrong-password-4a92e2"
+djra_admin_password: "superstrong-password-4a92e2"
 
 djra_port: 9002
