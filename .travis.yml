@@ -1,0 +1,34 @@
+---
+language: python
+python: "2.7"
+
+before_install:
+
+  # Remove MySQL.
+  - sudo apt-get -y purge 'mysql*'
+  - sudo apt-get -y autoremove
+  - sudo apt-get -y autoclean
+  - sudo rm -rf /var/lib/mysql
+  - sudo truncate -s 0 /var/log/mysql/error.log
+
+  - sudo apt-get update
+
+install:
+
+  # Install Ansible.
+  - pip install ansible
+
+script:
+
+  # Check the role/playbook's syntax.
+  - >
+    ansible-playbook -i ansible_hosts.local *.yml --syntax-check
+    | grep -q 'ERROR'
+    && (echo 'Test: fail' && exit 1)
+    || (echo 'Test: pass' && exit 0)
+
+  # Run the role/playbook with ansible-playbook.
+  # - ansible-playbook -i ansible_hosts.local 022_shadowsocks.yml -c local --sudo --skip-tags sysctl
+
+  # Requests to make sure web respond.
+  # - "curl --retry 3 --connect-timeout 5 --max-time 120 -s -o /dev/null http://localhost/"
