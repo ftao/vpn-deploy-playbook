@@ -121,6 +121,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   chef.validation_client_name = "ORGNAME-validator"
 
   config.vm.provision "shell", inline: "sudo locale-gen en_US.UTF-8"
+  config.vm.provision "shell", inline: "sudo apt-get update"
   config.vm.provision "shell", inline: "sudo apt-get install ansible -y --force-yes"
 
   config.vm.provision "ansible" do |ansible|
