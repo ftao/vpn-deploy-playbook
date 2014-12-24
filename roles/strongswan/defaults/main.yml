@@ -22,6 +22,7 @@ ipsec_dns_servers:
 ipsec_psk: ipsecworks
 ipsec_cert_source: "gen" #pki,upload
 ipsec_pki_server: "{{ inventory_hostname }}"
+ipsec_pki_db_path: "/opt/pki"
 ipsec_ca_common_name: 'VPN DeployPlaybook CA'
 ipsec_ca_cert: ca.cert
 ipsec_cert: ipsec.cert

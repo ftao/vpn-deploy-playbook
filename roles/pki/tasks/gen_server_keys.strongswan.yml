@@ -1,21 +1,21 @@
 ---
 
 - name: create server key
-  shell: ipsec pki --gen --outform pem > ./private/{{ item.cname }}_key.pem
+  shell: ipsec pki --gen --outform pem > ./private/{{ item }}_key.pem
          chdir={{ pki_ca_db }}
-         creates=./private/{{ item.cname }}_key.pem
+         creates=./private/{{ item }}_key.pem
   with_items: pki_server_certs
   tags:
     - pki
 
 - name: create server cert
-  shell: ipsec pki --pub --in ./private/{{ item.cname }}_key.pem | 
+  shell: ipsec pki --pub --in ./private/{{ item }}_key.pem | 
          ipsec pki --issue --cacert ./cacerts/ca_cert.pem --cakey ./private/ca_key.pem 
-               --dn "C={{ pki_ca_info.C }},O={{ pki_ca_info.O }},CN={{ item.cname }}" 
-               --san="{{ item.cname }}" 
-               --flag serverAuth --flag ikeIntermediate --outform pem > ./certs/{{ item.cname }}_cert.pem
+               --dn "C={{ pki_ca_info.C }},O={{ pki_ca_info.O }},CN={{ item }}" 
+               --san="{{ item }}" 
+               --flag serverAuth --flag ikeIntermediate --outform pem > ./certs/{{ item }}_cert.pem
          chdir={{ pki_ca_db }}
-         creates=./certs/{{ item.cname}}_cert.pem
+         creates=./certs/{{ item}}_cert.pem
   with_items: pki_server_certs
   tags:
     - pki

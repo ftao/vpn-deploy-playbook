@@ -8,7 +8,7 @@ pki_ca_info:
   #L: "San Francisco"
 
 pki_server_certs:
-  - cname: server1.vpn-deploy-playbook.org
+  - server1.vpn-deploy-playbook.org
 
-pki_client_certs:
-  - cname: client1
+#pki_client_certs:
+#  - client1

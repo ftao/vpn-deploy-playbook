@@ -1,43 +1,41 @@
 ---
 #copy cert from pki server 
 
-- name: create local tmp directory
-  local_action: file path=/tmp/certs/{{ inventory_hostname }} state=directory
+- name: get ca certs content from pki server 
+  shell: cat {{ ipsec_pki_db_path }}/cacerts/ca_cert.pem
+  delegate_to: "{{ ipsec_pki_server }}"
+  register: ca_cert_content_action
   tags:
     - ipsec
     - ca
 
-- name: download certs from pki server 
-  fetch: src={{ item.src }} dest=/tmp/certs/{{ inventory_hostname }}/{{ item.dest }} flat=yes
+- name: get server key content from pki server 
+  shell: cat {{ ipsec_pki_db_path }}/private/{{ ipsec_domain }}_key.pem
   delegate_to: "{{ ipsec_pki_server }}"
-  with_items:
-    - src: "/opt/pki/cacerts/ca_cert.pem"
-      dest: ca_cert.pem
-    - src: "/opt/pki/private/{{ ipsec_domain }}_key.pem"
-      dest: server_key.pem
-    - src: "/opt/pki/certs/{{ ipsec_domain }}_cert.pem"
-      dest: server_cert.pem
+  register: server_key_content_action
+  tags:
+    - ipsec
+    - ca
+
+- name: get server cert content from pki server 
+  shell: cat {{ ipsec_pki_db_path }}/certs/{{ ipsec_domain }}_cert.pem
+  delegate_to: "{{ ipsec_pki_server }}"
+  register: server_cert_content_action
   tags:
     - ipsec
     - ca
 
 - name: upload certs to server 
-  copy: src=/tmp/certs/{{ inventory_hostname }}/{{ item.src }} dest={{ item.dest }}
+  template: src=anything.txt dest=/etc/ipsec.d/{{ item.path }}
   with_items:
-    - src: ca_cert.pem
-      dest: /etc/ipsec.d/cacerts/ca_cert.pem
-    - src: server_key.pem
-      dest: /etc/ipsec.d/private/server_key.pem
-    - src: server_cert.pem
-      dest: /etc/ipsec.d/certs/server_cert.pem
+    - path: cacerts/ca_cert.pem
+      content: "{{ ca_cert_content_action.stdout }}"
+    - path: private/server_key.pem
+      content: "{{ server_key_content_action.stdout }}"
+    - path: certs/server_cert.pem
+      content: "{{ server_cert_content_action.stdout }}"
   notify:
     - restart ipsec
-  tags:
-    - ipsec
-    - ca
-
-- name: delete local tmp directory
-  local_action: file path=/tmp/certs/{{ inventory_hostname }} state=absent
   tags:
     - ipsec
     - ca
