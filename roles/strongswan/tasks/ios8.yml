@@ -24,3 +24,16 @@
   tags: 
     - ipsec
     - ios8
+
+- name: sign the ios config files
+  shell: openssl smime -sign -in {{ item.username }}.mobileconfig -out {{ item.username }}.signed.mobileconfig 
+                 -signer /etc/ipsec.d/certs/server_cert.pem 
+                 -inkey /etc/ipsec.d/private/server_key.pem 
+                 -certfile /etc/ipsec.d/cacerts/ca_cert.pem
+                 -outform der -nodetach
+         chdir=/var/www/ikev2/ios8-profile/
+         creates={{ item.username }}.signed.mobileconfig
+  with_items: ikev2_users
+  tags: 
+    - ipsec
+    - ios8
