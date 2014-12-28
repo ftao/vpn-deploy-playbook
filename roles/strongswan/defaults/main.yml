@@ -3,6 +3,8 @@ ipsec_enable_l2tp: true
 ipsec_enable_ikev1: true
 ipsec_enable_ikev2: true
 
+ipsec_remote_address: "{{ inventory_hostname }}"
+#ipsec_remote_address: "{{ ansible_default_ipv4.address }}"
 ipsec_domain: "{{ inventory_hostname }}"
 ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
 ipsec_subnet: 10.7.0.0/24
@@ -25,8 +27,8 @@ ipsec_pki_server: "{{ inventory_hostname }}"
 ipsec_pki_db_path: "/opt/pki"
 ipsec_ca_common_name: 'VPN DeployPlaybook CA'
 ipsec_ca_cert: ca.cert
-ipsec_cert: ipsec.cert
-ipsec_key: ipsec.key
+ipsec_server_cert: ipsec.cert
+ipsec_server_key: ipsec.key
 
 ikev1_users: []
 

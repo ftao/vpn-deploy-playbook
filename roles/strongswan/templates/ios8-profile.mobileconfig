@@ -37,7 +37,7 @@
             <dict>
                 <!-- Hostname or IP address of the VPN server -->
                 <key>RemoteAddress</key>
-                <string>{{ ipsec_domain }}</string>
+                <string>{{ ipsec_remote_address }}</string>
                 <!-- Remote identity, can be a FQDN, a userFQDN, an IP or (theoretically) a certificate's subject DN. Can't be empty.
                      IMPORTANT: DNs are currently not handled correctly, they are always sent as identities of type FQDN -->
                 <key>RemoteIdentifier</key>

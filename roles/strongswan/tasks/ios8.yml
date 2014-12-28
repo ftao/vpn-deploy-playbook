@@ -32,7 +32,7 @@
                  -certfile /etc/ipsec.d/cacerts/ca_cert.pem
                  -outform der -nodetach
          chdir=/var/www/ikev2/ios8-profile/
-         creates={{ item.username }}.signed.mobileconfig
+#         creates={{ item.username }}.signed.mobileconfig
   with_items: ikev2_users
   tags: 
     - ipsec
