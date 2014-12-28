@@ -1,6 +1,6 @@
 ---
 # A playbook for testing all roles.
-- hosts: test
+- hosts: all
   sudo: yes
 
   roles:
