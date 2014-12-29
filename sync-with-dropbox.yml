@@ -1,0 +1,93 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dropbox_folder: "~/Dropbox/.vpn-deploy-playbook"
+    hosts_file: "ansible_hosts"
+  tasks:
+    - name: Check group folder
+      stat: path="{{ dropbox_folder }}/group_vars"
+      register: group_folder
+
+    - name: Create group_vars folder in Dropbox folder
+      file: path="{{ dropbox_folder }}/group_vars" state=directory
+      when: not group_folder.stat.exists
+
+    - name: Check host folder
+      stat: path="{{ dropbox_folder }}/host_vars"
+      register: host_folder
+
+    - name: Create host_vars folder in Dropbox folder
+      file: path="{{ dropbox_folder }}/host_vars" state=directory
+      when: not host_folder.stat.exists
+
+    - name: Check hosts file in Dropbox folder
+      stat: path="{{ dropbox_folder }}/{{ hosts_file }}"
+      register: dropbox_hosts_config
+
+    - name: Check hosts file in current folder
+      stat: path="{{ hosts_file }}"
+      register: hosts_config
+
+    - name: Copy host file if the one in Dropbox doesn't exist
+      copy: src="{{ hosts_file }}" dest="{{ dropbox_folder }}/{{ hosts_file }}" backup=true
+      when: not dropbox_hosts_config.stat.exists and hosts_config.stat.exists
+
+    - name: Check hosts file in Dropbox folder again
+      stat: path="{{ dropbox_folder }}/{{ hosts_file }}"
+      register: dropbox_hosts_config
+
+    - name: Check hosts file in current folder again
+      stat: path="{{ hosts_file }}"
+      register: hosts_config
+
+    - name: Remove the hosts file in current folder if there is one in Dropbox
+      command: "rm -rf {{ hosts_file }}"
+      when: dropbox_hosts_config.stat.exists and not hosts_config.stat.islnk
+
+    - name: And then symbol link the Dropbox one to current folder
+      file: src="{{ dropbox_folder }}/{{ hosts_file }}" dest="{{ hosts_file }}" state=link
+      when: dropbox_hosts_config.stat.exists
+
+    - name: Check if there're group_vars in Dropbox
+      command: "ls {{ dropbox_folder }}/group_vars/"
+      register: group_vars_folder
+
+    - name: Copy group_vars if there is no one in Dropbox
+      copy: src={{ item }} dest={{ dropbox_folder }}/group_vars/
+      with_fileglob:
+        - group_vars/*.yml
+      when: group_vars_folder.stdout.find(".yml") == -1
+
+    - name: Remove group_vars in current folder
+      command: rm -rf {{ item }}
+      with_fileglob:
+        - group_vars/*.yml
+      when: group_vars_folder.stdout.find(".yml") == -1
+
+    - name: Symbol link group_vars from Dropbox
+      file: src="{{ item }}" dest="group_vars/{{ item | basename }}" state=link
+      with_fileglob:
+        - "{{ dropbox_folder }}/group_vars/*.yml"
+
+    - name: Check if there're host_vars in Dropbox
+      command: "ls {{ dropbox_folder }}/host_vars/"
+      register: host_vars_folder
+
+    - name: Copy host_vars if there is no one in Dropbox
+      copy: src={{ item }} dest={{ dropbox_folder }}/host_vars/
+      with_fileglob:
+        - host_vars/*.yml
+      when: host_vars_folder.stdout.find(".yml") == -1
+
+    - name: Remove host_vars in current folder
+      command: rm -rf {{ item }}
+      with_fileglob:
+        - host_vars/*.yml
+      when: host_vars_folder.stdout.find(".yml") == -1
+
+    - name: Symbol link host_vars from Dropbox
+      file: src="{{ item }}" dest="host_vars/{{ item | basename }}" state=link
+      with_fileglob:
+        - "{{ dropbox_folder }}/host_vars/*.yml"
