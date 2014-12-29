@@ -24,6 +24,7 @@ A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and p
 3. edit the file to add your servers
 4. edit files in `group_vars` or create and edit `host_vars/SERVER_NAME.yml` to fit your needs
 5. run `ansible-playbook PLAYBOOK_NAME.yml` to setup servers
+6. sync your config files with Dropbox `ansible-playbook sync-with-dropbox.yml -i ansible_hosts.local`
 
 There are also some guides (in Chinese) in the [Wiki](https://github.com/ftao/vpn-deploy-playbook/wiki)
 
