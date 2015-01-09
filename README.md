@@ -19,8 +19,8 @@ A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and p
 
 ## How to use
 
-1. install [Ansible](http://docs.ansible.com/intro_installation.html#id11) in control machine
-2. copy `ansible_hosts.example` to `ansible_hosts`
+1. `[sudo] pip install ansible` install [Ansible](http://docs.ansible.com/intro_installation.html#id11) in control machine
+2. `cp ansible_hosts{.example,}` copy `ansible_hosts.example` to `ansible_hosts`
 3. edit the file to add your servers
 4. edit files in `group_vars` or create and edit `host_vars/SERVER_NAME.yml` to fit your needs
 5. run `ansible-playbook PLAYBOOK_NAME.yml` to setup servers

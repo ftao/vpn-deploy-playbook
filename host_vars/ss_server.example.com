@@ -1,0 +1,13 @@
+---
+
+shadowsocks_servers:
+
+  default:
+    port: 8838
+    password: "ssserver-very-long-password-876410482"
+    enable_udp: false
+
+  udp_relay:
+    port: 8839
+    password: "ssserver-very-long-password-udp-876410482"
+    enable_udp: true
