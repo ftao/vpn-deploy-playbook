@@ -6,3 +6,6 @@ password: "ssserver-very-long-password-876410482"
 method: "aes-256-cfb"
 
 shadowsocks_provider: "libev"
+
+shadowsocks_tune_system: true
+shadowsocks_change_tcp_congestion_control: false

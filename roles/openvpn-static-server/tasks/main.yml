@@ -30,3 +30,7 @@
   tags: 
     - openvpn-static-server
     - nat
+
+- name: generate client config file
+  local_action: template src=static-client.conf dest={{ openvpn_client_config_file }}
+  when: openvpn_client_config_file != ""

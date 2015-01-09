@@ -39,8 +39,15 @@
     - {"name" : "net.ipv4.tcp_rmem", "value" : "4096 87380 67108864"}
     - {"name" : "net.ipv4.tcp_wmem", "value" : "4096 65536 67108864"}
     - {"name" : "net.ipv4.tcp_mtu_probing", "value" : "1"}
-    - {"name" : "net.ipv4.tcp_congestion_control", "value" : "hybla"}
+  when: shadowsocks_tune_system
+  tags:
+    - ss-server
 
+- name: change tcp_congestion_control protocol
+  sysctl: name="{{ item.name }}" value="{{ item.value }}" state=present reload=yes
+  with_items:
+    - {"name" : "net.ipv4.tcp_congestion_control", "value" : "hybla"}
+  when: shadowsocks_change_tcp_congestion_control
   tags:
     - ss-server
 

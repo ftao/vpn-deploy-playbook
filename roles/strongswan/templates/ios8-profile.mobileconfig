@@ -3,13 +3,13 @@
 <dict>
     <!-- Set the name to whatever you like, it is used in the profile list on the device -->
     <key>PayloadDisplayName</key>
-    <string>{{ item.username }} VPN Profile - {{ ipsec_domain }}</string>
+    <string>{{ item.username }} VPN Profile - {{ ipsec_remote_address }}</string>
     <!-- This is a reverse-DNS style unique identifier used to detect duplicate profiles -->
     <key>PayloadIdentifier</key>
-    <string>{{ ipsec_domain }}</string>
+    <string>{{ ipsec_remote_address }}</string>
     <!-- A globally unique identifier, use uuidgen on Linux/Mac OS X to generate it -->
     <key>PayloadUUID</key>
-    <string>{{ ipsec_domain|uuid5(item.username, item.password, "global") }}</string>
+    <string>{{ ipsec_remote_address|uuid5(item.username, item.password, "global") }}</string>
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadVersion</key>
@@ -20,17 +20,17 @@
         <dict>
             <!-- This is an extension of the identifier given above -->
             <key>PayloadIdentifier</key>
-            <string>{{ ipsec_domain }}.conf-{{ item.username }}</string>
+            <string>{{ ipsec_remote_address }}.conf-{{ item.username }}</string>
             <!-- A globally unique identifier for this payload -->
             <key>PayloadUUID</key>
-            <string>{{ ipsec_domain|uuid5(item.username, item.password, "conf") }}</string>
+            <string>{{ ipsec_remote_address|uuid5(item.username, item.password, "conf") }}</string>
             <key>PayloadType</key>
             <string>com.apple.vpn.managed</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <!-- This is the name of the VPN conneciton as seen in the VPN application later -->
             <key>UserDefinedName</key>
-            <string>{{ item.username }} {{ ipsec_domain }} IKEV2</string>
+            <string>{{ item.username }} {{ ipsec_remote_address }} IKEV2</string>
             <key>VPNType</key>
             <string>IKEv2</string>
             <key>IKEv2</key>
