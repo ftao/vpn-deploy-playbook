@@ -6,12 +6,23 @@
 #Check out http://www.ansibleworks.com/docs/patterns.html#list-of-reserved-inventory-parameters  for all possible parameters
 
 localhost              ansible_connection=local
+vpn.example.com  ansible_ssh_user=root  ansible_ssh_private_key_file=~/.ssh/some_key
+auth.example.com  ansible_ssh_user=root  ansible_ssh_private_key_file=~/.ssh/some_key
 
 [l2tp]
-testl2tp.example.com  ansible_ssh_user=root  ansible_ssh_private_key_file=~/.ssh/some_key
+vpn.example.com
 
 [pptp]
-testpptp.example.com
+vpn.example.com
+
+[ipsec]
+vpn.example.com
+
+[openconnect]
+vpn.example.com
+
+[vpn]
+vpn.example.com
 
 [auth]
-testradius.example.com
+auth.example.com

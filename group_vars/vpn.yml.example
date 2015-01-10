@@ -1,0 +1,30 @@
+---
+radius_servers:
+  - host: some.radius.server
+    secret: some-radius-secrect
+
+ipsec_enable_ikev1: true
+ipsec_enable_ikev2: true
+ipsec_enable_l2tp: true
+ipsec_use_radius: true
+ipsec_radius_servers: "{{ radius_servers }}"
+ipsec_psk: "some-ipsec-psk"
+ipsec_gen_ios8_profile: false
+
+pptp_use_radius: true
+pptp_radius_servers: "{{ radius_servers }}"
+pptp_dns_servers:
+  - 8.8.4.4
+  - 8.8.8.8
+
+l2tp_under_ipsec: true
+l2tp_use_radius: true
+l2tp_radius_servers: "{{ radius_servers }}"
+
+l2tp_dns_servers:
+  - 8.8.4.4
+  - 8.8.8.8
+
+ocserv_use_radius: True
+ocserv_radius_servers: "{{ radius_servers }}"
+ocserv_cert_auto: true

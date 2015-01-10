@@ -1,0 +1,22 @@
+---
+#vpn all-in-on playbook
+#include  pptp/l2tp/ikev1/ikev2/cisco any connect
+#see group_vars/vpn.yml.example for configuration options
+
+- hosts: vpn
+
+  roles:
+    - common
+    - pptp
+
+    - role: ppp-radiusclient
+      device_type: pptp
+
+    - strongswan
+    - l2tp
+    - role: ppp-radiusclient
+      device_type: l2tp
+
+#    - openvpn
+    - nat
+    - role: ocserv
