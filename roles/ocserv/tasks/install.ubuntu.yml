@@ -1,0 +1,19 @@
+---
+- name: install some depdency
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - build-essential
+    - libwrap0-dev 
+    - libpam0g-dev 
+    - libdbus-1-dev
+    - libreadline-dev 
+    - libnl-route-3-dev 
+    - libprotobuf-c0-dev 
+    - libpcl1-dev 
+    - libopts25-dev
+    - autogen 
+    - libgnutls28 
+    - libgnutls28-dev 
+    - libseccomp-dev 
+    - libhttp-parser-dev
+    - gnutls-bin

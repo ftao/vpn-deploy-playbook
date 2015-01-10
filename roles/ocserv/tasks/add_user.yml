@@ -1,5 +1,12 @@
 ---
 
+- name: touch /usr/local/etc/ocserv/passwd
+  file: path=/usr/local/etc/ocserv/passwd state=touch
+  when: not ocserv_users
+  tags:
+    - ocserv
+    - add_user
+
 - name: add user for ocserv server
   lineinfile: line="{{ item.username }} {{ item.password }} *"
               regexp="{{ item.username }} {{ item.password }} *"

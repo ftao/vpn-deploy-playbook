@@ -2,7 +2,7 @@
 
 - hosts: all
   roles:
+    - common
     - ocserv
-
     #nat role will setup firewall
     - nat
