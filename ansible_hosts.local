@@ -9,6 +9,9 @@ localhost  ansible_connection=local
 [auth]
 localhost
 
+[vpn]
+localhost
+
 [pptp]
 localhost
 

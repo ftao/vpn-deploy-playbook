@@ -20,3 +20,5 @@
 #    - openvpn
     - nat
     - role: ocserv
+
+- include: auth.yml

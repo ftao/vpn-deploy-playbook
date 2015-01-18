@@ -9,3 +9,6 @@ openvpn_peer_ip: '10.11.0.2'
 openvpn_key: "some key content"
 
 openvpn_client_config_file: ''
+openvpn_dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
