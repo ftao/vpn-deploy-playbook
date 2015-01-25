@@ -37,6 +37,12 @@ script:
   - ansible-playbook -i ansible_hosts.local pptp.yml --sudo
 
   # test openvpn
+  - ansible-playbook -i ansible_hosts.local openvpn.yml --sudo
+
+  # test openvpn static mode
+  - ansible-playbook -i ansible_hosts.local openvpn.yml -e openvpn_mode=static -e openvpn_name=static -e openvpn_port=1195 --sudo
+
+  # test openvpn
   #- ansible-playbook -i ansible_hosts.local openvpn.yml --sudo
 
   # test pki
