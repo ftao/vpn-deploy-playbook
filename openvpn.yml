@@ -3,6 +3,5 @@
 - hosts: openvpn
   roles:
     - common
-    - openvpn
+    - openvpn-server
     - nat
-    - vpnmgr-agent

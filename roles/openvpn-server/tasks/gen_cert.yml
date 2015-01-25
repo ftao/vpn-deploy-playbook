@@ -1,0 +1,67 @@
+---
+#auto generate openvpn certs
+
+- name: init ca 
+  shell: certified-ca --password="{{ openvpn_pki_password }}" --db={{ openvpn_pki_db_path }} C="US" ST="CA" L="SFO" O="vpndeploy" CN="VPN CA"
+         creates={{ openvpn_pki_db_path }}/certs/ca.crt
+  tags:
+    - openvpn
+    - ca
+
+- name: setup pki repo git username / password
+  shell: "{{ item }}
+         chdir={{ openvpn_pki_db_path }}"
+  with_items:
+    - git config user.email "pki@localdomain.localhost"
+    - git config user.name "pki user"
+  tags:
+    - openvpn
+    - ca
+
+- name: create server key & cert
+  shell: certified --password="{{ openvpn_pki_password }}" --db={{ openvpn_pki_db_path }} CN="{{ openvpn_name }}"
+         creates={{ openvpn_pki_db_path }}/certs/{{ openvpn_name}}.crt
+  tags:
+    - openvpn
+    - ca
+
+- name: create dh directory
+  file: path={{ openvpn_pki_db_path}}/dh state=directory
+  tags:
+    - openvpn
+    - ca
+
+- name: gen dh
+  shell: openssl gendh -out {{ openvpn_pki_db_path }}/dh/{{ openvpn_name }}.pem  1024
+         creates={{ openvpn_pki_db_path }}/dh/{{ openvpn_name}}.pem
+  tags:
+    - openvpn
+    - ca
+
+- name: get ca cert content
+  shell: cat {{ openvpn_pki_db_path }}/certs/ca.crt
+  register: ca_cert_content_action
+  tags:
+    - openvpn
+    - ca
+
+- name: get server cert content
+  shell: cat {{ openvpn_pki_db_path }}/certs/{{ openvpn_name }}.crt
+  register: server_cert_content_action
+  tags:
+    - openvpn
+    - ca
+
+- name: get server key content
+  shell: cat {{ openvpn_pki_db_path }}/private/{{ openvpn_name }}.key
+  register: server_key_content_action
+  tags:
+    - openvpn
+    - ca
+
+- name: get dh content
+  shell: cat {{ openvpn_pki_db_path }}/dh/{{ openvpn_name }}.pem
+  register: dh_content_action
+  tags:
+    - openvpn
+    - ca

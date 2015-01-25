@@ -1,0 +1,30 @@
+---
+#install & config openvpn servers
+
+- name: install openvpn
+  action: apt package=openvpn state=present
+  tags:
+    - openvpn
+
+- name: install openvpn-auth-radius
+  apt: package=openvpn-auth-radius state=present
+  when: openvpn_use_radius
+  tags:
+    - openvpn
+
+- name: ensure log dir exists 
+  file: path=/var/log/openvpn state=directory
+  tags:
+    - openvpn
+
+- name: make sure /opt/easynat exists
+  action: file path=/opt/easynat/ state=directory
+  tags: 
+    - openvpn
+    - nat
+
+- include: setup_tls.yml
+  when: openvpn_mode == "tls"
+
+- include: setup_static.yml
+  when: openvpn_mode == "static"

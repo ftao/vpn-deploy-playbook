@@ -102,3 +102,5 @@ docs/_build/
 [Ll]ib
 [Ss]cripts
 
+### Mac ###
+.DS_Store

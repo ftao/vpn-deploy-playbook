@@ -1,0 +1,24 @@
+---
+#setup static openvpn server 
+
+- include: gen_secret.yml
+  when: openvpn_secret_source == "gen"
+
+- name: upload server config files - static
+  template: src=static-server.conf dest=/etc/openvpn/{{ openvpn_name }}.conf
+  notify:
+    - restart openvpn
+  tags:
+    - openvpn
+
+- name: set network in easynat rule file
+  action: lineinfile dest=/opt/easynat/rules.cnf 
+                     regexp="{{ openvpn_peer_ip }}" 
+                     line="{{ openvpn_peer_ip }}" 
+                     state=present
+                     create=yes
+  notify:
+    - setup nat rules
+  tags: 
+    - openvpn
+    - nat

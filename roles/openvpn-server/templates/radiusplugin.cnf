@@ -1,0 +1,62 @@
+{% set openvpn=item %}
+# The NAS identifier which is sent to the RADIUS server
+NAS-Identifier=OpenVpn
+
+# The service type which is sent to the RADIUS server
+Service-Type=5
+
+# The framed protocol which is sent to the RADIUS server
+Framed-Protocol=1
+
+# The NAS port type which is sent to the RADIUS server
+NAS-Port-Type=5
+
+# The NAS IP address which is sent to the RADIUS server
+NAS-IP-Address={{ openvpn_bind_ip }}
+
+# Path to the OpenVPN configfile. The plugin searches there for
+# client-config-dir PATH   (searches for the path)
+# status FILE     		   (searches for the file, version must be 1)
+# client-cert-not-required (if the option is used or not)
+# username-as-common-name  (if the option is used or not)
+
+OpenVPNConfig=/etc/openvpn/{{openvpn.name}}.conf
+
+
+# Support for topology option in OpenVPN 2.1
+# If you don't specify anything, option "net30" (default in OpenVPN) is used. 
+# You can only use one of the options at the same time.
+# If you use topology option "subnet", fill in the right netmask, e.g. from OpenVPN option "--server NETWORK NETMASK"  
+submnet={{ openvpn.network.mask }}
+# If you use topology option "p2p", fill in the right network, e.g. from OpenVPN option "--server NETWORK NETMASK"
+# p2p=10.8.0.1
+
+
+# Allows the plugin to overwrite the client config in client config file directory,
+# default is true
+overwriteccfiles=false
+
+# Allows the plugin to use auth control files if OpenVPN (>= 2.1 rc8) provides them.
+# default is false
+# useauthcontrolfile=false
+
+
+{% if openvpn.use_radius %}
+{% for radius_server in openvpn.radius_servers %}
+server
+{
+	# The UDP port for radius accounting.
+	acctport=1813
+	# The UDP port for radius authentication.
+	authport=1812
+	# The name or ip address of the radius server.
+	name={{ radius_server.host }}
+	# How many times should the plugin send the if there is no response?
+	retry=1
+	# How long should the plugin wait for a response?
+	wait=1
+	# The shared secret.
+	sharedsecret={{ radius_server.secret }}
+}
+{% endfor %}
+{% endif %}
