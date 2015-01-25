@@ -1,19 +1,26 @@
 ---
 #auto generate openvpn certs
 
-- name: init ca 
-  shell: certified-ca --password="{{ openvpn_pki_password }}" --db={{ openvpn_pki_db_path }} C="US" ST="CA" L="SFO" O="vpndeploy" CN="VPN CA"
-         creates={{ openvpn_pki_db_path }}/certs/ca.crt
+- name: init pki db git
+  shell: git init {{ openvpn_pki_db_path }}
+         creates={{ openvpn_pki_db_path}}/.git
   tags:
     - openvpn
     - ca
 
-- name: setup pki repo git username / password
+- name: config git
   shell: "{{ item }}
          chdir={{ openvpn_pki_db_path }}"
   with_items:
     - git config user.email "pki@localdomain.localhost"
     - git config user.name "pki user"
+  tags:
+    - openvpn
+    - ca
+
+- name: init ca 
+  shell: certified-ca --password="{{ openvpn_pki_password }}" --db={{ openvpn_pki_db_path }} C="US" ST="CA" L="SFO" O="vpndeploy" CN="VPN CA"
+         creates={{ openvpn_pki_db_path }}/certs/ca.crt
   tags:
     - openvpn
     - ca

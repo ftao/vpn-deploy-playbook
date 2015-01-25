@@ -39,6 +39,9 @@ script:
   # test openvpn
   - ansible-playbook -i ansible_hosts.local openvpn.yml --sudo
 
+  # test openvpn - another instance
+  - ansible-playbook -i ansible_hosts.local openvpn.yml -e openvpn_name=tcp_443 -e openvpn_port=443 -e openvpn_proto=tcp --sudo
+
   # test openvpn static mode
   - ansible-playbook -i ansible_hosts.local openvpn.yml -e openvpn_mode=static -e openvpn_name=static -e openvpn_port=1195 --sudo
 
