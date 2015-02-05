@@ -1,4 +1,3 @@
-{% set openvpn=item %}
 # The NAS identifier which is sent to the RADIUS server
 NAS-Identifier=OpenVpn
 
@@ -12,7 +11,7 @@ Framed-Protocol=1
 NAS-Port-Type=5
 
 # The NAS IP address which is sent to the RADIUS server
-NAS-IP-Address={{ openvpn_bind_ip }}
+NAS-IP-Address={{ openvpn_bind_ip|default(ansible_default_ipv4.address) }}
 
 # Path to the OpenVPN configfile. The plugin searches there for
 # client-config-dir PATH   (searches for the path)
@@ -20,14 +19,14 @@ NAS-IP-Address={{ openvpn_bind_ip }}
 # client-cert-not-required (if the option is used or not)
 # username-as-common-name  (if the option is used or not)
 
-OpenVPNConfig=/etc/openvpn/{{openvpn.name}}.conf
+OpenVPNConfig=/etc/openvpn/{{openvpn_name}}.conf
 
 
 # Support for topology option in OpenVPN 2.1
 # If you don't specify anything, option "net30" (default in OpenVPN) is used. 
 # You can only use one of the options at the same time.
 # If you use topology option "subnet", fill in the right netmask, e.g. from OpenVPN option "--server NETWORK NETMASK"  
-submnet={{ openvpn.network.mask }}
+submnet={{ openvpn_netmask }}
 # If you use topology option "p2p", fill in the right network, e.g. from OpenVPN option "--server NETWORK NETMASK"
 # p2p=10.8.0.1
 
@@ -41,8 +40,8 @@ overwriteccfiles=false
 # useauthcontrolfile=false
 
 
-{% if openvpn.use_radius %}
-{% for radius_server in openvpn.radius_servers %}
+{% if openvpn_use_radius %}
+{% for radius_server in openvpn_radius_servers %}
 server
 {
 	# The UDP port for radius accounting.

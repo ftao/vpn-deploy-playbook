@@ -46,7 +46,7 @@
     - ca
 
 - name: get ca cert content
-  shell: cat {{ openvpn_pki_db_path }}/certs/ca.crt
+  shell: cat "{{ openvpn_pki_db_path }}/certs/ca.crt" "{{ openvpn_pki_db_path }}/certs/root-ca.crt"
   register: ca_cert_content_action
   tags:
     - openvpn

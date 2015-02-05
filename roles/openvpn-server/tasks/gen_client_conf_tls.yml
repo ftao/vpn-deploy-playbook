@@ -1,0 +1,4 @@
+---
+- name: gen client conf  (tls mode) (to local file)
+  local_action: template src="tls-client.conf" dest={{ openvpn_client_conf_file }}
+

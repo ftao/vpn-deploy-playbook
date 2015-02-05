@@ -2,11 +2,6 @@
 #openvpn_bind_ip:  "{{ ansible_default_ipv4.address }}"
 
 openvpn_name: 'default'
-#openvpn_cred:
-#  ca: "{{ lookup('file', inventory_dir + '/cred/openvpn/ca.crt') }}"
-#  cert: "{{ lookup('file', inventory_dir + '/cred/openvpn/server.crt') }}"
-#  key: "{{ lookup('file', inventory_dir + '/cred/openvpn/server.key') }}"
-#  dh: "{{ lookup('file', inventory_dir + '/cred/openvpn/dh1024.pem') }}"
 
 openvpn_mode: 'tls' #static
 openvpn_proto: udp
@@ -26,7 +21,6 @@ openvpn_server_key:  "server.key"
 openvpn_dh:  "dh1023.pem"
 
 
-
 #for static key mode
 
 openvpn_local_ip: 10.8.1.1
@@ -39,10 +33,16 @@ openvpn_dns_servers:
   - 8.8.4.4
 
 openvpn_use_radius: false
-
 openvpn_radius_servers:
   - host: 127.0.0.1
     secret: "some-radius-secret"
 
 openvpn_enable_management: true
 openvpn_push_redirect_gateway: true
+
+openvpn_client_conf_file: ""
+openvpn_client_name: "client"
+openvpn_client_cert: ""
+openvpn_client_key:  ""
+openvpn_client_redirect_gateway: true
+openvpn_client_remote_ip: "{{ ansible_default_ipv4.address }}"

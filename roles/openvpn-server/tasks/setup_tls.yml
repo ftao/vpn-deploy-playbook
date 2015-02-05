@@ -12,7 +12,7 @@
     - openvpn
 
 - name: upload radiusplugin config file
-  template: src=etc/openvpn/radiusplugin.cnf dest=/etc/openvpn/radiusplugin-{{ openvpn_name }}.cnf
+  template: src=radiusplugin.cnf dest=/etc/openvpn/radiusplugin-{{ openvpn_name }}.cnf
   notify:
     - restart openvpn
   when: openvpn_use_radius

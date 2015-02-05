@@ -28,3 +28,9 @@
 
 - include: setup_static.yml
   when: openvpn_mode == "static"
+
+- include: gen_client_conf_tls.yml
+  when: openvpn_mode == "tls" and openvpn_client_conf_file != ""
+
+#- include: gen_client_conf_static.yml
+#  when: openvpn_mode == "static" and openvpn_client_conf_file != ""
