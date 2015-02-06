@@ -1,5 +1,8 @@
 ---
 
+- name: instal python-pycurl
+  apt: pkg=python-pycurl state=present
+
 - name: add apt key 
   apt_key: url=http://packages.rcrowley.org/keyring.gpg state=present
 
