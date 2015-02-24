@@ -8,6 +8,11 @@
 
 - name: add repo
   apt_repository: repo="deb http://packages.rcrowley.org {{ ansible_distribution_release }} main"
+  when: ansible_distribution_release != "utopic"
+
+- name: add repo
+  apt_repository: repo="deb http://packages.rcrowley.org trusty main"
+  when: ansible_distribution_release == "utopic"
 
 - name: install certified
   apt: pkg=certified state=present
