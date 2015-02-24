@@ -7,7 +7,10 @@
   apt_key: url=http://packages.rcrowley.org/keyring.gpg state=present
 
 - name: add repo
-  apt_repository: repo="deb http://packages.rcrowley.org {{ ansible_distribution_release }} main"
+  apt_repository: repo="deb http://packages.rcrowley.org trusty main"
+
+- name: Updating repository
+  apt: update=yes
 
 - name: install certified
   apt: pkg=certified state=present
