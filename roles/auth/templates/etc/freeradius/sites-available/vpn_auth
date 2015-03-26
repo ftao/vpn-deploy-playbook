@@ -328,10 +328,11 @@ preacct {
 	#  The start time is: NOW - delay - session_length
 	#
 
+{% raw %}
 #	  update request {
 #	  	FreeRADIUS-Acct-Session-Start-Time = "%{expr: %l - %{%{Acct-Session-Time}:-0} - %{%{Acct-Delay-Time}:-0}}"
 #	}
-
+{% endraw %}
 
 	#
 	#  Ensure that we have a semi-unique identifier for every
