@@ -45,3 +45,10 @@ vagrant up debian --no-provision
 vagrant provision debian
 ```
 
+## Donating
+Support this project and [others by ftao][gratipay-ftao] via [gratipay][gratipay-ftao].
+
+[![Support via Gratipay][gratipay]][gratipay-ftao]
+
+[gratipay]: https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png
+[gratipay-ftao]: https://gratipay.com/ftao/
