@@ -29,6 +29,7 @@
   with_items:
     - python-setuptools
     - python-pip
+    - python-dev
   tags:
     - common
     - python

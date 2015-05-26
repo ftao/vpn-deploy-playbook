@@ -2,6 +2,7 @@
 - hosts: apnp-frontend
 
   roles:
+    - role: common
 
     - role: sane-dns
     - role: squid
