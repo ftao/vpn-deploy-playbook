@@ -2,8 +2,10 @@
 
 nginx_site_name: 'static-site'
 nginx_site_server_name: 'localhost'
-nginx_site_port: 8441
-nginx_site_ssl_on: true
+nginx_site_port: 80
+nginx_site_ssl_on: false
+nginx_site_ssl_only: false
+nginx_site_ssl_port: 443
 nginx_site_cert: site.crt
 nginx_site_key: site.key
 nginx_site_root: /var/www/
