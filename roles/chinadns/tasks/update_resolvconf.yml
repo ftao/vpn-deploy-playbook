@@ -8,4 +8,4 @@
     - update resolvconf
   tags:
     - chinadns
-
+    - resolv

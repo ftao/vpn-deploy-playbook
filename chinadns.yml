@@ -1,0 +1,7 @@
+---
+- hosts: chinadns
+  gather_facts: false
+  roles:
+    - common
+    - role: chinadns
+      update_resolvconf: false
