@@ -12,6 +12,14 @@
 - name: install python-mysqldb
   apt: pkg=python-mysqldb state=installed
 
+- name: check old hg repo 
+  stat: path=/opt/djra/code/.hg
+  register: st
+
+- name: remove old hg repo
+  file: path=/opt/djra/code state=absent
+  when: st.stat.isdir is defined and st.stat.isdir
+
 - name: ensure directory used by djra exists
   action: file path={{ item }} state=directory
   with_items:
@@ -23,7 +31,7 @@
   tags: djra
 
 - name: pull djra
-  action: hg repo=https://ftao@bitbucket.org/ftao/django-freeradius-admin dest=/opt/djra/code/ force=yes
+  git: repo=https://github.com/ftao/django-freeradius-admin.git dest=/opt/djra/code force=yes
   notify:
     - restart djra
   tags: djra
