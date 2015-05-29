@@ -30,7 +30,10 @@
     - buildessential
 
 - name: git clone chinadns
-  git: repo=https://github.com/clowwindy/ChinaDNS.git dest=/opt/chinadns force=yes
+  git:
+    repo: https://github.com/clowwindy/ChinaDNS.git
+    dest: /opt/chinadns
+    version: 1.3.1
   when: st.stat.exists == False
   tags:
     - chinadns
