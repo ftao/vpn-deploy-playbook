@@ -83,19 +83,3 @@
   tags: 
     - djra
     - app
-
-- name: setup ngix config
-  action: template src=djra.nginx.conf dest=/etc/nginx/sites-available/djra.conf
-  tags: 
-    - djra
-    - app
-  notify:
-    - restart nginx
-
-- name: link ngix config
-  action: file src=/etc/nginx/sites-available/djra.conf dest=/etc/nginx/sites-enabled/djra.conf state=link
-  tags: 
-    - djra
-    - app
-  notify:
-    - restart nginx
