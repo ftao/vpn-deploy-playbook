@@ -12,3 +12,4 @@ nginx_site_cert: site.crt
 nginx_site_ca_cert: []
 nginx_site_upstream_host: 'localhost'
 nginx_site_upstream_port: '8080'
+nginx_site_root: ''
