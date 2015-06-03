@@ -1,6 +1,9 @@
 ---
 #freeradius-admin
 
+- name: install system wide dependency 
+  apt: name=libmysqlclient-dev state=present
+
 - name: create djra database
   action: mysql_db name={{ djra_db_name }} collation=utf8_general_ci encoding=utf8 
   tags: djra
@@ -8,9 +11,6 @@
 - name: setup djra database user
   action: mysql_user name={{ djra_db_user }} password={{ djra_db_password }} priv={{ djra_db_name }}.*:ALL state=present
   tags: djra
-
-- name: install python-mysqldb
-  apt: pkg=python-mysqldb state=installed
 
 - name: check if old hg repo exists
   stat: path=/opt/djra/code/.hg
@@ -38,7 +38,7 @@
   tags: djra
 
 - name: setup enviroment
-  action: pip requirements=/opt/djra/code/requirements.txt virtualenv=/opt/djra/env virtualenv_site_packages=yes
+  action: pip requirements=/opt/djra/code/requirements.txt virtualenv=/opt/djra/env 
   notify:
     - restart djra
   tags: djra

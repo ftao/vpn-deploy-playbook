@@ -14,6 +14,6 @@
     - role: ftao.nginx-reverse-proxy
       nginx_site_name: 'radius-admin'
       nginx_site_server_name: 'default'
-      nginx_site_port: 9002
+      nginx_site_port: "{{ djra_nginx_port | default(9002) }}"
       nginx_site_upstream_host: "{{ djra_host }}"
       nginx_site_upstream_port: "{{ djra_port }}"
