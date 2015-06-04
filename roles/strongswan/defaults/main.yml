@@ -2,9 +2,11 @@
 ipsec_enable_l2tp: true
 ipsec_enable_ikev1: true
 ipsec_enable_ikev2: true
+ipsec_enable_charondebug: false
 
 ipsec_remote_address: "{{ inventory_hostname }}"
 #ipsec_remote_address: "{{ ansible_default_ipv4.address }}"
+ipsec_use_ip_as_domain: false
 ipsec_domain: "{{ inventory_hostname }}"
 ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
 ipsec_subnet: 10.7.0.0/24
