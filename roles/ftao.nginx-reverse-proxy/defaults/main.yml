@@ -1,0 +1,15 @@
+---
+
+nginx_site_name: 'reverse-proxy-site'
+nginx_site_server_name: ''
+nginx_site_server_alias: []
+nginx_site_port: 80
+nginx_site_ssl_port: 443
+nginx_site_ssl_only: false
+nginx_site_ssl_on: false
+nginx_site_key: site.key
+nginx_site_cert: site.crt
+nginx_site_ca_cert: []
+nginx_site_upstream_host: 'localhost'
+nginx_site_upstream_port: '8080'
+nginx_site_root: ''

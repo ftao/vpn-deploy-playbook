@@ -19,7 +19,6 @@
   action: apt pkg={{ item }} state=installed
   with_items:
     - git
-    - mercurial
   tags:
     - common
     - vcs

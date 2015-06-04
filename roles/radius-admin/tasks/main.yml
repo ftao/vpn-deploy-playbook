@@ -1,6 +1,9 @@
 ---
 #freeradius-admin
 
+- name: install system wide dependency 
+  apt: name=libmysqlclient-dev state=present
+
 - name: create djra database
   action: mysql_db name={{ djra_db_name }} collation=utf8_general_ci encoding=utf8 
   tags: djra
@@ -9,8 +12,13 @@
   action: mysql_user name={{ djra_db_user }} password={{ djra_db_password }} priv={{ djra_db_name }}.*:ALL state=present
   tags: djra
 
-- name: install python-mysqldb
-  apt: pkg=python-mysqldb state=installed
+- name: check if old hg repo exists
+  stat: path=/opt/djra/code/.hg
+  register: st
+
+- name: remove old hg repo
+  file: path=/opt/djra/code state=absent
+  when: st.stat.isdir is defined and st.stat.isdir
 
 - name: ensure directory used by djra exists
   action: file path={{ item }} state=directory
@@ -22,14 +30,15 @@
     - /opt/djra/data/static
   tags: djra
 
+
 - name: pull djra
-  action: hg repo=https://ftao@bitbucket.org/ftao/django-freeradius-admin dest=/opt/djra/code/ force=yes
+  git: repo=https://github.com/ftao/django-freeradius-admin.git dest=/opt/djra/code/ force=yes
   notify:
     - restart djra
   tags: djra
 
 - name: setup enviroment
-  action: pip requirements=/opt/djra/code/requirements.txt virtualenv=/opt/djra/env virtualenv_site_packages=yes
+  action: pip requirements=/opt/djra/code/requirements.txt virtualenv=/opt/djra/env 
   notify:
     - restart djra
   tags: djra
@@ -74,19 +83,3 @@
   tags: 
     - djra
     - app
-
-- name: setup ngix config
-  action: template src=djra.nginx.conf dest=/etc/nginx/sites-available/djra.conf
-  tags: 
-    - djra
-    - app
-  notify:
-    - restart nginx
-
-- name: link ngix config
-  action: file src=/etc/nginx/sites-available/djra.conf dest=/etc/nginx/sites-enabled/djra.conf state=link
-  tags: 
-    - djra
-    - app
-  notify:
-    - restart nginx

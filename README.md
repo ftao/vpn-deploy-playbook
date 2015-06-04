@@ -1,4 +1,4 @@
-# VPN Deploy Playbook [![Build Status](https://travis-ci.org/ftao/vpn-deploy-playbook.svg?branch=master)](https://travis-ci.org/ftao/vpn-deploy-playbook) 
+# VPN Deploy Playbook [![Build Status](https://travis-ci.org/ftao/vpn-deploy-playbook.svg?branch=master)](https://travis-ci.org/ftao/vpn-deploy-playbook)
 
 A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and proxy services.
 
@@ -11,6 +11,7 @@ A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and p
 - [x] proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
 - [x] cow-*.yml : setup [COW](https://github.com/cyfdecyf/cow)
 - [x] ipsec.yml : setup IPSec IKEv1/IKEv2 VPN server with StrongSwan
+- [x] chinadns.yml : setup [ChinaDNS](https://github.com/clowwindy/ChinaDNS/)
 - [ ] openconnect.yml : setup [OpenConnect VPN server](http://www.infradead.org/ocserv/) for Cisco AnyConnect client
 - [ ] spdy-proxy.yml : setup [spdylay](https://github.com/tatsuhiro-t/spdylay)
 - [ ] openvpn.yml : setup OpenVPN server

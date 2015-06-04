@@ -24,5 +24,8 @@ vpn.example.com
 [vpn]
 vpn.example.com
 
+[chinadns]
+dns.example.com update_resolvconf=false
+
 [auth]
 auth.example.com
