@@ -4,4 +4,4 @@ freeradius_db_name: radius
 freeradius_db_user: raduser
 freeradius_db_password: "change-this-to-a-very-strong-password-4Xykokqpdj"
 freeradius_client_secret: "some-radius-secret"
-freeradius_enable_simultaneous_check: true
+freeradius_enable_sql_simultaneous_check: false
