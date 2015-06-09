@@ -29,6 +29,7 @@
     - python-setuptools
     - python-pip
     - python-dev
+    - python-pycurl
   tags:
     - common
     - python
