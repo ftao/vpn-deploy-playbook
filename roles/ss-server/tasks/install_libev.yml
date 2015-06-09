@@ -1,3 +1,8 @@
+- name: install shadowsocks key
+  apt_key: url=http://shadowsocks.org/debian/1D27208A.gpg state=present
+  tags:
+    - ss-server
+
 - name: add shadowsocks repo
   apt_repository: repo='deb http://shadowsocks.org/debian wheezy main' state=present
   tags:
