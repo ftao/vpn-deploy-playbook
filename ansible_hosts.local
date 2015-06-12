@@ -29,3 +29,15 @@ localhost
 
 [pki]
 localhost
+
+[proxy-backend]
+localhost
+
+[sane-dns]
+localhost
+
+[chinadns]
+localhost
+
+[sigmavpn]
+localhost
