@@ -5,17 +5,19 @@ A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and p
 
 ## Playbooks:
 
-- [x] auth.yml : setup [FreeRadius](http://freeradius.org) server for authentication and accounting
-- [x] pptp.yml : setup PPTP server
-- [x] l2tp.yml : setup IPSec/L2TP server (with pre-shared key)
-- [x] proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
-- [x] cow-*.yml : setup [COW](https://github.com/cyfdecyf/cow)
-- [x] ipsec.yml : setup IPSec IKEv1/IKEv2 VPN server with StrongSwan
-- [x] chinadns.yml : setup [ChinaDNS](https://github.com/clowwindy/ChinaDNS/)
-- [ ] openconnect.yml : setup [OpenConnect VPN server](http://www.infradead.org/ocserv/) for Cisco AnyConnect client
-- [ ] spdy-proxy.yml : setup [spdylay](https://github.com/tatsuhiro-t/spdylay)
-- [ ] openvpn.yml : setup OpenVPN server
-- [ ] apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
+- [auth.yml](./auth.yml) : setup [FreeRadius](http://freeradius.org) server for authentication and accounting
+- [pptp.yml](./pptp.yml) : setup PPTP server
+- [l2tp.yml](./l2tp.yml) : setup IPSec/L2TP server (with pre-shared key)
+- proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
+- cow-*.yml : setup [COW](https://github.com/cyfdecyf/cow)
+- [ipsec.yml](./ipsec.yml) : setup IPSec IKEv1/IKEv2 VPN server with [StrongSwan](http://www.strongswan.org)
+- [sane-dns.yml](./sane-dns.yml) : setup [fqdns](https://github.com/fqrouter/fqdns)
+- [chinadns.yml](./chinadns.yml) : setup [ChinaDNS](https://github.com/clowwindy/ChinaDNS/)
+- [openconnect.yml](./openconnect.yml) : setup [OpenConnect VPN server](http://www.infradead.org/ocserv/) for Cisco AnyConnect client
+- [spdy-proxy.yml](./spdy-proxy.yml) : setup [spdylay](https://github.com/tatsuhiro-t/spdylay)
+- [openvpn.yml](./openvpn.yml) : setup [OpenVPN](https://openvpn.net) server
+- apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
+- [sigmavpn.yml](./sigmavpn.yml) : setup [SigmaVPN](https://github.com/neilalexander/sigmavpn/)
 
 
 ## How to use
