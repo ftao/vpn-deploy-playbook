@@ -28,6 +28,7 @@
     - /opt/djra/env
     - /opt/djra/data
     - /opt/djra/data/static
+    - /opt/djra/data/db
   tags: djra
 
 

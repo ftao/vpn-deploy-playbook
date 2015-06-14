@@ -1,5 +1,6 @@
 ---
 
+djra_db_engine: 'mysql'
 djra_db_name: djra
 djra_db_user: djra
 djra_db_password: "change-this-to-a-very-strong-password-ijjj803kJ"
