@@ -1,0 +1,9 @@
+---
+# shadowsocks relay server
+
+- name: ensure working dir exists
+  action: file path=/opt/ss-relay/ state=directory
+  tags:
+    - ss-relay
+
+- include: setup_ss_relay.yml
