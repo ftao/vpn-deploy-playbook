@@ -14,3 +14,5 @@ djra_admin_password: "superstrong-password-4a92e2"
 
 djra_host: '0.0.0.0'
 djra_port: 9002
+
+djra_ip_db_file: ''

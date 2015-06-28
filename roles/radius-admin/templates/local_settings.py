@@ -24,3 +24,7 @@ DATABASES = {
 
 
 STATIC_ROOT = '/opt/djra/data/static'
+
+{% if djra_ip_db_file %}
+IP_DB_FILE = "/opt/djra/data/ipdb.dat"
+{% endif %}

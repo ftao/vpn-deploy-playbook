@@ -44,6 +44,10 @@
     - restart djra
   tags: djra
 
+- name: upload ipdb file
+  copy: src={{ djra_ip_db_file }} dest=/opt/djra/data/ipdb.dat
+  when: djra_ip_db_file != ''
+
 - name: setup local_settings.py
   action: template src=local_settings.py dest=/opt/djra/code/djra/local_settings.py
   notify:
