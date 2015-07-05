@@ -1,0 +1,7 @@
+---
+spdylay_version: '1.3.2'
+spdylay_working_dir: '/opt/spdylay'
+spdylay_download_url: "https://github.com/tatsuhiro-t/spdylay/releases/download/v{{ spdylay_version }}/spdylay-{{ spdylay_version }}.tar.gz"
+spdylay_download_target: "{{ spdylay_working_dir }}/spdylay-{{ spdylay_version }}.tar.gz"
+spdylay_src_dir: "{{ spdylay_working_dir }}/spdylay-{{ spdylay_version }}"
+spdylay_enable_service: false

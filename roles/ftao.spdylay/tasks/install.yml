@@ -1,0 +1,31 @@
+---
+
+- name: install spdylay depdency
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - autoconf
+    - automake
+    - autotools-dev
+    - libtool
+    - pkg-config
+    - zlib1g-dev
+    - libcunit1-dev
+    - libssl-dev
+    - libxml2-dev
+    - libevent-dev
+
+- name: create working directory
+  file: path="{{ spdylay_working_dir }}" state=directory
+
+- name: download latest release
+  get_url: url="{{ spdylay_download_url }}"
+           dest="{{ spdylay_download_target }}"
+
+- name: extract the tarball
+  unarchive: src="{{ spdylay_download_target }}"
+             copy="no"
+             dest="{{ spdylay_working_dir }}"
+
+- name: build spdylay
+  shell: "./configure && make && make install
+          chdir={{ spdylay_src_dir }} creates=/usr/local/bin/shrpx"
