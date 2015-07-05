@@ -1,0 +1,18 @@
+---
+nghttp2_version: '1.0.2'
+nghttp2_working_dir: '/opt/nghttp2'
+nghttp2_download_url: "https://github.com/tatsuhiro-t/nghttp2/releases/download/v{{ nghttp2_version }}/nghttp2-{{ nghttp2_version}}.tar.gz"
+nghttp2_download_target: "{{ nghttp2_working_dir }}/nghttp2-{{ nghttp2_version }}.tar.gz"
+nghttp2_src_dir: "{{ nghttp2_working_dir }}/nghttp2-{{ nghttp2_version }}"
+nghttp2_with_spdylay: false
+
+
+nghttp2_enable_nghttpx: false
+nghttpx_listen_host: '0.0.0.0'
+nghttpx_listen_port: 443
+nghttpx_backend_host: '127.0.0.1'
+nghttpx_backend_port: 3128
+nghttpx_private_key_file: 'nghttpx.key'
+nghttpx_certificate_file: 'nghttpx.cert'
+nghttpx_remote_private_key_file: '/opt/nghttp2/etc/nghttpx.key'
+nghttpx_remote_certificate_file: '/opt/nghttp2/etc/nghttpx.cert'
