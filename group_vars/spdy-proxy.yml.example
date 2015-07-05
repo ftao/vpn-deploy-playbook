@@ -1,0 +1,7 @@
+---
+nghttp2_with_spdylay: true
+nghttp2_enable_nghttpx: true
+nghttpx_listen_port: 9443
+nghttpx_backend_port: 3128
+nghttpx_private_key_file: 'spdy.example.com.key'
+nghttpx_certificate_file: 'spdy.example.com.crt'

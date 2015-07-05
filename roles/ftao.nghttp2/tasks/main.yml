@@ -1,0 +1,11 @@
+---
+
+- include: install.yml
+  tags:
+    - nghttp2
+
+- include: nghttpx.yml
+  when: nghttp2_enable_nghttpx
+  tags:
+    - nghttp2
+    - nghttpx

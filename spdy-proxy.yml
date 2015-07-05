@@ -3,4 +3,7 @@
 - hosts: spdy-proxy
   roles:
    - common
-   - node-spdyproxy
+   - ftao.spdylay
+   - ftao.nghttp2
+   - role: squid-root
+     listen_port: "{{ nghttpx_backend_port }}"
