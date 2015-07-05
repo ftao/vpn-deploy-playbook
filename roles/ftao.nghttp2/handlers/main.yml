@@ -1,0 +1,8 @@
+---
+
+- name: ldconfig nghttp2
+  command: /sbin/ldconfig
+
+- name: restart nghttpx
+  supervisorctl: name=nghttpx state=restarted
+  

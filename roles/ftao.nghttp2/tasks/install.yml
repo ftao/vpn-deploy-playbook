@@ -1,0 +1,36 @@
+---
+- name: install build dependency
+  apt: name={{ item }} state=present
+  with_items:
+    - binutils 
+    - autoconf  
+    - automake 
+    - autotools-dev 
+    - libtool 
+    - pkg-config
+    - zlib1g-dev 
+    - libcunit1-dev 
+    - libssl-dev 
+    - libxml2-dev 
+    - libev-dev
+
+- name: create working directory
+  file: path="{{ nghttp2_working_dir }}" state=directory
+
+- name: download latest release
+  get_url: url="{{ nghttp2_download_url }}"
+           dest="{{ nghttp2_download_target }}"
+
+- name: extract the tarball
+  unarchive: src="{{ nghttp2_download_target }}"
+             copy="no"
+             dest="{{ nghttp2_working_dir }}"
+             creates="{{ nghttp2_src_dir }}/configure"
+
+#rebuild when nghttp2_with_spdylay changed ? 
+
+- name: build nghttp2
+  shell: "./configure {% if nghttp2_with_spdylay %}--with-spdylay{% endif %} && make && make install
+          chdir={{ nghttp2_src_dir }} creates=/usr/local/bin/nghttpx"
+  notify:
+     - ldconfig nghttp2
