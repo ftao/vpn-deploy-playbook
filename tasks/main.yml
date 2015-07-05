@@ -1,0 +1,6 @@
+---
+
+- include: install.yml
+  tags:
+    - spdylay
+
