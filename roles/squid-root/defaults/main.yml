@@ -3,6 +3,19 @@ bind_ip: 127.0.0.1
 listen_port: 6128
 
 squid_require_auth: false
+squid_auth_method: 'basic' #radius
+
+#for basic auth
 squid_users: []
 squid_delete_users: []
 squid_passwd_file: /etc/squid3/passwd
+
+#for radius auth
+squid_radius_config_file: /etc/squid3/radius.conf
+squid_radius_server: false
+
+#squid_radius_server:
+#  host: 127.0.0.1
+#  secret: some-secret
+#  port: 1182
+

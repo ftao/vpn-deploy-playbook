@@ -4,7 +4,12 @@
   tags: 
     - squid
 
-- include: auth.yml
-  when: squid_require_auth
+- include: auth_basic.yml
+  when: squid_require_auth and squid_auth_method == "basic" 
+  tags: 
+    - squid
+
+- include: auth_radius.yml
+  when: squid_require_auth and squid_auth_method == "radius" 
   tags: 
     - squid

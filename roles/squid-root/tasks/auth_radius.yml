@@ -1,0 +1,5 @@
+---
+
+- name: create radius config file
+  template: src=radius.conf dest="{{ squid_radius_config_file }}"
+
