@@ -1,0 +1,17 @@
+---
+- name: install passlib
+  apt: pkg=python-passlib state=installed
+
+- name: update passwd file
+  htpasswd: path="{{ squid_passwd_file }}"
+            name="{{ item.name }}"
+            password="{{ item.password }}"
+            state=present
+  with_items: squid_users
+
+- name: remove users to delete file
+  htpasswd: path="{{ squid_passwd_file }}"
+            name="{{ item.name }}"
+            state=absent
+  with_items: squid_delete_users
+

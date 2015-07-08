@@ -2,3 +2,7 @@
 bind_ip: 127.0.0.1
 listen_port: 6128
 
+squid_require_auth: false
+squid_users: []
+squid_delete_users: []
+squid_passwd_file: /etc/squid3/passwd

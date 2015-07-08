@@ -1,0 +1,13 @@
+---
+
+- name: install squid
+  apt: pkg=squid3 state=installed
+
+- name: enable squid
+  service: name=squid3 enabled=yes
+
+- name: install squid config file
+  template: src=squid.conf dest=/etc/squid3/squid.conf
+  notify:
+    - restart squid
+
