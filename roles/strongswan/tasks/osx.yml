@@ -1,0 +1,14 @@
+---
+
+- name: create osx config file directory
+  file: path=/var/www/ikev2/osx/ state=directory
+  tags:
+    - ipsec
+    - osx
+
+- name: cp server cert to web server for importing to osx
+  shell: cp /etc/ipsec.d/certs/server_cert.pem /var/www/ikev2/osx/
+  tags:
+    - ipsec
+    - osx
+

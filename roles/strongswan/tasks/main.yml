@@ -62,6 +62,9 @@
 - include: ios8.yml
   when: ipsec_enable_ikev2 and ipsec_gen_ios8_profile
 
+- include: osx.yml
+  when: ipsec_enable_ikev2
+
 - name: make sure /opt/easynat exists
   action: file path=/opt/easynat/ state=directory
   tags:
