@@ -3,6 +3,8 @@ ipsec_enable_l2tp: false
 ipsec_enable_ikev1: true
 ipsec_enable_ikev2: false
 
+# the generated server cert should also be imported to osx
+
 ipsec_domain: "{{ inventory_hostname }}"
 ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
 ipsec_subnet: 10.7.0.0/24
