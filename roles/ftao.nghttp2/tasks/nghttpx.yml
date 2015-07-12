@@ -17,6 +17,11 @@
   notify:
      - restart nghttpx
 
+- name: upload ca cert
+  copy: "src={{ nghttpx_verify_client_cacert_file}} dest={{ nghttpx_remote_verify_client_cacert_file }}"
+  notify:
+     - restart nghttpx
+
 - name: upload supervisor config
   template: src=supervisor.nghttpx.conf  dest=/etc/supervisor/conf.d/nghttpx.conf 
   notify:
