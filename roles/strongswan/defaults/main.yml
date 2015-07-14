@@ -14,6 +14,9 @@ ipsec_subnet: 10.7.0.0/24
 ipsec_ikev1_split_include: []
   #- {{ ipsec_subnet }}
 
+#if xauth-eap does not works with you radius setup, you may want to change this to xauth-radius
+ipsec_ikev1_radius_rightauth2: "xauth-eap"
+
 ipsec_use_radius: false
 ipsec_radius_servers:
   - host: 127.0.0.1
