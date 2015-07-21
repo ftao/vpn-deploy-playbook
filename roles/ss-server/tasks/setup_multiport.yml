@@ -1,0 +1,15 @@
+- name: upload port password generator
+  action: copy src=ss-gen-port-password.py dest=/opt/ss-server/ss-gen-port-password.py mode=644
+
+- name: generate port passwords
+  shell: 'python /opt/ss-server/ss-gen-port-password.py'
+  register: port_password_result
+
+- name: debug port_password_result
+  debug: var=port_password_result
+
+- name: set fact shadowsocks_port_password
+  set_fact: port_password="{{ port_password_result.stdout }}"
+
+- name: debug port_password
+  debug: var=port_password

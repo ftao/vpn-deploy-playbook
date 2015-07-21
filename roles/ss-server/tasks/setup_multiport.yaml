@@ -1,6 +1,0 @@
-- name: generate port passwords
-  shell: 'python -c "import json,random,string;print(json.dumps(dict(map(lambda x: (x, ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(16))), range(30000,30200)))))"'
-  register: port_password_result
-
-- name: set fact shadowsocks_port_password
-  set_fact: port_password="{{ port_password_result.stdout | from_json }}"
