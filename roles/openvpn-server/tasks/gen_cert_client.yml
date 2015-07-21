@@ -1,0 +1,22 @@
+---
+- name: create client key & cert
+  shell: certified --password="{{ openvpn_pki_password }}" --db={{ openvpn_pki_db_path }} CN="{{ openvpn_client_name }}"
+         creates={{ openvpn_pki_db_path }}/certs/{{ openvpn_client_name }}.crt
+  tags:
+    - openvpn
+    - ca
+
+- name: get client cert content
+  shell: cat {{ openvpn_pki_db_path }}/certs/{{ openvpn_client_name }}.crt
+  register: client_cert_content_action
+  tags:
+    - openvpn
+    - ca
+
+- name: get server key content
+  shell: cat {{ openvpn_pki_db_path }}/private/{{ openvpn_client_name }}.key
+  register: client_key_content_action
+  tags:
+    - openvpn
+    - ca
+
