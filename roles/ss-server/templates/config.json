@@ -1,7 +1,11 @@
 {
   "server" : "0.0.0.0",
+{% if {{ shadowsocks_enable_multiport }} %}
+  "port_password" : {{ port_password | to_nice_json }},
+{% else %}
   "server_port" : {{ port }},
   "password" : "{{ password }}",
+{% endif %}
   "method": "{{ method }}",
   "timeout": 10
 }
