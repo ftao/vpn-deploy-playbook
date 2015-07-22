@@ -4,7 +4,7 @@
 {% if shadowsocks_enable_multiport_auto_config %}
   "port_password" : {{ shadowsocks_auto_port_password | safe}},
 {% else %}
-  "port_password" : {{ port_password | regex_replace('\'', '"') }},
+  "port_password" : {{ port_password | to_json }},
 {% endif %}
 {% else %}
   "server_port" : {{ port }},
