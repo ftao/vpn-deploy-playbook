@@ -5,7 +5,8 @@ port : 5351
 password: "ssserver-very-long-password-876410482"
 method: "aes-256-cfb"
 timeout: "100"
-port_password: "" #multiple ports config json string, provide port password configuration when you don't want automaticly generated configurations
+port_password:
+  5351 : "ssserver-very-long-password-876410482" #multiple ports config json string, provide port password configuration when you don't want automaticly generated configurations
 
 shadowsocks_provider: "libev"
 shadowsocks_enable_multiport: false #enable multiple port config, only possible for python shadowsocks implementation
