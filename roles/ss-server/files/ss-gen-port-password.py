@@ -10,3 +10,4 @@ def shadowsocks_generate_port_password(port_start, port_end, password_length):
 
 if __name__ == '__main__':
 	print(json.dumps(shadowsocks_generate_port_password(30080, 30100, 16), indent=4, separators=(',', ':')))
+
