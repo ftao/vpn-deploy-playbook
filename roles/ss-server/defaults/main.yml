@@ -4,10 +4,11 @@ enable_udp: true      #enable udp
 port : 5351
 password: "ssserver-very-long-password-876410482"
 method: "aes-256-cfb"
+timeout: "100"
 port_password: "" #multiple ports config json string, provide port password configuration when you don't want automaticly generated configurations
 
 shadowsocks_provider: "libev"
 shadowsocks_enable_multiport: false #enable multiple port config, only possible for python shadowsocks implementation
-shadowsocks_enalbe_multiport_generate_config: false #enable automactic random config for multiple port
+shadowsocks_enable_multiport_auto_config: false #enable automactic random config for multiple port
 shadowsocks_tune_system: true
 shadowsocks_change_tcp_congestion_control: false

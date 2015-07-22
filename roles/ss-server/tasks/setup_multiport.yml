@@ -5,11 +5,5 @@
   shell: 'python /opt/ss-server/ss-gen-port-password.py'
   register: port_password_result
 
-- name: debug port_password_result
-  debug: var=port_password_result
-
 - name: set fact shadowsocks_port_password
-  set_fact: port_password="{{ port_password_result.stdout }}"
-
-- name: debug port_password
-  debug: var=port_password
+  set_fact: shadowsocks_auto_port_password="{{ port_password_result.stdout }}"

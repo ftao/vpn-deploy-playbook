@@ -1,11 +1,15 @@
 {
   "server" : "0.0.0.0",
 {% if shadowsocks_enable_multiport %}
-  "port_password" : {{ port_password | safe}},
+{% if shadowsocks_enable_multiport_auto_config %}
+  "port_password" : {{ shadowsocks_auto_port_password | safe}},
+{% else %}
+  "port_password" : {{ port_password | regex_replace('\'', '"') }},
+{% endif %}
 {% else %}
   "server_port" : {{ port }},
   "password" : "{{ password }}",
 {% endif %}
   "method": "{{ method }}",
-  "timeout": 10
+  "timeout": "{{ timeout }}"
 }
