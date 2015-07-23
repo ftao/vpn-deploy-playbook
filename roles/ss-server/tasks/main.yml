@@ -62,9 +62,6 @@
 - include: install_python.yml
   when: shadowsocks_provider == "python"
 
-- include: setup_multiport.yml
-  when: shadowsocks_enable_multiport_auto_config and (shadowsocks_provider == "python")
-
 - name: install shadowssocks-server supervisorconfig
   template: src=ss-server.supervisor.conf
             dest=/etc/supervisor/conf.d/ss-server-{{ name }}.conf

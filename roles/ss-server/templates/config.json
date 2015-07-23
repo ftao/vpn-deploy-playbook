@@ -1,11 +1,7 @@
 {
   "server" : "0.0.0.0",
-{% if shadowsocks_enable_multiport %}
-{% if shadowsocks_enable_multiport_auto_config %}
-  "port_password" : {{ shadowsocks_auto_port_password | safe}},
-{% else %}
-  "port_password" : {{ port_password | to_json }},
-{% endif %}
+{% if shadowsocks_enable_multiport and (shadowsocks_provider=="python") %}
+  "port_password" : {{ port_password | to_nice_json }},
 {% else %}
   "server_port" : {{ port }},
   "password" : "{{ password }}",

@@ -5,15 +5,9 @@
     - common
 
     - role: ss-server
-      name: "multiport-mannual"
-      port_password: "{{ shadowsocks_servers.multiport_mannual.port_password }}"
-      enable_udp: "{{ shadowsocks_servers.multiport_mannual.enable_udp }}"
+      name: "multiport"
+      port_password: "{{ shadowsocks_servers.multiport.port_password }}"
+      enable_udp: "{{ shadowsocks_servers.multiport.enable_udp }}"
       shadowsocks_provider: "python"
       shadowsocks_enable_multiport: true
 
-    - role: ss-server
-      name: "multiport-automatic"
-      enable_udp: "{{ shadowsocks_servers.multiport_auto.enable_udp }}"
-      shadowsocks_provider: "python"
-      shadowsocks_enable_multiport: true
-      shadowsocks_enable_multiport_auto_config: true
