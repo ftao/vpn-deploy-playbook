@@ -25,8 +25,7 @@ l2tp_eth_client_remote_port: "{{ l2tp_eth_server_port }}"
 l2tp_eth_client_local_ip: "{{ l2tp_eth_tunnel_client_ip }}"
 l2tp_eth_client_peer_ip: "{{ l2tp_eth_tunnel_server_ip }}"
 l2tp_eth_client_default_gateway: false
-l2tp_eth_client_origin_gw: "{{ ansible_default_ipv4.gateway }}"
-l2tp_eth_client_origin_network: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}" 
+l2tp_eth_client_origin_gw: ""
 
 
 l2tp_eth_working_dir: "/opt/l2tp-eth/{{ l2tp_eth_name }}"

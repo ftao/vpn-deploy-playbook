@@ -7,6 +7,7 @@
   template: src=setup_client.sh 
             dest="{{ l2tp_eth_client_setup_script }}"
             mode=755
-  notify: 
-    - setup l2tp-eth client
+
+- name: setup l2tp-eth client 
+  shell: "{{ l2tp_eth_client_setup_script }}"
 

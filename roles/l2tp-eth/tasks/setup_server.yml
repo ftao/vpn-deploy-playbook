@@ -7,8 +7,9 @@
   template: src=setup_server.sh 
             dest="{{ l2tp_eth_server_setup_script }}"
             mode=755
-  notify: 
-    - setup l2tp-eth server
+
+- name: setup l2tp-eth server 
+  shell: "{{ l2tp_eth_server_setup_script }}"
 
 - name: make sure /opt/easynat exists
   action: file path=/opt/easynat/ state=directory

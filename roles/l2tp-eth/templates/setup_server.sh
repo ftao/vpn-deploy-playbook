@@ -14,9 +14,13 @@ COOKIE_LOW="0x{{ l2tp_eth_cookie[8:] }}"
 COOKIE="{{ l2tp_eth_cookie }}"
 
 modprobe l2tp_eth
+
+#clean up 
 iptables -t nat -D INPUT -i $SERVER_IF -p udp --dport $SERVER_PORT -m u32 --u32 "0>>22&0x3C@12 = $SESSION && 0>>22&0x3C@16 = $COOKIE_HIGH && 0>>22&0x3C@20 = $COOKIE_LOW" -j SNAT --to-source $SNAT_IP:$SNAT_PORT 2>/dev/null
+ip l2tp del tunnel tunnel_id 1 || true
+
+#setup
 iptables -t nat -A INPUT -i $SERVER_IF -p udp --dport $SERVER_PORT -m u32 --u32 "0>>22&0x3C@12 = $SESSION && 0>>22&0x3C@16 = $COOKIE_HIGH && 0>>22&0x3C@20 = $COOKIE_LOW" -j SNAT --to-source $SNAT_IP:$SNAT_PORT
-ip l2tp del tunnel tunnel_id 1
 ip l2tp add tunnel local $SERVER_IP remote $SNAT_IP tunnel_id 1 peer_tunnel_id 1 encap udp udp_sport $SERVER_PORT udp_dport $SNAT_PORT
 ip l2tp add session tunnel_id 1 session_id $SESSION peer_session_id $SESSION cookie $COOKIE peer_cookie $COOKIE
 ip addr add $LOCAL_IP peer $PEER_IP dev $ETH_NAME
