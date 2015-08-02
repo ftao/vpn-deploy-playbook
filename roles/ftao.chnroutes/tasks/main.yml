@@ -1,17 +1,12 @@
 ---
 # tasks file for ftao.chnroutes
 
-- name: create working directory for chnroutes
-  file: path="{{ chnroutes_working_dir }}" state=directory
+- name: check if chnroutes_device exists
+  fail: "{{ chnroutes_device }} not found"
+  when: chnroutes_device not in ansible_interfaces
 
-- name: upload chnroutes script
-  copy: src=setup-chnroutes dest="{{ chnroutes_setup_script_path }}" mode=755
-  notify: 
-    - setup chnroutes
+- name: upload chnroutes up script
+  template: src=up dest="{{ chnroutes_up_script_path }}" mode=755
 
-- name: put setup script in rc.local
-  lineinfile: dest=/etc/rc.local 
-              regexp="{{ chnroutes_setup_script_path }}" 
-              line="{{ chnroutes_setup_script_path }} {{ chnroutes_cn_gateway }}" 
-  when: chnroutes_cn_gateway and chnroutes_persist
-
+- name: run the chnroutes up script once
+  shell: "IFACE='{{ chnroutes_device }}' {{ chnroutes_up_script_path }}"
