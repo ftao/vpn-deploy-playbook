@@ -1,0 +1,8 @@
+---
+# tasks file for l2tp-eth
+
+- include: setup_server.yml
+  when: l2tp_eth_mode == 'server'
+
+- include: setup_client.yml
+  when: l2tp_eth_mode == 'client'
