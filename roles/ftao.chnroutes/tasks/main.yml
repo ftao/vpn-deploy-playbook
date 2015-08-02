@@ -1,0 +1,12 @@
+---
+# tasks file for ftao.chnroutes
+
+- name: check if chnroutes_device exists
+  fail: "{{ chnroutes_device }} not found"
+  when: chnroutes_device not in ansible_interfaces
+
+- name: upload chnroutes up script
+  template: src=up dest="{{ chnroutes_up_script_path }}" mode=755
+
+- name: run the chnroutes up script once
+  shell: "IFACE='{{ chnroutes_device }}' {{ chnroutes_up_script_path }}"

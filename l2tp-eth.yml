@@ -1,0 +1,18 @@
+---
+#setup l2th eth tunnel 
+
+- hosts: l2tp-eth-server
+  roles:
+    - role: l2tp-eth
+      l2tp_eth_mode: 'server'
+    - role: nat
+
+- hosts: l2tp-eth-client
+  roles:
+    - role: ftao.chnroutes
+      #chnroutes_extra_networks: 
+      #  - host: "{{ l2tp_eth_client_remote_ip }}"
+
+    - role: l2tp-eth
+      l2tp_eth_mode: 'client'
+      l2tp_eth_client_default_gateway: true

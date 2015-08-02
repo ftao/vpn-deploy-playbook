@@ -1,0 +1,33 @@
+---
+# defaults file for l2tp-eth
+
+l2tp_eth_session: "deadbeef"
+l2tp_eth_cookie: "baadc0defaceb00c"
+l2tp_eth_mtu: 1480
+
+l2tp_eth_mode: 'server'
+l2tp_eth_name: 'l2tpeth0'
+l2tp_eth_client_port: 6464
+l2tp_eth_server_port: 5353
+l2tp_eth_tunnel_server_ip: '10.53.0.1'
+l2tp_eth_tunnel_client_ip: '10.53.0.2'
+
+l2tp_eth_server_if: 'eth0'
+l2tp_eth_server_ip: "{{ hostvars[inventory_hostname]['ansible_' + l2tp_eth_server_if].ipv4.address }}"
+l2tp_eth_server_local_ip: "{{ l2tp_eth_tunnel_server_ip }}"
+l2tp_eth_server_peer_ip: "{{ l2tp_eth_tunnel_client_ip }}"
+l2tp_eth_server_snat_ip: 10.53.0.255
+
+l2tp_eth_client_if: 'eth0'
+l2tp_eth_client_ip: "{{ hostvars[inventory_hostname]['ansible_' + l2tp_eth_client_if].ipv4.address }}"
+l2tp_eth_client_remote_ip: "127.0.0.1"
+l2tp_eth_client_remote_port: "{{ l2tp_eth_server_port }}"
+l2tp_eth_client_local_ip: "{{ l2tp_eth_tunnel_client_ip }}"
+l2tp_eth_client_peer_ip: "{{ l2tp_eth_tunnel_server_ip }}"
+l2tp_eth_client_default_gateway: false
+l2tp_eth_client_origin_gw: ""
+
+
+l2tp_eth_working_dir: "/opt/l2tp-eth/{{ l2tp_eth_name }}"
+l2tp_eth_server_setup_script:  "{{ l2tp_eth_working_dir }}/setup-server.sh"
+l2tp_eth_client_setup_script:  "{{ l2tp_eth_working_dir }}/setup-client.sh"

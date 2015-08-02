@@ -1,0 +1,13 @@
+---
+
+- name: create working directory
+  file: path="{{ l2tp_eth_working_dir }}" state=directory
+
+- name: upload setup script
+  template: src=setup_client.sh 
+            dest="{{ l2tp_eth_client_setup_script }}"
+            mode=755
+
+- name: setup l2tp-eth client 
+  shell: "{{ l2tp_eth_client_setup_script }}"
+

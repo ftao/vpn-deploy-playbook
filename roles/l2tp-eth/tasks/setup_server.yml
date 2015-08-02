@@ -1,0 +1,25 @@
+---
+
+- name: create working directory
+  file: path="{{ l2tp_eth_working_dir }}" state=directory
+
+- name: upload setup script
+  template: src=setup_server.sh 
+            dest="{{ l2tp_eth_server_setup_script }}"
+            mode=755
+
+- name: setup l2tp-eth server 
+  shell: "{{ l2tp_eth_server_setup_script }}"
+
+- name: make sure /opt/easynat exists
+  action: file path=/opt/easynat/ state=directory
+  tags: 
+    - nat
+
+- name: set network in easynat rule file
+  action: lineinfile dest=/opt/easynat/rules.cnf regexp="{{ l2tp_eth_server_peer_ip }}" line="{{ l2tp_eth_server_peer_ip }}" state=present create=yes
+  notify: 
+    - setup nat rules
+  tags: 
+    - nat
+

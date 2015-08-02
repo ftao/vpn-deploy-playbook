@@ -1,0 +1,9 @@
+---
+# handlers file for l2tp-eth
+
+
+- name: setup l2tp-eth server 
+  shell: "{{ l2tp_eth_server_setup_script }}"
+
+- name: setup l2tp-eth client 
+  shell: "{{ l2tp_eth_client_setup_script }}"
