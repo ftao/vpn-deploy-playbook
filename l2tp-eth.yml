@@ -1,0 +1,13 @@
+---
+#setup l2th eth tunnel 
+
+- hosts: l2tp-eth-server
+  roles:
+    - role: l2tp-eth
+      l2tp_eth_mode: 'server'
+    - role: nat
+
+- hosts: l2tp-eth-client
+  roles:
+    - role: l2tp-eth
+      l2tp_eth_mode: 'client'
