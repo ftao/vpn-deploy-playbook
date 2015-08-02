@@ -1,0 +1,5 @@
+---
+# handlers file for ftao.chnroutes
+#
+- name: setup chnroutes
+  shell: "{{ chnroutes_setup_script_path }} {{ chnroutes_cn_gateway }}" 

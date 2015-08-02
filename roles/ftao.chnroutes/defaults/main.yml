@@ -1,0 +1,8 @@
+---
+# defaults file for ftao.chnroutes
+
+chnroutes_working_dir: "/opt/chnroutes"
+chnroutes_setup_script_path: "{{ chnroutes_working_dir }}/setup-chnroutes"
+#chnroutes_teardown_script_path: "{{ chnroutes_working_dir }}/teardown-chnroutes"
+chnroutes_cn_gateway: '{{ ansible_default_ipv4.gateway }}'
+chnroutes_persist: false

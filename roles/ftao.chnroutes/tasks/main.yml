@@ -1,0 +1,17 @@
+---
+# tasks file for ftao.chnroutes
+
+- name: create working directory for chnroutes
+  file: path="{{ chnroutes_working_dir }}" state=directory
+
+- name: upload chnroutes script
+  copy: src=setup-chnroutes dest="{{ chnroutes_setup_script_path }}" mode=755
+  notify: 
+    - setup chnroutes
+
+- name: put setup script in rc.local
+  lineinfile: dest=/etc/rc.local 
+              regexp="{{ chnroutes_setup_script_path }}" 
+              line="{{ chnroutes_setup_script_path }} {{ chnroutes_cn_gateway }}" 
+  when: chnroutes_cn_gateway and chnroutes_persist
+
