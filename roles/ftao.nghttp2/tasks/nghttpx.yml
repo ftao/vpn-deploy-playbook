@@ -27,3 +27,11 @@
   template: src=supervisor.nghttpx.conf  dest=/etc/supervisor/conf.d/nghttpx.conf 
   notify:
      - restart nghttpx
+
+- name: make sure log dir exists
+  file: path={{ nghttpx_log_dir }} state=directory 
+  when: nghttpx_accesslog_enable
+
+- name: create logrotate config for nghttpx
+  template: src=nghttpx-logrotate dest=/etc/logrotate.d/nghttpx
+  when: nghttpx_accesslog_enable

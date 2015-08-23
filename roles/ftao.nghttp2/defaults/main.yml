@@ -19,3 +19,9 @@ nghttpx_remote_certificate_file: '/opt/nghttp2/etc/nghttpx.cert'
 nghttpx_verify_client: false
 nghttpx_verify_client_cacert_file: 'nghttpx_clients_ca.cert'
 nghttpx_remote_verify_client_cacert_file: '/opt/nghttp2/etc/nghttpx_clients_ca.cert'
+nghttpx_worker_count: 1
+
+nghttpx_accesslog_enable: true
+nghttpx_log_dir: /var/log/nghttpx
+nghttpx_accesslog_file: "{{ nghttpx_log_dir }}/access.log"
+nghttpx_accesslog_format: '$remote_addr [$time_iso8601] "$request" $status $body_bytes_sent $alpn "$http_user_agent"'

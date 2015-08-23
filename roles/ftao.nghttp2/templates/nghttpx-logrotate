@@ -1,0 +1,11 @@
+{{ nghttpx_log_dir }}/*.log {
+  weekly
+  rotate 52
+  missingok
+  compress
+  delaycompress
+  notifempty
+  postrotate
+    killall -USR1 nghttpx 2> /dev/null || true
+  endscript
+}
