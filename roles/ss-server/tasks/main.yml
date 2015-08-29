@@ -27,6 +27,11 @@
     - {"name" : "net.core.wmem_max", "value" : "67108864 "}
     - {"name" : "net.core.netdev_max_backlog", "value" : "250000"}
     - {"name" : "net.core.somaxconn", "value" : "3240000"}
+  when: shadowsocks_tune_system
+
+- name: update tcp config  for performance
+  sysctl: name="{{ item.name }}" value="{{ item.value }}" state=present reload=yes
+  with_items:
     - {"name" : "net.ipv4.tcp_syncookies", "value" : "1"}
     - {"name" : "net.ipv4.tcp_tw_reuse", "value" : "1"}
     - {"name" : "net.ipv4.tcp_tw_recycle", "value" : "0"}
@@ -39,7 +44,7 @@
     - {"name" : "net.ipv4.tcp_rmem", "value" : "4096 87380 67108864"}
     - {"name" : "net.ipv4.tcp_wmem", "value" : "4096 65536 67108864"}
     - {"name" : "net.ipv4.tcp_mtu_probing", "value" : "1"}
-  when: shadowsocks_tune_system
+  when: shadowsocks_tune_system and shadowsocks_tune_tcp
   tags:
     - ss-server
 

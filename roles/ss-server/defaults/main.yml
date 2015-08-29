@@ -12,4 +12,5 @@ port_password: #port password dictionary
 shadowsocks_provider: "libev"
 shadowsocks_enable_multiport: false #enable multiple port config, only possible for python shadowsocks implementation
 shadowsocks_tune_system: true
+shadowsocks_tune_tcp: false
 shadowsocks_change_tcp_congestion_control: false
