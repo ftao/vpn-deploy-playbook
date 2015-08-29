@@ -1,0 +1,6 @@
+---
+nat_mode: 'masquerade'  #snat
+nat_snat_source_ip: "{{ ansible_default_ipv4.address }}"
+nat_block_ports: []
+#  - "1024-65535"
+#

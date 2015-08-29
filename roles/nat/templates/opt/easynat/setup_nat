@@ -29,13 +29,20 @@ $IPTABLES -t nat -I EASY_NAT_FILTER -o lo -j RETURN
 while read line 
 do
     $IPTABLES -t nat -A EASY_NAT_FILTER -s $line -j EASY_NAT
+    {% for item in nat_block_ports %}
+    $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp --dport {{ item }} -j DROP
+    {% endfor %}
     $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp -j EASY_NAT_SET_MTU
 done < /opt/easynat/rules.cnf
 
 $IPTABLES -t nat -A EASY_NAT_FILTER -j RETURN
 
 $IPTABLES -A EASY_NAT_SET_MTU -p tcp --syn -j TCPMSS --set-mss 1340
+{% if nat_mode == 'snat' %}
+$IPTABLES -t nat -A EASY_NAT -j SNAT --to-source {{ nat_snat_source_ip }}
+{% else %}
 $IPTABLES -t nat -A EASY_NAT -j MASQUERADE
+{% endif %}
 
 $IPTABLES -t nat -A POSTROUTING -j EASY_NAT_FILTER
 $IPTABLES -A FORWARD -j EASY_NAT_SET_MTU_FILTER
