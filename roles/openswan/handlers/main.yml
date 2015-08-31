@@ -1,3 +1,0 @@
----
-- name: restart ipsec
-  action: service name=ipsec state=restarted

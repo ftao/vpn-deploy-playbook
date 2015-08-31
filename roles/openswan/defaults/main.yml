@@ -1,3 +1,0 @@
----
-openswan_l2tp_bind_ip: "{{ ansible_default_ipv4.address }}"
-ipsec_psk: "very_secret_ipsec_psk_23491ldafhc"

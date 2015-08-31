@@ -7,10 +7,9 @@ A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and p
 
 - [auth.yml](./auth.yml) : setup [FreeRadius](http://freeradius.org) server for authentication and accounting
 - [pptp.yml](./pptp.yml) : setup PPTP server
-- [l2tp.yml](./l2tp.yml) : setup IPSec/L2TP server (with pre-shared key)
 - proxy-*.yml : setup [Shadowsocks](https://github.com/clowwindy/shadowsocks)
 - cow-*.yml : setup [COW](https://github.com/cyfdecyf/cow)
-- [ipsec.yml](./ipsec.yml) : setup IPSec IKEv1/IKEv2 VPN server with [StrongSwan](http://www.strongswan.org)
+- [ipsec.yml](./ipsec.yml) : setup IPSec IKEv1/IKEv2/L2TP over IPsec VPN server with [StrongSwan](http://www.strongswan.org) and xl2tpd
 - [sane-dns.yml](./sane-dns.yml) : setup [fqdns](https://github.com/fqrouter/fqdns)
 - [chinadns.yml](./chinadns.yml) : setup [ChinaDNS](https://github.com/clowwindy/ChinaDNS/)
 - [openconnect.yml](./openconnect.yml) : setup [OpenConnect VPN server](http://www.infradead.org/ocserv/) for Cisco AnyConnect client
