@@ -1,0 +1,12 @@
+---
+# defaults file for squid-helper
+
+squid_helper_venv: '/opt/squid-helper/env'
+squid2radius_dir: '/opt/squid-helper/squid2radius'
+squid2radius_squid_log_path: '/var/log/squid3/access.log'
+squid2radius_radius_server: '127.0.0.1'
+squid2radius_radius_secret: 'test123'
+squid2radius_squid_path: '/usr/sbin/squid3'
+squid2radius_cmd: "{{ squid_helper_venv }}/bin/python {{ squid2radius_dir }}/squid2radius.py --squid-path {{ squid2radius_squid_path }} {{ squid2radius_squid_log_path }} {{ squid2radius_radius_server }} {{ squid2radius_radius_secret }}"
+squid2radius_cron_interval: "hourly" #daily
+squi2radius_run_now: false

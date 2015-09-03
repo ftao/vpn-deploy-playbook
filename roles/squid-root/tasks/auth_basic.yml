@@ -14,4 +14,3 @@
             name="{{ item.name }}"
             state=absent
   with_items: squid_delete_users
-
