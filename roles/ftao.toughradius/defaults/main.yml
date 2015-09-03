@@ -1,0 +1,19 @@
+---
+# defaults file for ftao.toughradius
+
+toughradius_working_dir: /opt/toughradius
+toughradius_secret: '046ae5f23093e6fc4879814c046de19b'
+toughradius_log_dir: "{{ toughradius_working_dir }}/log"
+toughradius_data_dir: "{{ toughradius_working_dir }}/data"
+toughradius_etc_dir: "{{ toughradius_working_dir }}/etc"
+toughradius_user: 'root'
+
+toughctl_path: "{{ toughradius_working_dir }}/env/bin/python {{ toughradius_working_dir }}/env/bin/toughctl"
+toughradius_conf_path: "{{ toughradius_etc_dir }}/radiusd.conf"
+toughradius_db_path: "{{ toughradius_data_dir }}/toughradius.sqlite3"
+
+toughradius_radius_auth_port: 1812
+toughradius_radius_acct_port: 1813
+toughradius_radius_admin_port: 1815
+toughradius_admin_port: 1816
+toughradius_customer_port: 1817

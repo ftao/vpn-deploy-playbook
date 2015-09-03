@@ -1,0 +1,5 @@
+---
+# handlers file for ftao.toughradius
+
+- name: restart toughradius
+  supervisorctl: name="toughradius:" state=restarted

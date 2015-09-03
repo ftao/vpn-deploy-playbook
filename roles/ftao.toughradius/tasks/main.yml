@@ -1,0 +1,32 @@
+---
+# tasks file for ftao.toughradius
+#
+
+- name: create working dir
+  file: path="{{ item }}" state=directory
+  with_items:
+    - "{{ toughradius_working_dir }}"
+    - "{{ toughradius_working_dir }}/env"
+    - "{{ toughradius_log_dir }}"
+    - "{{ toughradius_data_dir }}"
+    - "{{ toughradius_etc_dir }}"
+
+- name: install toughradius via pip
+  pip: name=toughradius
+       virtualenv="{{ toughradius_working_dir }}/env"
+       state=present
+
+- name: create config file
+  template: src=toughradius.conf dest={{ toughradius_conf_path }}
+  notify:
+    - restart toughradius
+
+- name: init database 
+  shell: "{{ toughctl_path }} -c {{ toughradius_conf_path }} --initdb
+         creates={{ toughradius_db_path }}"
+
+- name: create supervisor config file
+  template: src=toughradius.supervisor.conf dest=/etc/supervisor/conf.d/toughradius.conf
+  notify:
+    - restart toughradius
+
