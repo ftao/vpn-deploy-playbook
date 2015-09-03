@@ -11,11 +11,43 @@
     - "{{ toughradius_data_dir }}"
     - "{{ toughradius_etc_dir }}"
 
+- name: install openssl & others
+  apt: name={{ item }} state=present
+  with_items:
+    - libssl-dev
+    - libffi-dev
+  when: toughradius_ssl_on
+
+- name: install toughradius dep via pip
+  pip: name=pyOpenSSL
+       virtualenv="{{ toughradius_working_dir }}/env"
+       state=present
+  with_items: 
+     - pyOpenSSL
+     - service_identity
+  notify:
+    - restart toughradius
+  when: toughradius_ssl_on
+
 - name: install toughradius via pip
   pip: name=toughradius
        virtualenv="{{ toughradius_working_dir }}/env"
        state=present
+  notify:
+    - restart toughradius
 
+- name: upload ssl key
+  copy: src={{ toughradius_ssl_key }} dest={{ toughradius_etc_dir }}/toughradius.key
+  when: toughradius_ssl_on
+  notify:
+    - restart toughradius
+
+- name: upload ssl cert
+  copy: src={{ toughradius_ssl_cert }} dest={{ toughradius_etc_dir }}/toughradius.crt
+  when: toughradius_ssl_on
+  notify:
+    - restart toughradius
+ 
 - name: create config file
   template: src=toughradius.conf dest={{ toughradius_conf_path }}
   notify:
@@ -29,4 +61,3 @@
   template: src=toughradius.supervisor.conf dest=/etc/supervisor/conf.d/toughradius.conf
   notify:
     - restart toughradius
-
