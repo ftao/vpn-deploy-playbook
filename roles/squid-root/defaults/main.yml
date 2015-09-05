@@ -5,6 +5,7 @@ listen_port: 6128
 squid_require_auth: false
 squid_auth_method: 'basic' #radius
 
+squid_no_cache: false
 #for basic auth
 squid_users: []
 squid_delete_users: []
