@@ -2,11 +2,17 @@
 # defaults file for ftao.toughradius
 
 toughradius_working_dir: /opt/toughradius
+#toughradius_install_source: 'toughradius'
+toughradius_version: '1.1.3'
+toughradius_install_source: 'https://github.com/talkincode/ToughRADIUS/archive/v{{ toughradius_version }}.tar.gz#egg=toughradius-{{ toughradius_version }}'
 toughradius_secret: '046ae5f23093e6fc4879814c046de19b'
 toughradius_log_dir: "{{ toughradius_working_dir }}/log"
 toughradius_data_dir: "{{ toughradius_working_dir }}/data"
 toughradius_etc_dir: "{{ toughradius_working_dir }}/etc"
 toughradius_user: 'root'
+toughradius_control_user: 'ctlman'
+toughradius_control_password: '28bcc2f058c9374615544dd8ab61f076'
+toughradius_backup_dir: "{{ toughradius_working_dir }}/backup"
 
 toughctl_path: "{{ toughradius_working_dir }}/env/bin/python {{ toughradius_working_dir }}/env/bin/toughctl"
 toughradius_conf_path: "{{ toughradius_etc_dir }}/radiusd.conf"

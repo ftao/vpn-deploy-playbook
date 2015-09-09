@@ -10,6 +10,7 @@
     - "{{ toughradius_log_dir }}"
     - "{{ toughradius_data_dir }}"
     - "{{ toughradius_etc_dir }}"
+    - "{{ toughradius_backup_dir }}"
 
 - name: install openssl & others
   apt: name={{ item }} state=present
@@ -30,7 +31,7 @@
   when: toughradius_ssl_on
 
 - name: install toughradius via pip
-  pip: name=toughradius
+  pip: name="{{ toughradius_install_source }}"
        virtualenv="{{ toughradius_working_dir }}/env"
        state=present
   notify:
