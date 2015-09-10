@@ -5,8 +5,9 @@
   file: path={{ squid2radius_dir }} state=directory
 
 - name: clone squid2radius repo
-  git: repo=https://github.com/jiehanzheng/squid2radius.git  
-       dest={{ squid2radius_dir }}
+  git: repo="{{ squid2radius_repo }}"
+       version="{{ squid2radius_version }}"
+       dest="{{ squid2radius_dir }}"
 
 - name: install depdency
   pip: name={{ item }} state=present
