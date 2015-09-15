@@ -1,8 +1,7 @@
 ---
 galaxy_info:
-  author: your name
+  author: Tao Fei
   description: 
-  company: your company (optional)
   # Some suggested licenses:
   # - BSD (default)
   # - MIT
@@ -10,7 +9,7 @@ galaxy_info:
   # - GPLv3
   # - Apache
   # - CC-BY
-  license: license (GPLv2, CC-BY, etc)
+  license: GPLv3
   min_ansible_version: 1.2
   #
   # Below are all platforms currently available. Just uncomment
@@ -75,8 +74,8 @@ galaxy_info:
   #  - 9.1
   #  - 9.1
   #  - 9.2
-  #- name: Ubuntu
-  #  versions:
+  - name: Ubuntu
+    versions:
   #  - all
   #  - lucid
   #  - maverick
@@ -86,7 +85,7 @@ galaxy_info:
   #  - quantal
   #  - raring
   #  - saucy
-  #  - trusty
+    - trusty
   #  - utopic
   #  - vivid
   #- name: SLES
