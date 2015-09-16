@@ -23,9 +23,13 @@ ikev1_users:
   - username: "a_secret_vpn_username"
     password: "a_secret_vpn_password"
 
-ikev2_users: []
-#ikev_users:
+#uncomment following lines to add ikev2 users
+#ikev2_users:
 #  - username: "user1"
 #    password: "pass1"
 #  - username: "user2"
 #    password: "passw"
+
+
+# uncomment next line if your want to connect to the server by ip address instead of domain name
+# ipsec_use_ip_as_domain: true
