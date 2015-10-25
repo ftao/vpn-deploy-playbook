@@ -15,6 +15,8 @@
 
 - name: install easynat
   action: template src=opt/easynat/setup_nat dest=/opt/easynat/setup_nat mode=755
+  notify: 
+    - setup nat rules
   tags: nat
 
 - name: make sure easynat is in rc.local
