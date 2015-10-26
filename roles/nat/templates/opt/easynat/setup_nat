@@ -30,12 +30,14 @@ while read line
 do
     {% for item in nat_allow_tcp_ports %}
     $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp --dport {{ item }} -j EASY_NAT_SET_MTU
+    $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp --dport {{ item }} -j ACCEPT
     {% endfor %}
     {% for item in nat_block_tcp_ports %}
     $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp --dport {{ item }} -j DROP
     {% endfor %}
     {% for item in nat_allow_udp_ports %}
     $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p udp --dport {{ item }} -j EASY_NAT_SET_MTU
+    $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p udp --dport {{ item }} -j ACCEPT
     {% endfor %}
     {% for item in nat_block_udp_ports %}
     $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p udp --dport {{ item }} -j DROP
@@ -48,6 +50,7 @@ done < /opt/easynat/rules.cnf
 $IPTABLES -t nat -A EASY_NAT_FILTER -j RETURN
 
 $IPTABLES -A EASY_NAT_SET_MTU -p tcp --syn -j TCPMSS --set-mss 1340
+
 {% if nat_mode == 'snat' %}
 $IPTABLES -t nat -A EASY_NAT -j SNAT --to-source {{ nat_snat_source_ip }}
 {% else %}
