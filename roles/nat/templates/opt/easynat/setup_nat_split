@@ -1,0 +1,86 @@
+#!/bin/sh
+IPTABLES=/sbin/iptables
+
+#clear up
+$IPTABLES -t nat -D PREROUTING -j EASY_NAT_FILTER_PRE 2>/dev/null
+$IPTABLES -t nat -D POSTROUTING -j EASY_NAT_FILTER 2>/dev/null
+$IPTABLES -t mangle -F EASY_NAT_FILTER_PRE 2>/dev/null
+$IPTABLES -t mangle -F EASY_NAT_FILTER_PRE 2>/dev/null
+$IPTABLES -t nat -F EASY_NAT_FILTER 2>/dev/null
+$IPTABLES -t nat -X EASY_NAT_FILTER 2>/dev/null
+$IPTABLES -t nat -F EASY_NAT 2>/dev/null
+$IPTABLES -t nat -X EASY_NAT 2>/dev/null
+$IPTABLES -t nat -F EASY_NAT_UPSTREAM 2>/dev/null
+$IPTABLES -t nat -X EASY_NAT_UPSTREAM 2>/dev/null
+
+$IPTABLES -D FORWARD -j EASY_NAT_SET_MTU_FILTER 2>/dev/null
+$IPTABLES -F EASY_NAT_SET_MTU_FILTER 2>/dev/null
+$IPTABLES -X EASY_NAT_SET_MTU_FILTER 2>/dev/null
+$IPTABLES -F EASY_NAT_SET_MTU 2>/dev/null
+$IPTABLES -X EASY_NAT_SET_MTU 2>/dev/null
+
+# Create our own chain
+$IPTABLES -t nat -N EASY_NAT_FILTER
+$IPTABLES -t mangle -N EASY_NAT_FILTER_PRE
+$IPTABLES -t nat -N EASY_NAT
+$IPTABLES -t nat -N EASY_NAT_UPSTREAM
+
+$IPTABLES -N EASY_NAT_SET_MTU_FILTER
+$IPTABLES -N EASY_NAT_SET_MTU
+ 
+# Do not try to redirect local traffic
+$IPTABLES -t nat -I EASY_NAT_FILTER -o lo -j RETURN
+ 
+# Redirect only specified addresses and do not try redirect other traffic. (whitelist option)
+
+SPLIT_DEVICE={{ nat_split_device }}
+MARK={{ nat_split_mark }}
+SPLIT_SNAT_IP=$(/sbin/ifconfig $SPLIT_DEVICE | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
+SPLIT_GATEWAY=$(/sbin/ifconfig $SPLIT_DEVICE | grep 'inet addr:' | cut -d: -f3 | awk '{ print $1}')
+
+while read line 
+do
+    {% for item in nat_allow_tcp_ports -%}
+    $IPTABLES -t mangle -A EASY_NAT_FILTER_PRE -p tcp -s $line --dport {{ item }} -j ACCEPT
+    $IPTABLES -t nat -A EASY_NAT_FILTER -p tcp -s $line --dport {{ item }} -j EASY_NAT
+    {% endfor %}
+    {% for item in nat_block_tcp_ports -%}
+    $IPTABLES -t mangle -A EASY_NAT_FILTER_PRE -p tcp -s $line --dport {{ item }} -j MARK --set-mark $MARK
+    $IPTABLES -t nat -A EASY_NAT_FILTER -p tcp -s $line --dport {{ item }} -j EASY_NAT_UPSTREAM
+    {% endfor %}
+    {% for item in nat_allow_udp_ports -%}
+    $IPTABLES -t mangle -A EASY_NAT_FILTER_PRE -p udp -s $line --dport {{ item }} -j ACCEPT
+    $IPTABLES -t nat -A EASY_NAT_FILTER -p udp -s $line --dport {{ item }} -j EASY_NAT
+    {% endfor %}
+    {% for item in nat_block_udp_ports -%}
+    $IPTABLES -t mangle -A EASY_NAT_FILTER_PRE -p udp -s $line --dport {{ item }} -j MARK --set-mark $MARK
+    $IPTABLES -t nat -A EASY_NAT_FILTER -p udp -s $line --dport {{ item }} -j EASY_NAT_UPSTREAM
+    {% endfor %}
+    $IPTABLES -t nat -A EASY_NAT_FILTER -s $line -j EASY_NAT
+    $IPTABLES -A EASY_NAT_SET_MTU_FILTER -s $line -p tcp -j EASY_NAT_SET_MTU
+done < /opt/easynat/rules.cnf
+
+$IPTABLES -t mangle -A EASY_NAT_FILTER_PRE -j RETURN
+$IPTABLES -t nat -A EASY_NAT_FILTER -j RETURN
+
+$IPTABLES -A EASY_NAT_SET_MTU -p tcp --syn -j TCPMSS --set-mss 1340
+$IPTABLES -t nat -A EASY_NAT -j SNAT --to-source {{ nat_snat_source_ip }}
+$IPTABLES -t nat -A EASY_NAT_UPSTREAM -j SNAT --to-source $SPLIT_SNAT_IP
+
+$IPTABLES -t nat -A POSTROUTING -j EASY_NAT_FILTER
+$IPTABLES -t mangle -A PREROUTING -j EASY_NAT_FILTER_PRE
+$IPTABLES -A FORWARD -j EASY_NAT_SET_MTU_FILTER
+
+echo "IPtables reconfigured."
+
+TABLE=$MARK
+/sbin/ip route flush table $TABLE
+/sbin/ip route show table main | grep -Ev ^default | while read ROUTE ; do ip route add table $TABLE $ROUTE ; done
+/sbin/ip route add table $TABLE default via $SPLIT_GATEWAY
+
+/sbin/ip rule add fwmark $MARK table $TABLE
+/sbin/ip route flush cache
+
+echo "Route table reconfigured."
+
+exit 0
