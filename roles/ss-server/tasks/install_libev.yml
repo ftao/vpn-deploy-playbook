@@ -4,7 +4,7 @@
     - ss-server
 
 - name: add shadowsocks repo
-  apt_repository: repo='deb http://shadowsocks.org/ubuntu trusty main' state=present
+  apt_repository: repo='deb http://shadowsocks.org/{% if ansible_distribution == 'Ubuntu' and ansible_distribution_version|float >= 14.04 %}ubuntu trusty{% else %}debian wheezy {%endif%} main' state=present
   tags:
     - ss-server
 

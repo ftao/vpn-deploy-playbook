@@ -8,7 +8,8 @@
 
     # Auth *********************************************************************
     - webserver
-    - db
+    - role: db
+      mysql_root_password: "TEST_ONLY"
     - role: auth
       mysql_root_password: "TEST_ONLY"
     - radius-admin

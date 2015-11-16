@@ -1,7 +1,10 @@
 localhost  ansible_connection=local
 
+192.168.33.10 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/debian/virtualbox/private_key
+192.168.33.20 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/ubuntu/virtualbox/private_key
+
 [test_debian]
-192.168.33.10 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+192.168.33.10
 
 [test_ubuntu]
-192.168.33.20 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+192.168.33.20
