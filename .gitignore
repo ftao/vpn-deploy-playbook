@@ -1,5 +1,5 @@
 ansible_hosts
-host_vars/*.yml
+host_vars/*
 group_vars/*.yml
 *.sw*
 
