@@ -6,6 +6,7 @@ openvpn_port: 9194
 openvpn_proto: udp
 openvpn_local_ip: '10.11.0.1'
 openvpn_peer_ip: '10.11.0.2'
+openvpn_listen_ip: '' 
 openvpn_key: "some key content"
 
 openvpn_client_config_file: ''

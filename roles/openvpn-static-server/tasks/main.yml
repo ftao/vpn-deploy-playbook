@@ -6,6 +6,9 @@
   tags:
     - openvpn-static-server
 
+- name: ensure log dir exists 
+  file: path=/var/log/openvpn state=directory mode=755
+
 - name: upload server config files
   action: template src=static-server.conf dest=/etc/openvpn/{{ openvpn_conf_name }}.conf
   notify:
