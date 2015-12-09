@@ -38,6 +38,9 @@
   tags:
     - ipsec
 
+- include: openvz.yml
+  when: ansible_virtualization_role == "guest" and ansible_virtualization_type == "openvz"
+
 - name:  Upload ipsec config files
   template: src={{ item }}
             dest=/etc/{{ item }}
