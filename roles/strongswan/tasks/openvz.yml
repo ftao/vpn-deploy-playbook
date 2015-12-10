@@ -1,5 +1,9 @@
 ---
 
+- name: fail if debian 
+  fail: msg="debian + openvz + strongswan is not supported yet"
+  when: ansible_distribution == "Debian"
+
 - name: install strongswan-plugin-kernel-libipsec on ubuntu
   apt: name=strongswan-plugin-kernel-libipsec state=present
   when: ansible_distribution == "Ubuntu"
