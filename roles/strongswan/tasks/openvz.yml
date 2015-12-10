@@ -1,0 +1,31 @@
+---
+
+- name: fail if debian 
+  fail: msg="debian + openvz + strongswan is not supported yet"
+  when: ansible_distribution == "Debian"
+
+- name: install strongswan-plugin-kernel-libipsec on ubuntu
+  apt: name=strongswan-plugin-kernel-libipsec state=present
+  when: ansible_distribution == "Ubuntu"
+  notify: 
+    - restart ipsec
+
+- name: add deb-src repo for ubuntu
+  apt_repository: repo="deb-src http://archive.ubuntu.com/ubuntu trusty main restricted universe" state=present
+  when: ansible_distribution == "Ubuntu"
+
+- name: ensure strongswan build-dep
+  apt: name=strongswan state=build-dep
+
+- name: download strongswan source
+  command: /usr/bin/apt-get source strongswan 
+           chdir=/usr/src
+           creates=/usr/src/strongswan-5.1.2
+
+- name: build and install strongswan kernel-libipsec.so
+  shell: ./configure --enable-kernel-libipsec && make 
+         && cp src/libcharon/plugins/kernel_libipsec/.libs/libstrongswan-kernel-libipsec.so /usr/lib/ipsec/plugins/
+         chdir=/usr/src/strongswan-5.1.2
+         creates=/usr/lib/ipsec/plugins/libstrongswan-kernel-libipsec.so
+  notify: 
+    - restart ipsec
