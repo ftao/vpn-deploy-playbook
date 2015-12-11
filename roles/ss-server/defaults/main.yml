@@ -14,3 +14,7 @@ shadowsocks_enable_multiport: false #enable multiple port config, only possible 
 shadowsocks_tune_system: true
 shadowsocks_tune_tcp: false
 shadowsocks_change_tcp_congestion_control: false
+
+shadowsocks_libev_repo_prefix: http://shadowsocks.org/
+shadowsocks_libev_repo_key: "{{ shadowsocks_libev_repo_prefix }}debian/1D27208A.gpg"
+shadowsocks_libev_repo_url: "deb {{ shadowsocks_libev_repo_prefix }}{% if ansible_distribution == 'Ubuntu' and ansible_distribution_version|float >= 14.04 %}ubuntu trusty{% else %}debian wheezy {%endif%} main"

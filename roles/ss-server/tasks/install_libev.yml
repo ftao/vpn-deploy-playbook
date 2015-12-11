@@ -1,10 +1,10 @@
 - name: install shadowsocks key
-  apt_key: url=http://shadowsocks.org/debian/1D27208A.gpg state=present
+  apt_key: url='{{ shadowsocks_libev_repo_key }}' state=present
   tags:
     - ss-server
 
 - name: add shadowsocks repo
-  apt_repository: repo='deb http://shadowsocks.org/{% if ansible_distribution == 'Ubuntu' and ansible_distribution_version|float >= 14.04 %}ubuntu trusty{% else %}debian wheezy {%endif%} main' state=present
+  apt_repository: repo='{{ shadowsocks_libev_repo_url }}' state=present
   tags:
     - ss-server
 
