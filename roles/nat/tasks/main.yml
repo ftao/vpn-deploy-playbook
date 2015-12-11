@@ -14,11 +14,28 @@
   tags: nat
 
 - name: install easynat
-  action: template src=opt/easynat/setup_nat dest=/opt/easynat/setup_nat mode=755
+  template: src=opt/easynat/setup_nat dest=/opt/easynat/setup_nat mode=755
   notify: 
     - setup nat rules
   tags: nat
+  when: not nat_enable_split
+
+
+- name: set rp_filter to 0
+  sysctl: name="{{ item }}" value=0 sysctl_set=yes
+  with_items: 
+    - net.ipv4.conf.default.rp_filter
+    - net.ipv4.conf.all.rp_filter
+  tags: nat
+  when: nat_enable_split
+
+- name: install easynat split mode
+  template: template src=opt/easynat/setup_nat_split dest=/opt/easynat/setup_nat mode=755
+  notify: 
+    - setup nat rules
+  tags: nat
+  when: nat_enable_split
 
 - name: make sure easynat is in rc.local
-  action: lineinfile dest=/etc/rc.local insertafter="^#" regexp="/opt/easynat/setup_nat" line="/opt/easynat/setup_nat" state=present
+  lineinfile: dest=/etc/rc.local insertafter="^#" regexp="/opt/easynat/setup_nat" line="/opt/easynat/setup_nat" state=present
   tags: nat

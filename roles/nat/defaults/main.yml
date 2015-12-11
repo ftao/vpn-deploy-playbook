@@ -6,3 +6,7 @@ nat_block_tcp_ports: []
 #  - "1024:65535"
 nat_allow_udp_ports: []
 nat_block_udp_ports: []
+
+nat_enable_split: false
+nat_split_mark: 4
+nat_split_device: ""  #some network interface
