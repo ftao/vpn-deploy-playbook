@@ -20,6 +20,7 @@ nghttpx_verify_client: false
 nghttpx_verify_client_cacert_file: 'nghttpx_clients_ca.cert'
 nghttpx_remote_verify_client_cacert_file: '/opt/nghttp2/etc/nghttpx_clients_ca.cert'
 nghttpx_worker_count: 1
+nghttpx_npn_list: "h2{% if nghttp2_with_spdylay %},spdy/3.1{% endif %}"
 
 nghttpx_accesslog_enable: true
 nghttpx_log_dir: /var/log/nghttpx
