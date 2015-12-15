@@ -17,7 +17,21 @@
   notify:
      - restart nghttpx
 
+- name: upload ca cert
+  copy: "src={{ nghttpx_verify_client_cacert_file}} dest={{ nghttpx_remote_verify_client_cacert_file }}"
+  notify:
+     - restart nghttpx
+  when: nghttpx_verify_client
+
 - name: upload supervisor config
   template: src=supervisor.nghttpx.conf  dest=/etc/supervisor/conf.d/nghttpx.conf 
   notify:
      - restart nghttpx
+
+- name: make sure log dir exists
+  file: path={{ nghttpx_log_dir }} state=directory 
+  when: nghttpx_accesslog_enable
+
+- name: create logrotate config for nghttpx
+  template: src=nghttpx-logrotate dest=/etc/logrotate.d/nghttpx
+  when: nghttpx_accesslog_enable
