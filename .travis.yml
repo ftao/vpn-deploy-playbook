@@ -60,7 +60,7 @@ script:
   - ansible-playbook -i ansible_hosts.local https-proxy.yml -e nghttp2_with_spdylay=true --sudo
 
   # test china dns
-  - ansible-playbook -i ansible_hosts.local chinadns.yml --sudo
+  # - ansible-playbook -i ansible_hosts.local chinadns.yml --sudo
 
   # Requests to make sure web respond.
   # - "curl --retry 3 --connect-timeout 5 --max-time 120 -s -o /dev/null http://localhost/"
