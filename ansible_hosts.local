@@ -24,7 +24,7 @@ localhost
 [openvpn]
 localhost
 
-[spdy-proxy]
+[https-proxy]
 localhost
 
 [pki]

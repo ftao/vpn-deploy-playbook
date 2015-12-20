@@ -13,7 +13,7 @@ A collection of [Ansible](http://docs.ansible.com) Playbooks to deploy VPN and p
 - [sane-dns.yml](./sane-dns.yml) : setup [fqdns](https://github.com/fqrouter/fqdns)
 - [chinadns.yml](./chinadns.yml) : setup [ChinaDNS](https://github.com/clowwindy/ChinaDNS/)
 - [openconnect.yml](./openconnect.yml) : setup [OpenConnect VPN server](http://www.infradead.org/ocserv/) for Cisco AnyConnect client
-- [spdy-proxy.yml](./spdy-proxy.yml) : setup [nghttp2](https://github.com/tatsuhiro-t/nghttp2) & squid for http2/spdy proxy
+- [https-proxy.yml](./https-proxy.yml) : setup [nghttp2](https://github.com/tatsuhiro-t/nghttp2) & squid for https proxy (http2/spdy)
 - [openvpn.yml](./openvpn.yml) : setup [OpenVPN](https://openvpn.net) server
 - apnp-*.yml : setup APNP (Squid + Shadowsocks tunnel)
 - [sigmavpn.yml](./sigmavpn.yml) : setup [SigmaVPN](https://github.com/neilalexander/sigmavpn/)

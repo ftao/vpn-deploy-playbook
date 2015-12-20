@@ -1,9 +1,10 @@
 ---
 
-- hosts: spdy-proxy
+- hosts: https-proxy
   roles:
    - common
-   - ftao.spdylay
+   - role: ftao.spdylay
+     when: nghttp2_with_spdylay
    - ftao.nghttp2
    - role: squid-root
      listen_port: "{{ nghttpx_backend_port }}"

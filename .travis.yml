@@ -39,28 +39,29 @@ script:
   - ansible-playbook -i ansible_hosts.local pptp.yml --sudo
 
   # test openvpn
-  #- ansible-playbook -i ansible_hosts.local openvpn.yml --sudo
+  - ansible-playbook -i ansible_hosts.local openvpn.yml --sudo
 
   # test openvpn - another instance
-  #- ansible-playbook -i ansible_hosts.local openvpn.yml -e openvpn_name=tcp_443 -e openvpn_port=443 -e openvpn_proto=tcp --sudo
+  - ansible-playbook -i ansible_hosts.local openvpn.yml -e openvpn_name=tcp_443 -e openvpn_port=1194 -e openvpn_proto=tcp --sudo
 
   # test openvpn static mode
   #- ansible-playbook -i ansible_hosts.local openvpn.yml -e openvpn_mode=static -e openvpn_name=static -e openvpn_port=1195 --sudo
-
-  # test openvpn
-  #- ansible-playbook -i ansible_hosts.local openvpn.yml --sudo
 
   # test pki
   #- ansible-playbook -i ansible_hosts.local pki.yml --sudo
 
   # test ipsec (include ikev1/ikev2/l2tp)
-  #- ansible-playbook -i ansible_hosts.local ipsec.yml --sudo
+  - ansible-playbook -i ansible_hosts.local ipsec.yml --sudo
 
   # test openconnect server 
   - ansible-playbook -i ansible_hosts.local openconnect.yml --sudo
 
-  # test node-spdyproxy server 
-#  - ansible-playbook -i ansible_hosts.local spdy-proxy.yml --sudo
+  # test https proxy  
+  - ansible-playbook -i ansible_hosts.local https-proxy.yml -e nghttp2_with_spdylay=true --sudo
+
+  # test china dns
+  - ansible-playbook -i ansible_hosts.local chinadns.yml --sudo
 
   # Requests to make sure web respond.
   # - "curl --retry 3 --connect-timeout 5 --max-time 120 -s -o /dev/null http://localhost/"
+
