@@ -11,7 +11,7 @@ before_install:
   - sudo apt-get -y autoremove
   - sudo apt-get -y autoclean
   - sudo rm -rf /var/lib/mysql
-  - sudo truncate -s 0 /var/log/mysql/error.log
+#  - sudo truncate -s 0 /var/log/mysql/error.log
 
   - sudo apt-get update -qq
 
