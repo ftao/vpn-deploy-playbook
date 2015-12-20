@@ -1,4 +1,7 @@
 ---
+- name: make sure pasword file present
+  file: path=/usr/local/etc/ocserv/passwd state=touch
+
 - name: ensure absent of tmp file for password
   file: path=/usr/local/etc/ocserv/passwd.in.tmp state=absent
 
