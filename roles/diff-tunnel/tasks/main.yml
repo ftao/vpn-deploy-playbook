@@ -1,0 +1,41 @@
+---
+
+- name: install pkg-config
+  apt: pkg=pkg-config state=present
+
+- name: install libsodium
+  get_url: url=https://github.com/jedisct1/libsodium/releases/download/0.5.0/libsodium-0.5.0.tar.gz
+           dest=/tmp/libsodium-0.5.0.tar.gz
+
+- name: Unpack the compressed libsodium source
+  command: tar -xvzf /tmp/libsodium-0.5.0.tar.gz chdir=/tmp creates=/tmp/libsodium-0.5.0/README
+
+- name: install libsodium
+  shell: > 
+    cd /tmp/libsodium-0.5.0 &&
+    ./configure &&
+    make &&
+    make install
+
+- name: install zeromq4
+  get_url: url=http://download.zeromq.org/zeromq-4.0.4.tar.gz
+           dest=/tmp/zeromq-4.0.4.tar.gz
+
+- name: Unpack the compressed zeromq source
+  command: tar -xvzf /tmp/zeromq-4.0.4.tar.gz chdir=/tmp creates=/tmp/zeromq-4.0.4/AUTHORS
+
+- name: install zeromq4
+  shell: > 
+    cd /tmp/zeromq-4.0.4 &&
+    ./configure &&
+    make &&
+    make install
+
+- name: run ldconfig for shared library
+  shell: ldconfig
+
+- name: make /opt/go
+  file: path=/opt/go/ state=directory
+
+- name: install diff-tunnel
+  shell: GOPATH=/opt/go /usr/local/go/bin/go get github.com/ftao/diff-tunnel/cli

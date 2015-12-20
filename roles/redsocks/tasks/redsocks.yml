@@ -1,0 +1,25 @@
+---
+#install & config redsocks
+
+- action: apt pkg=redsocks state=installed
+  tags: redsocks
+
+- action: template src=redsocks.conf  dest=/etc/redsocks.conf
+  notify: restart redsocks
+  tags: redsocks
+
+- name: ensure redsocks start on startup
+  lineinfile: dest=/etc/default/redsocks line="START=yes" regexp="START=yes" state=present
+  notify: restart redsocks
+  tags: redsocks
+
+#- name: Enforce ipv4.ip_forward
+#  action: sysctl name=net.ipv4.ip_forward value=1 state=present
+#  tags: redsocks
+
+#- name: Install if-pre-up script 
+#  template: src=templates/etc/network/if-pre-up.d/setup_redsocks
+#            dest=/etc/network/if-pre-up.d/setup_redsocks
+#            mode=755
+#  notify: setup redsocks iptables
+#  tags: redsocks

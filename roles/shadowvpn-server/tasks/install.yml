@@ -1,0 +1,8 @@
+- name: install shadowsocks key
+  apt_key: url=http://shadowsocks.org/debian/1D27208A.gpg state=present
+
+- name: add shadowsocks repo
+  apt_repository: repo='deb http://shadowvpn.org/debian wheezy main' state=present
+
+- name: install shadowvpn
+  apt: pkg=shadowvpn state=installed 

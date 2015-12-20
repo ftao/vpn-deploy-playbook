@@ -1,0 +1,5 @@
+---
+# handlers file for .
+
+- name: restart shadowvpn
+  service: name=shadowvpn state=restarted

@@ -1,0 +1,80 @@
+#!/bin/sh
+MAIN_IF_NAME={{ if_name|default("eth0") }}
+#set -e
+
+if [ "$IFACE" != "$MAIN_IF_NAME" ]; then
+    exit 0
+fi
+
+# Where to find $IPTABLES
+IPTABLES="/sbin/iptables"
+ 
+# Port that is redsocks listening on
+REDSOCKS_PORT="{{ redsocks.local_port }}"
+REDSOCKS_UDP_PORT="53"
+
+$IPTABLES -t nat -D PREROUTING -i ppp+ -p tcp -j REDSOCKS_FILTER 2>/dev/null
+$IPTABLES -t nat -D PREROUTING -i ppp+ -p udp --dport 53 -j REDSOCKS_FILTER 2>/dev/null
+$IPTABLES -t nat -D OUTPUT -p tcp -d 8.8.8.8 --dport 53 -o $MAIN_IF_NAME -j REDSOCKS_FILTER
+$IPTABLES -t nat -D OUTPUT -p tcp -d 8.8.4.4 --dport 53 -o $MAIN_IF_NAME -j REDSOCKS_FILTER
+$IPTABLES -t nat -D PREROUTING -p tcp -j REDSOCKS_FILTER 2>/dev/null
+
+$IPTABLES -t nat -F REDSOCKS_FILTER 2>/dev/null
+$IPTABLES -t nat -X REDSOCKS_FILTER 2>/dev/null
+$IPTABLES -t nat -F REDSOCKS 2>/dev/null
+$IPTABLES -t nat -X REDSOCKS 2>/dev/null
+ 
+# Create our own chain
+$IPTABLES -t nat -N REDSOCKS
+$IPTABLES -t nat -N REDSOCKS_FILTER
+ 
+# Do not try to redirect local traffic
+$IPTABLES -t nat -I REDSOCKS_FILTER -o lo -j RETURN
+ 
+### Below whitelist and blacklist cannot operate together.
+### If you want to change it, refactor the code. It's simple.
+ 
+# Redirect only specified addresses and do not try redirect other traffic. (whitelist option)
+#$IPTABLES -t nat -A REDSOCKS_FILTER -m iprange --dst-range 192.168.0.10-192.168.0.30 -j REDSOCKS
+#$IPTABLES -t nat -A REDSOCKS_FILTER -d 126.0.0.0/8 -j REDSOCKS
+#$IPTABLES -t nat -A REDSOCKS_FILTER -j RETURN
+ 
+## Do not redirect LAN traffic and some other reserved addresses. (blacklist option)
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 0.0.0.0/8 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 10.0.0.0/8 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 127.0.0.0/8 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 169.254.0.0/16 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 172.16.0.0/12 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 192.168.0.0/16 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 224.0.0.0/4 -j RETURN
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 240.0.0.0/4 -j RETURN
+#TODO: add cnroute
+$IPTABLES -t nat -A REDSOCKS_FILTER -j REDSOCKS
+ 
+## Do not redirect traffic for the SOCKS-Server
+## Not needed if server is not on a whitelist or is already blacklisted.
+#$IPTABLES -t nat -I REDSOCKS -p tcp -d $SOCKS_HOST --dport $SOCKS_PORT -j RETURN
+ 
+$IPTABLES -t nat -A REDSOCKS -p tcp --syn -j TCPMSS --set-mss 1340
+
+# Redirect all traffic that gets to the end of our chain
+$IPTABLES -t nat -A REDSOCKS -p tcp -j REDIRECT --to-port $REDSOCKS_PORT
+$IPTABLES -t nat -A REDSOCKS -p udp -j REDIRECT --to-port $REDSOCKS_UDP_PORT 
+ 
+## Filter all traffic from the own host
+## BE CAREFULL HERE IF THE SOCKS-SERVER RUNS ON THIS MACHINE
+#$IPTABLES -t nat -A OUTPUT     -p tcp -j REDSOCKS_FILTER
+ 
+#$IPTABLES -t raw -A PREROUTING -p tcp -i ppp+ -j TRACE
+
+#$IPTABLES -t nat -A OUTPUT -p tcp -s 10.8.1.0/24 -o $MAIN_IF_NAME -j REDSOCKS_FILTER
+
+# Filter all traffic from ppp connections that is routed over this host
+$IPTABLES -t nat -A PREROUTING -i ppp+ -p tcp -j REDSOCKS_FILTER
+
+$IPTABLES -t nat -A PREROUTING -i ppp+ -p udp --dport 53 -j REDSOCKS_FILTER
+
+#$IPTABLES -t nat -A OUTPUT -p tcp -d 8.8.8.8 --dport 53 -o $MAIN_IF_NAME -j REDSOCKS_FILTER
+#$IPTABLES -t nat -A OUTPUT -p tcp -d 8.8.4.4 --dport 53 -o $MAIN_IF_NAME -j REDSOCKS_FILTER
+ 
+echo IPtables reconfigured.

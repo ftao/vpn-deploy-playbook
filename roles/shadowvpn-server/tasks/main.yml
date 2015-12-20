@@ -1,0 +1,6 @@
+---
+# tasks file for .
+
+- include: install.yml
+  tags:
+    - shadowvpn
