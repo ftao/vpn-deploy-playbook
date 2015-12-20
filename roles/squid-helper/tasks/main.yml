@@ -8,6 +8,7 @@
   git: repo="{{ squid2radius_repo }}"
        version="{{ squid2radius_version }}"
        dest="{{ squid2radius_dir }}"
+       force=yes
 
 - name: install depdency
   pip: name={{ item }} state=present

@@ -3,7 +3,7 @@
 
 squid_helper_venv: '/opt/squid-helper/env'
 squid2radius_repo: https://github.com/ftao/squid2radius.git
-squid2radius_version: acct-update
+squid2radius_version: master
 squid2radius_dir: '/opt/squid-helper/squid2radius'
 squid2radius_squid_log_path: '/var/log/squid3/access.log'
 squid2radius_radius_server: '127.0.0.1'
