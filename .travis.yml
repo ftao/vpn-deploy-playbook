@@ -1,6 +1,8 @@
 ---
 language: python
 python: "2.7"
+sudo: required
+dist: trusty
 
 before_install:
 
@@ -55,7 +57,7 @@ script:
   #- ansible-playbook -i ansible_hosts.local ipsec.yml --sudo
 
   # test openconnect server 
-#  - ansible-playbook -i ansible_hosts.local openconnect.yml --sudo
+  - ansible-playbook -i ansible_hosts.local openconnect.yml --sudo
 
   # test node-spdyproxy server 
 #  - ansible-playbook -i ansible_hosts.local spdy-proxy.yml --sudo
