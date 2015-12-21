@@ -33,7 +33,7 @@ script:
   # Run the role/playbook with ansible-playbook.
 
   # test auth / radius /admin  ui
-  - ansible-playbook -i ansible_hosts.local auth.yml --sudo
+  - ansible-playbook -i ansible_hosts.local auth.yml -e mysql_root_password=root_pass_test --sudo
 
   # test pptp
   - ansible-playbook -i ansible_hosts.local pptp.yml --sudo
