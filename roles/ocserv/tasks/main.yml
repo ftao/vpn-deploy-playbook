@@ -34,11 +34,11 @@
     - ocserv
 
 - include: gen_cert.yml cert_dir=/usr/local/etc/ocserv/
-  when: ocserv_cert_auto
+  when: ocserv_cert_source == "gen"
 
 - include: upload_cert.yml cert_dir=/usr/local/etc/ocserv/
-  when: not ocserv_cert_auto
-  
+  when: ocserv_cert_source == "upload"
+
 - name: create ocserv config file
   template: src=ocserv.conf  dest=/usr/local/etc/ocserv/ocserv.conf
   tags:
