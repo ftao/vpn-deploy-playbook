@@ -1,0 +1,4 @@
+---
+- src: https://github.com/ftao/ansible-letsencrypt.git
+  version: meta
+  name: thefinn93.letsencrypt
