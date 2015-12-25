@@ -27,13 +27,13 @@ ipsec_dns_servers:
    - 8.8.4.4
 
 ipsec_psk: ipsecworks
-ipsec_cert_source: "gen" #pki,upload
-ipsec_pki_server: "{{ inventory_hostname }}"
-ipsec_pki_db_path: "/opt/pki"
+ipsec_cert_source: "gen" #upload, local, remote
+#ipsec_pki_server: "{{ inventory_hostname }}"
+#ipsec_pki_db_path: "/opt/pki"
 ipsec_ca_common_name: 'VPN DeployPlaybook CA'
-ipsec_ca_cert: ca.cert
-ipsec_server_cert: ipsec.cert
-ipsec_server_key: ipsec.key
+ipsec_ca_cert: ""
+ipsec_server_cert: ""
+ipsec_server_key: ""
 
 ikev1_users: []
 

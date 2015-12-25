@@ -1,0 +1,31 @@
+---
+# please try ansible-galaxy install -r requirements.yml first 
+
+- hosts: ipsec
+  roles:
+    - common
+
+    - role: thefinn93.letsencrypt
+      letsencrypt_cert_domains: 
+        - "{{ ipsec_domain }}"
+      tags:
+        - letsencrypt
+
+    - role: strongswan
+      ipsec_enable_ikev2: true
+      ipsec_cert_source: "remote"
+      ipsec_ca_cert: "/etc/letsencrypt/live/{{ ipsec_domain }}/chain.pem"
+      ipsec_server_cert: "/etc/letsencrypt/live/{{ ipsec_domain }}/cert.pem"
+      ipsec_server_key: "/etc/letsencrypt/live/{{ ipsec_domain }}/privkey.pem"
+      tags:
+        - strongswan
+
+    - role: l2tp
+      when: ipsec_enable_l2tp is defined and ipsec_enable_l2tp 
+
+    - role: ppp-radiusclient
+      when: (ipsec_enable_l2tp is defined) and ipsec_enable_l2tp and (l2tp_use_radius is defined) and l2tp_use_radius
+      device_type: l2tp
+      radius_servers: "{{ l2tp_radius_servers }}"
+
+    - nat

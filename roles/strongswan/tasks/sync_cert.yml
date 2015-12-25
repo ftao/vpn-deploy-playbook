@@ -1,0 +1,21 @@
+---
+- name: sync ca cert
+  command: /bin/cp {{ ipsec_ca_cert }}
+           /etc/ipsec.d/cacerts/ca_cert.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
+
+- name: sync server cert
+  command: /bin/cp {{ ipsec_server_cert }}
+           /etc/ipsec.d/certs/server_cert.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
+
+- name: sync server key
+  command: /bin/cp {{ ipsec_server_key }}
+           /etc/ipsec.d/private/server_key.pem
+  notify: restart ipsec
+  tags:
+    - ipsec
