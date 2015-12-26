@@ -3,5 +3,6 @@
 - hosts: openvpn
   roles:
     - common
+    - ftao.certified
     - openvpn-server
     - nat
