@@ -12,10 +12,13 @@ nghttpx_listen_host: '0.0.0.0'
 nghttpx_listen_port: 443
 nghttpx_backend_host: '127.0.0.1'
 nghttpx_backend_port: 3128
+
+nghttpx_cert_source: "local"
 nghttpx_private_key_file: 'nghttpx.key'
 nghttpx_certificate_file: 'nghttpx.cert'
 nghttpx_remote_private_key_file: '/opt/nghttp2/etc/nghttpx.key'
 nghttpx_remote_certificate_file: '/opt/nghttp2/etc/nghttpx.cert'
+
 nghttpx_verify_client: false
 nghttpx_verify_client_cacert_file: 'nghttpx_clients_ca.cert'
 nghttpx_remote_verify_client_cacert_file: '/opt/nghttp2/etc/nghttpx_clients_ca.cert'

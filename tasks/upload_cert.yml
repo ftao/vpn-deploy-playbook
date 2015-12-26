@@ -1,0 +1,10 @@
+- name: upload priviate key
+  copy: "src={{ nghttpx_private_key_file }} dest={{ nghttpx_remote_private_key_file }}"
+  notify:
+     - restart nghttpx
+
+- name: upload cert
+  copy: "src={{ nghttpx_certificate_file }} dest={{ nghttpx_remote_certificate_file }}"
+  notify:
+     - restart nghttpx
+
