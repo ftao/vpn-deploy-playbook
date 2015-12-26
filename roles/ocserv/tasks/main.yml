@@ -33,11 +33,11 @@
   tags:
     - ocserv
 
-- include: gen_cert.yml cert_dir=/usr/local/etc/ocserv/
+- include: gen_cert.yml cert_dir="{{ ocserv_default_cert_dir }}"
   when: ocserv_cert_source == "gen"
 
-- include: upload_cert.yml cert_dir=/usr/local/etc/ocserv/
-  when: ocserv_cert_source == "upload"
+- include: upload_cert.yml cert_dir="{{ ocserv_default_cert_dir }}"
+  when: ocserv_cert_source == "local"
 
 - name: create ocserv config file
   template: src=ocserv.conf  dest=/usr/local/etc/ocserv/ocserv.conf
