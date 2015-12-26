@@ -2,13 +2,27 @@
 ocserv_version: '0.8.0'
 
 ocserv_network: '10.10.6.0'
-ocserv_use_radius: False
-ocserv_radius_servers: []
 
-ocserv_cert_auto: True
+ocserv_cert_auto: true
+ocserv_cert_source: "{% if ocserv_cert_auto %}gen{% else %}local{% endif %}"  #gen, local, remote
 ocserv_tcp_port: 443
 ocserv_udp_port: 443
 
+ocserv_use_radius: False
+ocserv_radius_servers: []
+#ocserv_radius_servers:
+#  - host: localhost
+#    secret: test123
+
 ocserv_users: []
-#ocserv_cert_path: ''
-#ocserv_cert_key_path: ''
+#ocserv_users: 
+#  - username: testuser
+#    password: testpass
+
+ocserv_cert_path: ''
+ocserv_cert_key_path: ''
+
+ocserv_domain: "{{ inventory_hostname }}"
+
+ocserv_server_cert_remote_path: ''
+ocserv_server_key_remote_path: ''

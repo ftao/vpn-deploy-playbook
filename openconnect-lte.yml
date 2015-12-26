@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  roles:
+    - common
+    - role: thefinn93.letsencrypt
+      letsencrypt_cert_domains: 
+        - "{{ ocserv_domain or inventory_hostname }}"
+      tags:
+        - letsencrypt
+    - role: ocserv
+      ocserv_cert_source: "remote"
+      ocserv_server_cert_remote_path: "/etc/letsencrypt/live/{{ ocserv_domain }}/fullchain.pem"
+      ocserv_server_key_remote_path: "/etc/letsencrypt/live/{{ ocserv_domain }}/privkey.pem"
+      tags:
+        - ocserv
+    - nat
