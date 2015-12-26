@@ -1,9 +1,7 @@
 ---
-ipsec_enable_l2tp: false
+ipsec_enable_l2tp: true
 ipsec_enable_ikev1: true
-ipsec_enable_ikev2: false
-
-# the generated server cert should also be imported to osx
+ipsec_enable_ikev2: true
 
 ipsec_domain: "{{ inventory_hostname }}"
 ipsec_bind_ip:  "{{ ansible_default_ipv4.address }}"
@@ -23,13 +21,9 @@ ikev1_users:
   - username: "a_secret_vpn_username"
     password: "a_secret_vpn_password"
 
-#uncomment following lines to add ikev2 users
+ikev2_users: []
 #ikev2_users:
 #  - username: "user1"
 #    password: "pass1"
 #  - username: "user2"
 #    password: "passw"
-
-
-# uncomment next line if your want to connect to the server by ip address instead of domain name
-# ipsec_use_ip_as_domain: true

@@ -9,7 +9,7 @@
     <string>{{ ipsec_remote_address }}</string>
     <!-- A globally unique identifier, use uuidgen on Linux/Mac OS X to generate it -->
     <key>PayloadUUID</key>
-    <string>{{ ipsec_remote_address|uuid5(item.username, item.password, "global") }}</string>
+    <string>{{ (ipsec_remote_address + item.username + item.password + "global")|to_uuid }}</string>
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadVersion</key>
@@ -23,7 +23,7 @@
             <string>{{ ipsec_remote_address }}.conf-{{ item.username }}</string>
             <!-- A globally unique identifier for this payload -->
             <key>PayloadUUID</key>
-            <string>{{ ipsec_remote_address|uuid5(item.username, item.password, "conf") }}</string>
+            <string>{{ (ipsec_remote_address + item.username + item.password + "conf")|to_uuid }}</string>
             <key>PayloadType</key>
             <string>com.apple.vpn.managed</string>
             <key>PayloadVersion</key>
@@ -95,7 +95,7 @@
             <key>PayloadIdentifier</key>
             <string>{{ ipsec_ca_common_name }}</string>
             <key>PayloadUUID</key>
-            <string>{{ ipsec_ca_cert_content_action.stdout|uuid5 }}</string>
+            <string>{{ ipsec_ca_cert_content_action.stdout|to_uuid }}</string>
             <key>PayloadType</key>
             <string>com.apple.security.root</string>
             <key>PayloadVersion</key>
