@@ -1,0 +1,18 @@
+---
+
+https_proxy_using_lets_encryt: true
+https_proxy_domain: "{{ inventory_hostname }}"
+
+nghttp2_enable_nghttpx: true
+nghttpx_listen_port: 9443
+nghttpx_backend_port: 3128
+
+nghttpx_cert_source: "remote"
+nghttpx_remote_private_key_file: '/etc/letsencrypt/live/{{ https_proxy_domain }}/privkey.pem'
+nghttpx_remote_certificate_file: '/etc/letsencrypt/live/{{ https_proxy_domain }}/fullchain.pem'
+
+squid_require_auth: true                                                         
+squid_auth_method: 'basic'                                                      
+squid_users:                                                                     
+  - name: demo                                                                   
+    password: demopass 
