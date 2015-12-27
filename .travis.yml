@@ -19,6 +19,7 @@ install:
 
   # Install Ansible.
   - pip install ansible
+  - ansible-galaxy install --force -r requirements.yml
 
 script:
 
