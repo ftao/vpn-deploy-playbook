@@ -30,7 +30,7 @@
   when: nat_enable_split
 
 - name: install easynat split mode
-  template: template src=opt/easynat/setup_nat_split dest=/opt/easynat/setup_nat mode=755
+  template: src=opt/easynat/setup_nat_split dest=/opt/easynat/setup_nat mode=755
   notify: 
     - setup nat rules
   tags: nat
