@@ -1,0 +1,10 @@
+---
+- name: add swupdate.openvpn gpg key
+  apt_key: url="https://swupdate.openvpn.net/repos/repo-public.gpg"
+           state="present"
+
+#TODO: trusty hard coded here
+- name: add swupdate repo
+  apt_repository: repo='deb http://swupdate.openvpn.net/apt trusty main' state=present
+
+
