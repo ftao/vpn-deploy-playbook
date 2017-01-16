@@ -5,7 +5,7 @@
   lineinfile: line="{{ item.username }} {{ l2tp_server_name }} {{ item.password }} *"
               regexp="{{ item.username }} {{ l2tp_server_name }} {{ item.password }} *"
               dest=/etc/ppp/chap-secrets
-  with_items: l2tp_users 
+  with_items: "{{ l2tp_users }}"
   tags:
     - l2tp
     - add_user
