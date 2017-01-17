@@ -20,7 +20,7 @@
 
 - name: generate ios config files
   template: src=ios8-profile.mobileconfig dest=/var/www/ikev2/ios8-profile/{{ item.username }}.mobileconfig
-  with_items: ikev2_users
+  with_items: "{{ ikev2_users }}"
   tags: 
     - ipsec
     - ios8
@@ -33,7 +33,7 @@
                  -outform der -nodetach
          chdir=/var/www/ikev2/ios8-profile/
 #         creates={{ item.username }}.signed.mobileconfig
-  with_items: ikev2_users
+  with_items: "{{ ikev2_users }}"
   tags: 
     - ipsec
     - ios8
