@@ -9,12 +9,13 @@
       listen_port: "{{ http_proxy_port }}"
 
     - role: ss-client
-      name: "http-proxy-tunnel"
-      port: "{{ http_tunnel_port }}"
-      mode: "tunnel"
-      tunnel_target: "{{ upstream_http_proxy }}"
-      server_host: "{{ ss_server_host }}"
-      server_port: "{{ ss_server_port }}"
-      password: "{{ ss_server_password }}"
+      vars:
+        name: "http-proxy-tunnel"
+        port: "{{ http_tunnel_port }}"
+        mode: "tunnel"
+        tunnel_target: "{{ upstream_http_proxy }}"
+        server_host: "{{ ss_server_host }}"
+        server_port: "{{ ss_server_port }}"
+        password: "{{ ss_server_password }}"
 
     - role: proxy-config-host

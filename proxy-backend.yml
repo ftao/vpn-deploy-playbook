@@ -5,15 +5,16 @@
     - common
 
     - role: ss-server
-      name: "default"
-      port: "{{ shadowsocks_servers.default.port }}"
-      password: "{{ shadowsocks_servers.default.password }}"
-      enalbe_udp: "{{ shadowsocks_servers.default.enable_udp }}"
+      vars:
+        name: "default"
+        port: "{{ shadowsocks_servers.default.port }}"
+        password: "{{ shadowsocks_servers.default.password }}"
+        enalbe_udp: "{{ shadowsocks_servers.default.enable_udp }}"
 
     - role: ss-server
-      name: "udp_relay"
-      port: "{{ shadowsocks_servers.udp_relay.port }}"
-      password: "{{ shadowsocks_servers.udp_relay.password }}"
-      enalbe_udp: "{{ shadowsocks_servers.udp_relay.enable_udp }}"
-
+      vars:
+        name: "udp_relay"
+        port: "{{ shadowsocks_servers.udp_relay.port }}"
+        password: "{{ shadowsocks_servers.udp_relay.password }}"
+        enalbe_udp: "{{ shadowsocks_servers.udp_relay.enable_udp }}"
     #run other services, for example openvpn , etc ...

@@ -57,17 +57,17 @@
   template: src=sigmavpn.conf dest=/usr/local/etc/sigmavpn/conf.d/{{ item.name }}.conf
   notify:
      - restart sigmavpn {{ item.name }}
-  with_items: sigmavpn_peers
+  with_items: "{{ sigmavpn_peers }}"
 
 - name: setup ip config 
   template: src=sigmavpn-ip.json dest=/usr/local/etc/sigmavpn/conf.d/{{ item.name }}-ip.json
-  with_items: sigmavpn_peers
+  with_items: "{{ sigmavpn_peers }}"
 
 - name: upload supervisor config (peer)
   template: src=supervisor.sigmavpn.conf  dest=/etc/supervisor/conf.d/sigmavpn-peer-{{ item.name }}.conf 
   notify:
      - restart sigmavpn {{ item.name }}
-  with_items: sigmavpn_peers
+  with_items: "{{ sigmavpn_peers }}"
 
 - name: upload supervisor config (helper)
   template: src=supervisor.sigmavpn-helper.conf  dest=/etc/supervisor/conf.d/sigmavpn-helper.conf 

@@ -27,18 +27,20 @@
 
     # proxy-backend ************************************************************
     - role: ss-server
-      name: "default"
-      port: "8858"
-      password: "TEST_ONLY"
-      enalbe_udp: "false"
-      shadowsocks_provider: "python"
+      vars:
+        name: "default"
+        port: "8858"
+        password: "TEST_ONLY"
+        enalbe_udp: "false"
+        shadowsocks_provider: "python"
 
     - role: ss-server
-      name: "udp_relay"
-      port: "8859"
-      password: "TEST_ONLY"
-      enalbe_udp: "true"
-      shadowsocks_provider: "libev"
+      vars:
+        name: "udp_relay"
+        port: "8859"
+        password: "TEST_ONLY"
+        enalbe_udp: "true"
+        shadowsocks_provider: "libev"
 
     # COW **********************************************************************
     - role: cow
@@ -55,22 +57,24 @@
       radius_servers: ${pptp_radius_servers}
 
     - role: ss-client
-      name: "redir"
-      port: "5382"
-      mode: "redir"
-      server_host: "127.0.0.1"
-      server_port: "5381"
-      password: "TEST_ONLY"
+      vars:
+        name: "redir"
+        port: "5382"
+        mode: "redir"
+        server_host: "127.0.0.1"
+        server_port: "5381"
+        password: "TEST_ONLY"
 
     - role: ss-client
-      name: "dns_tunnel"
-      port: "5383"
-      mode: "tunnel"
-      tunnel_target: "8.8.8.8:53"
-      enable_udp: true
-      server_host: "127.0.0.1"
-      server_port: "5381"
-      password: "TEST_ONLY"
+      vars:
+        name: "dns_tunnel"
+        port: "5383"
+        mode: "tunnel"
+        tunnel_target: "8.8.8.8:53"
+        enable_udp: true
+        server_host: "127.0.0.1"
+        server_port: "5381"
+        password: "TEST_ONLY"
 
     - role: redir
       tcp_redir_port: "{{ proxy_frontend_redir_port }}"

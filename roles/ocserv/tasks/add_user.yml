@@ -10,7 +10,7 @@
          echo "{{item.password}}" >> /usr/local/etc/ocserv/passwd.in.tmp &&
          ocpasswd -c /usr/local/etc/ocserv/passwd {{item.username}} 0</usr/local/etc/ocserv/passwd.in.tmp &&
          rm /usr/local/etc/ocserv/passwd.in.tmp
-  with_items: ocserv_users
+  with_items: "{{ ocserv_users }}"
   tags:
     - ocserv
     - add_user
