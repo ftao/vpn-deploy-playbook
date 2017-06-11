@@ -25,7 +25,7 @@ script:
 
   # Check the role/playbook's syntax.
   - >
-    ansible-playbook -i ansible_hosts.local *.yml --syntax-check
+    ansible-playbook -i ansible_hosts.local $(ls *.yml | grep -v "requirements.yml") --syntax-check
     | grep -q 'ERROR'
     && (echo 'Test: fail' && exit 1)
     || (echo 'Test: pass' && exit 0)
