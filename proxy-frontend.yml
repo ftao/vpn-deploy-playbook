@@ -11,22 +11,24 @@
       radius_servers: ${pptp_radius_servers}
 
     - role: ss-client
-      name: "redir"
-      port: "{{ proxy_frontend_redir_port }}"
-      mode: "redir"
-      server_host: "{{ proxy_frontend_ss_server_host }}"
-      server_port: "{{ proxy_frontend_ss_server_port }}"
-      password: "{{ proxy_frontend_ss_server_password }}"
+      vars:
+        name: "redir"
+        port: "{{ proxy_frontend_redir_port }}"
+        mode: "redir"
+        server_host: "{{ proxy_frontend_ss_server_host }}"
+        server_port: "{{ proxy_frontend_ss_server_port }}"
+        password: "{{ proxy_frontend_ss_server_password }}"
 
     - role: ss-client
-      name: "dns_tunnel"
-      port: "{{ proxy_frontend_dns_tunnel_port }}"
-      mode: "tunnel"
-      tunnel_target: "{{ proxy_frontend_upstream_dns_server }}"
-      enable_udp: true
-      server_host: "{{ proxy_frontend_ss_server_host }}"
-      server_port: "{{ proxy_frontend_ss_server_port }}"
-      password: "{{ proxy_frontend_ss_server_password }}"
+      vars:
+        name: "dns_tunnel"
+        port: "{{ proxy_frontend_dns_tunnel_port }}"
+        mode: "tunnel"
+        tunnel_target: "{{ proxy_frontend_upstream_dns_server }}"
+        enable_udp: true
+        server_host: "{{ proxy_frontend_ss_server_host }}"
+        server_port: "{{ proxy_frontend_ss_server_port }}"
+        password: "{{ proxy_frontend_ss_server_password }}"
 
     - role: redir
       tcp_redir_port: "{{ proxy_frontend_redir_port }}"

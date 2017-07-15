@@ -13,7 +13,7 @@
 
 - name: upload ip list
   copy: src={{ item.ip_list_file }} dest=/etc/squid3/{{ item.name }}_ips.txt
-  with_items: domain_groups
+  with_items: "{{ domain_groups }}"
   when: item.ip_list_file is defined
   notify:
     - reload squid

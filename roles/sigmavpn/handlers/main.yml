@@ -5,6 +5,6 @@
 
 - name: restart sigmavpn {{ item.name }}
   supervisorctl: name=sigmavpn-{{ item.name }} state=restarted
-  with_items: sigmavpn_peers
+  with_items: "{{ sigmavpn_peers }}"
 
 

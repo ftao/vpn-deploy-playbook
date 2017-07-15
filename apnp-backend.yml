@@ -5,10 +5,11 @@
     - common
 
     - role: ss-server
-      name: "default"
-      port: "{{ shadowsocks_servers.default.port }}"
-      password: "{{ shadowsocks_servers.default.password }}"
-      enalbe_udp: "{{ shadowsocks_servers.default.enable_udp }}"
+      vars:
+        name: "default"
+        port: "{{ shadowsocks_servers.default.port }}"
+        password: "{{ shadowsocks_servers.default.password }}"
+        enalbe_udp: "{{ shadowsocks_servers.default.enable_udp }}"
 
     - role: squid-root
 
