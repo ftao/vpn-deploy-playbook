@@ -1,15 +1,18 @@
-- name: install shadowsocks key
-  apt_key: url='{{ shadowsocks_libev_repo_key }}' state=present
-  tags:
-    - ss-server
-
 - name: add shadowsocks repo
-  apt_repository: repo='{{ shadowsocks_libev_repo_url }}' state=present
+  apt_repository: 
+    repo: 'deb {{ shadowsocks_libev_repo_prefix }} {{ shadowsocks_libev_repo_release }} main' 
+    state: present
+    filename: "shadowsocks-libev-backports"
+    update_cache: yes
   tags:
     - ss-server
 
 - name: install shadowsocks libev
-  apt: pkg=shadowsocks-libev state=installed force=yes
+  apt: 
+    pkg: shadowsocks-libev
+    state: installed 
+    force: yes
+    default_release: "{{ shadowsocks_libev_repo_release }}"
   tags:
     - ss-server
 
