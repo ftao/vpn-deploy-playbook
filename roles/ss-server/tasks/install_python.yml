@@ -13,3 +13,5 @@
   file: src=/usr/local/bin/ssserver dest=/opt/ss-server/ss-server state=link
   tags:
     - ss-server
+  notify:
+    - "restart shadowsocks-server {{ name }}"

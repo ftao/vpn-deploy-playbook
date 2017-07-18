@@ -17,4 +17,3 @@ shadowsocks_change_tcp_congestion_control: false
 
 shadowsocks_libev_repo_prefix: http://httpredir.debian.org/debian 
 shadowsocks_libev_repo_release: jessie-backports
-#shadowsocks_libev_repo_url: "deb {{ shadowsocks_libev_repo_prefix }}{% if ansible_distribution == 'Ubuntu' and ansible_distribution_version|float >= 14.04 %}ubuntu trusty{% else %}debian wheezy {%endif%} main"
