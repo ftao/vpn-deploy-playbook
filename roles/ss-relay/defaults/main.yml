@@ -1,0 +1,4 @@
+---
+ss_relay_src_port: 8839
+ss_relay_dst_ip: 127.0.0.1
+ss_relay_dst_port: 8839

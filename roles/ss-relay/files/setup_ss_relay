@@ -1,0 +1,16 @@
+#!/bin/sh
+#set -e
+
+IPTABLES="/sbin/iptables"
+
+SS_RELAY_SRC_IP=$1 
+SS_RELAY_SRC_PORT=$2
+SS_RELAY_DST_IP=$3
+SS_RELAY_DST_PORT=$4
+
+$IPTABLES -t nat -A PREROUTING -p tcp --dport $SS_RELAY_SRC_PORT -j DNAT --to-destination $SS_RELAY_DST_IP:$SS_RELAY_DST_PORT
+$IPTABLES -t nat -A PREROUTING -p udp --dport $SS_RELAY_SRC_PORT -j DNAT --to-destination $SS_RELAY_DST_IP:$SS_RELAY_DST_PORT
+$IPTABLES -t nat -A POSTROUTING -p tcp -d $SS_RELAY_DST_IP --dport $SS_RELAY_DST_PORT -j SNAT --to-source $SS_RELAY_SRC_IP
+$IPTABLES -t nat -A POSTROUTING -p udp -d $SS_RELAY_DST_IP --dport $SS_RELAY_DST_PORT -j SNAT --to-source $SS_RELAY_SRC_IP
+
+echo "Shadowsocks relay rules are set up"

@@ -1,0 +1,4 @@
+- name: setup ss relay
+  command: "/opt/ss-relay/setup_ss_relay {{ ansible_default_ipv4.address }} {{ ss_relay_src_port }} {{ ss_relay_dst_ip }} {{ ss_relay_dst_port }}"
+  tags:
+    - ss-relay
