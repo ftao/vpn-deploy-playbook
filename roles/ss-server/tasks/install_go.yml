@@ -1,0 +1,25 @@
+---
+
+- name: install go
+  apt: 
+    name: golang-go
+    state: present
+  tags:
+    - ss-server
+    - ss-server-go
+
+- name: install shadowsocks-go
+  command: go get github.com/shadowsocks/shadowsocks-go/cmd/shadowsocks-server
+  environment:
+    GOPATH: /root/go
+  tags:
+    - ss-server
+    - ss-server-go
+
+- name: make a symbol link to /opt/ss-server/
+  file: src=/root/go/bin/shadowsocks-server dest=/opt/ss-server/ss-server state=link
+  tags:
+    - ss-server
+    - ss-server-go
+  notify:
+    - "restart shadowsocks-server {{ name }}"
