@@ -4,10 +4,10 @@
   apt: pkg=squid3 state=installed
 
 - name: enable squid
-  service: name=squid3 enabled=yes
+  service: name="{{ squid_service_name }}" enabled=yes
 
 - name: install squid config file
-  template: src=squid.conf dest=/etc/squid3/squid.conf
+  template: src=squid.conf dest=/etc/{{ squid_service_name }}/squid.conf
   notify:
     - restart squid
 
