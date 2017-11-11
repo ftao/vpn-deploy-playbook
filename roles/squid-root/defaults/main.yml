@@ -21,4 +21,5 @@ squid_radius_server: []
 #  port: 1182
 
 squid_deny_private_network_dest: true
+squid_service_name: "squid3"
 

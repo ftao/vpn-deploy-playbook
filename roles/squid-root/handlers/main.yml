@@ -1,7 +1,7 @@
 ---
 
 - name: reload squid
-  service: name=squid3 state=reloaded
+  service: name="{{ squid_service_name }}" state=reloaded
 
 - name: restart squid
-  service: name=squid3 state=restarted
+  service: name="{{ squid_service_name }}" state=restarted
