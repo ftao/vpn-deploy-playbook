@@ -1,4 +1,4 @@
 ---
 
 - name: restart ocserv
-  supervisorctl: name=ocserv state=restarted
+  service: name=ocserv state=restarted

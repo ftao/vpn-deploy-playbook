@@ -1,37 +1,6 @@
 ---
 
-- include: install.debian.yml
-  when: ansible_distribution == "Debian"
-
-- include: install.ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
-
-- name: download ocserv
-  get_url: url=ftp://ftp.infradead.org/pub/ocserv/ocserv-{{ ocserv_version }}.tar.xz
-           dest=/tmp/ocserv-{{ ocserv_version }}.tar.xz
-  tags:
-    - ocserv
-
-- name: uncompress ocserv
-  command: /bin/tar -xJf  /tmp/ocserv-{{ ocserv_version }}.tar.xz  
-           chdir=/tmp/
-           creates=/tmp/ocserv-{{ ocserv_version }}
-  tags:
-    - ocserv
-
-- name: build ocserv
-  shell: ./configure && make && make install
-        chdir=/tmp/ocserv-{{ ocserv_version }}
-        creates=/usr/local/sbin/ocserv
-  tags:
-    - ocserv
-  notify:
-    - restart ocserv
-
-- name: create config file dir
-  file: path=/usr/local/etc/ocserv/ state=directory
-  tags:
-    - ocserv
+- apt: pkg=ocserv state=present
 
 - include: gen_cert.yml cert_dir="{{ ocserv_default_cert_dir }}"
   when: ocserv_cert_source == "gen"
@@ -40,18 +9,30 @@
   when: ocserv_cert_source == "local"
 
 - name: create ocserv config file
-  template: src=ocserv.conf  dest=/usr/local/etc/ocserv/ocserv.conf
+  template: src=ocserv.conf  dest={{ ocserv_config_dir }}/ocserv.conf
   tags:
     - ocserv
   notify:
     - restart ocserv
 
-- name: create supervisor config
-  template: src=supervisor.ocserv.conf  dest=/etc/supervisor/conf.d/ocserv.conf
-  tags:
-    - ocserv
-  notify:
-    - restart ocserv
+- name: Check that the somefile.conf exists
+  stat:
+    path: /lib/systemd/system/ocserv.socket
+  register: socket_file_result
+
+- name: change ocserv port - tcp
+  lineinfile: 
+    path: /lib/systemd/system/ocserv.socket
+    regexp: '^ListenStream='
+    line: "ListenStream={{ ocserv_tcp_port }}"
+  when: not socket_file_result.stat.exists
+
+- name: change ocserv port - udp
+  lineinfile: 
+    path: /lib/systemd/system/ocserv.socket
+    regexp: '^ListenDatagram='
+    line: "ListenDatagram={{ ocserv_udp_port }}"
+  when: not socket_file_result.stat.exists
 
 - name: set network in easynat rule file
   action: lineinfile dest=/opt/easynat/rules.cnf regexp="{{ ocserv_network }}/24" line="{{ ocserv_network }}/24" state=present create=yes
@@ -67,3 +48,16 @@
 - include: add_user.yml
   when: not ocserv_use_radius
 
+- name: set network in easynat rule file
+  action: lineinfile dest=/opt/easynat/rules.cnf regexp="{{ ocserv_network }}/24" line="{{ ocserv_network }}/24" state=present create=yes
+  notify: 
+    - setup nat rules
+  tags: 
+    - ocserv
+    - nat
+
+- include: radius.yml
+  when: ocserv_use_radius
+
+- include: add_user.yml
+  when: not ocserv_use_radius

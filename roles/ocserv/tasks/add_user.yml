@@ -1,15 +1,15 @@
 ---
 - name: make sure pasword file present
-  file: path=/usr/local/etc/ocserv/passwd state=touch
+  file: path={{ ocserv_config_dir}}/passwd state=touch
 
 - name: ensure absent of tmp file for password
-  file: path=/usr/local/etc/ocserv/passwd.in.tmp state=absent
+  file: path={{ ocserv_config_dir}}/passwd.in.tmp state=absent
 
 - name: add user for ocserv server
-  shell: echo "{{item.password}}" >> /usr/local/etc/ocserv/passwd.in.tmp &&
-         echo "{{item.password}}" >> /usr/local/etc/ocserv/passwd.in.tmp &&
-         ocpasswd -c /usr/local/etc/ocserv/passwd {{item.username}} 0</usr/local/etc/ocserv/passwd.in.tmp &&
-         rm /usr/local/etc/ocserv/passwd.in.tmp
+  shell: echo "{{item.password}}" >> {{ ocserv_config_dir }}/passwd.in.tmp &&
+         echo "{{item.password}}" >> {{ ocserv_config_dir }}/passwd.in.tmp &&
+         ocpasswd -c {{ ocserv_config_dir }}/passwd {{item.username}} 0<{{ ocserv_config_dir }}/passwd.in.tmp &&
+         rm {{ ocserv_config_dir }}/passwd.in.tmp
   with_items: "{{ ocserv_users }}"
   tags:
     - ocserv

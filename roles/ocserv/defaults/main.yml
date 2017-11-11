@@ -1,6 +1,5 @@
 ---
-ocserv_version: '0.9.2'
-
+ocserv_config_dir: /etc/ocserv
 ocserv_network: '10.10.6.0'
 
 ocserv_cert_auto: true
@@ -26,3 +25,5 @@ ocserv_domain: "{{ inventory_hostname }}"
 
 ocserv_server_cert_remote_path: ''
 ocserv_server_key_remote_path: ''
+
+
