@@ -1,2 +1,2 @@
 ---
-ocserv_default_cert_dir: /usr/local/etc/ocserv
+ocserv_default_cert_dir: /etc/ocserv
