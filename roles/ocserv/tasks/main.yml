@@ -20,19 +20,19 @@
     path: /lib/systemd/system/ocserv.socket
   register: socket_file_result
 
-- name: change ocserv port - tcp
-  lineinfile: 
-    path: /lib/systemd/system/ocserv.socket
-    regexp: '^ListenStream='
-    line: "ListenStream={{ ocserv_tcp_port }}"
-  when: not socket_file_result.stat.exists
+- name: create port config directory
+  file:
+    path: /etc/systemd/system/ocserv.socket.d
+    state: directory
+  when: socket_file_result.stat.exists
 
-- name: change ocserv port - udp
-  lineinfile: 
-    path: /lib/systemd/system/ocserv.socket
-    regexp: '^ListenDatagram='
-    line: "ListenDatagram={{ ocserv_udp_port }}"
-  when: not socket_file_result.stat.exists
+- name: change ocserv ports
+  template: 
+    src: port.conf
+    dest: /etc/systemd/system/ocserv.socket.d/port.conf
+  when: socket_file_result.stat.exists
+  notify:
+    - reload ocserv
 
 - name: set network in easynat rule file
   action: lineinfile dest=/opt/easynat/rules.cnf regexp="{{ ocserv_network }}/24" line="{{ ocserv_network }}/24" state=present create=yes

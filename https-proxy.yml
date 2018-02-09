@@ -7,8 +7,6 @@
      letsencrypt_cert_domains: 
         - "{{ https_proxy_domain or inventory_hostname }}"
      when: https_proxy_using_lets_encryt is defined and https_proxy_using_lets_encryt
-   - role: ftao.spdylay
-     when: nghttp2_with_spdylay
    - ftao.nghttp2
    - role: squid-root
      listen_port: "{{ nghttpx_backend_port }}"
